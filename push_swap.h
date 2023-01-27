@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/01/26 14:21:30 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/01/27 12:24:05 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	push_b(void);
 void	rotate_a(t_ft_list **stack_a);
 void	rotate_b(void);
 void	rotate_a_rotate_b(void);
-void	reverse_rotate_a(void);
+void	reverse_rotate_a(t_ft_list **stack_a);
 void	reverse_rotate_b(void);
 void	reverse_rotate_a_rotate_b(void);
 

@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/01/27 09:35:56 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/01/27 12:33:02 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,53 @@ int main()
 
 	printf("\n<< ROTATE A >>\n\n");
 	rotate_a(&head1);
+
+	printf("head1: ");
+	iter = head1;
+	while (iter)
+	{
+		printf("%d ", iter->val);
+		iter = iter->next;
+	}
+	printf("\n");
+
+	printf("------------------------------------\n");
+
+	printf("head1: ");
+	iter = head1;
+	while (iter)
+	{
+		printf("%d ", iter->val);
+		iter = iter->next;
+	}
+	printf("\n");
+
+	printf("\n<< REVERSE ROTATE A >>\n\n");
+	reverse_rotate_a(&head1);
+
+	printf("head1: ");
+	iter = head1;
+	while (iter)
+	{
+		printf("%d ", iter->val);
+		iter = iter->next;
+	}
+	printf("\n");
+
+	printf("\n<< REVERSE ROTATE A >>\n\n");
+	reverse_rotate_a(&head1);
+
+	printf("head1: ");
+	iter = head1;
+	while (iter)
+	{
+		printf("%d ", iter->val);
+		iter = iter->next;
+	}
+	printf("\n");
+
+	printf("\n<< REVERSE ROTATE A >>\n\n");
+	reverse_rotate_a(&head1);
 
 	printf("head1: ");
 	iter = head1;

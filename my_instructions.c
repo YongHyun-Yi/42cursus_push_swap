@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:53:59 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/01/27 09:33:39 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/01/27 12:29:26 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	push_b(void);
 void	rotate_a(t_ft_list **stack_a);
 void	rotate_b(void);
 void	rotate_a_rotate_b(void);
-void	reverse_rotate_a(void);
+void	reverse_rotate_a(t_ft_list **stack_a);
 void	reverse_rotate_b(void);
 void	reverse_rotate_a_rotate_b(void);
 
@@ -72,4 +72,23 @@ void	rotate_a(t_ft_list **stack_a)
 	// last의 next를 헤더로
 	// 헤더를 헤더의 next로
 	// last의 next의 next를 null로
-	
+
+void	reverse_rotate_a(t_ft_list **stack_a)
+{
+	t_ft_list	*prev_node;
+	t_ft_list	*cur_node;
+
+	prev_node = NULL;
+	cur_node = *stack_a;
+	while (cur_node->next)
+	{
+		prev_node = cur_node;
+		cur_node = cur_node->next;
+	}
+	cur_node->next = *stack_a;
+	*stack_a = cur_node;
+	prev_node->next = NULL;
+}
+	// last의 next를 헤더로
+	// prev의 next를 null로
+	// 헤더를 last로
