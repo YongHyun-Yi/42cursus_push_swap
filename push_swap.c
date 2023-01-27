@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/01/26 14:58:48 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/01/27 09:35:56 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,53 @@ int main()
 	printf("\n");
 	printf("head2: ");
 	iter = head2;
+	while (iter)
+	{
+		printf("%d ", iter->val);
+		iter = iter->next;
+	}
+	printf("\n");
+
+	printf("------------------------------------\n");
+
+	printf("head1: ");
+	iter = head1;
+	while (iter)
+	{
+		printf("%d ", iter->val);
+		iter = iter->next;
+	}
+	printf("\n");
+
+	printf("\n<< ROTATE A >>\n\n");
+	rotate_a(&head1);
+
+	printf("head1: ");
+	iter = head1;
+	while (iter)
+	{
+		printf("%d ", iter->val);
+		iter = iter->next;
+	}
+	printf("\n");
+
+	printf("\n<< ROTATE A >>\n\n");
+	rotate_a(&head1);
+
+	printf("head1: ");
+	iter = head1;
+	while (iter)
+	{
+		printf("%d ", iter->val);
+		iter = iter->next;
+	}
+	printf("\n");
+
+	printf("\n<< ROTATE A >>\n\n");
+	rotate_a(&head1);
+
+	printf("head1: ");
+	iter = head1;
 	while (iter)
 	{
 		printf("%d ", iter->val);

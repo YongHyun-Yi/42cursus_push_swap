@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:53:59 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/01/26 14:57:37 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/01/27 09:33:39 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,16 @@ void	push_a(t_ft_list **stack_a, t_ft_list **stack_b)
 
 void	rotate_a(t_ft_list **stack_a)
 {
-	t_ft_list	*moved_node;
+	t_ft_list	*last_node;
 
-	moved_node = *stack_a;
+	last_node = *stack_a;
+	while (last_node->next)
+		last_node = last_node->next;
+	last_node->next = *stack_a;
+	*stack_a = (*stack_a)->next;
+	(last_node->next)->next = NULL;
 }
 	// last의 next를 헤더로
 	// 헤더를 헤더의 next로
 	// last의 next의 next를 null로
+	
