@@ -22,13 +22,13 @@ NAME = push_swap
 
 #-------------------------------------------
 
-MANDATORY_SRCS := $(wildcard srcs/*.c)
+MANDATORY_SRCS = $(addprefix srcs/, $(wildcard *.c))
 #MANDATORY_SRCS = $(addprefix srcs/,)
 MANDATORY_OBJS = $(MANDATORY_SRCS:.c=.o)
 
 #-------------------------------------------
 
-BONUS_SRCS = srcs/*_bonus.c
+BONUS_SRCS = $(addprefix srcs/, $(wildcard *_bonus.c))
 #BONUS_SRCS = $(addprefix srcs/,)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 

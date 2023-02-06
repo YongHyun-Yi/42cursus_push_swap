@@ -12,6 +12,8 @@
 
 #include "ft_printf.h"
 
+t_print_data	ft_get_print_data(const char **str, va_list ap);
+
 static void	ft_get_print_length(t_flags flg, t_print_data	*pd)
 {
 	char	sp;

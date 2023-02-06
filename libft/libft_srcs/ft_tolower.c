@@ -15,7 +15,7 @@ int	ft_tolower(int c)
 	unsigned char	check;
 
 	check = (unsigned char)c;
-	if (c >= 'A' && c <= 'Z')
+	if (check >= 'A' && check <= 'Z')
 		return (c + 32);
 	else
 		return (c);
