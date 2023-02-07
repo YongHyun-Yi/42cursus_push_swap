@@ -6,7 +6,7 @@
 #    By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/06 17:15:27 by yonghyle          #+#    #+#              #
-#    Updated: 2023/02/07 11:16:02 by yonghyle         ###   ########.fr        #
+#    Updated: 2023/02/07 11:36:56 by yonghyle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,8 @@ NAME = push_swap
 
 #-------------------------------------------
 
-# MANDATORY_SRCS = $(addprefix srcs/, $(wildcard *.c))
-MANDATORY_SRCS = $(addprefix srcs/,\
-							 my_instructions.c \
-							 push_instructions.c \
-							 push_swap.c \
-							 rotate_instructions.c \
-							 swap_instructions.c \
-)
+MANDATORY_SRCS = $(wildcard srcs/*.c)
+# MANDATORY_SRCS = $(addprefix srcs/,)
 MANDATORY_OBJS = $(MANDATORY_SRCS:.c=.o)
 
 #-------------------------------------------
@@ -48,10 +42,9 @@ $(NAME): $(MANDATORY_OBJS)
 
 bonus: make_bonus
 
-make_bonus: $(BONUS_OBJS)
-		make -C libft
-		$(CC) -o $(NAME) $(CFLAGS) $(BONUS_OBJS)
-		touch $@
+# make_bonus: $(BONUS_OBJS)
+# 		make -C libft
+# 		$(CC) $(CFLAGS) -o $@ $^ $(LIBFT_A)
 
 clean:
 		cd libft; make clean
