@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/06 17:17:19 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:15:21 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+
 # include "libft.h"
+# include "ft_printf.h"
+# include "get_next_line.h"
 
 typedef struct s_ft_list
 {

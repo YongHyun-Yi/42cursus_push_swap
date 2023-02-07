@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/01/27 12:33:02 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/07 10:41:59 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int main()
 	}
 	printf("\n");
 
-	printf("\n<< SWAP A >>\n\n");
+	ft_printf("\n<< SWAP A >>\n\n");
 	swap_a(&head1);
 
 	printf("head1: ");

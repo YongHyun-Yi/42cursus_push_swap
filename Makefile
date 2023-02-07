@@ -6,13 +6,13 @@
 #    By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/06 17:15:27 by yonghyle          #+#    #+#              #
-#    Updated: 2023/02/06 18:58:46 by yonghyle         ###   ########.fr        #
+#    Updated: 2023/02/07 11:16:02 by yonghyle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes -lft -Llibft
+CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft/includes
 
 RM = rm -rf
 
@@ -22,8 +22,14 @@ NAME = push_swap
 
 #-------------------------------------------
 
-MANDATORY_SRCS = $(addprefix srcs/, $(wildcard *.c))
-#MANDATORY_SRCS = $(addprefix srcs/,)
+# MANDATORY_SRCS = $(addprefix srcs/, $(wildcard *.c))
+MANDATORY_SRCS = $(addprefix srcs/,\
+							 my_instructions.c \
+							 push_instructions.c \
+							 push_swap.c \
+							 rotate_instructions.c \
+							 swap_instructions.c \
+)
 MANDATORY_OBJS = $(MANDATORY_SRCS:.c=.o)
 
 #-------------------------------------------
@@ -36,12 +42,9 @@ BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): make_mandatory
-
-make_mandatory: $(MANDATORY_OBJS)
+$(NAME): $(MANDATORY_OBJS)
 		make -C libft
-		$(CC) -o $(NAME) $(CFLAGS) $(MANDATORY_OBJS)
-		touch $@
+		$(CC) $(CFLAGS) -o $@ $^ $(LIBFT_A)
 
 bonus: make_bonus
 
