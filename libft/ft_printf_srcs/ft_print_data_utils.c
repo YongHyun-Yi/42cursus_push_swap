@@ -6,13 +6,11 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 16:29:35 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/06 14:57:15 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/08 08:55:42 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-t_print_data	ft_get_print_data(const char **str, va_list ap);
 
 static void	ft_get_print_length(t_flags flg, t_print_data	*pd)
 {
@@ -39,6 +37,7 @@ static void	ft_get_prefix(t_flags flg, t_print_data	*pd)
 {
 	char	sp;
 
+	pd->prefix = "";
 	sp = flg.specifier;
 	if (sp == 'd' || sp == 'i')
 	{
@@ -49,12 +48,10 @@ static void	ft_get_prefix(t_flags flg, t_print_data	*pd)
 		if (pd->nbr < 0)
 			pd->prefix = "-";
 	}
-	if (sp == 'p' || (sp == 'x' && flg.sharp))
+	if (sp == 'p' || (sp == 'x' && (flg.sharp && pd->hex)))
 		pd->prefix = "0x";
-	if (sp == 'X' && flg.sharp)
+	if (sp == 'X' && (flg.sharp && pd->hex))
 		pd->prefix = "0X";
-	if ((ft_strchr("xX", sp) && !pd->hex) && flg.sharp)
-		pd->prefix = NULL;
 }
 
 static void	ft_get_arg(t_flags flg, t_print_data *pd, va_list ap)
