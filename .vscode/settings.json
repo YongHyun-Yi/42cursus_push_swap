@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"unistd.h": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"__locale": "c"
 	}
 }
