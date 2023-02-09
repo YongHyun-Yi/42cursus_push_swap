@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/08 14:46:04 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:24:46 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,38 +25,69 @@ int	ft_isnum(char *str, int (*f)(int))
 
 int	ft_isnumint(char *str)
 {
-	int		is_postive;
+	int	is_postive;
+	int	has_sign;
 
 	is_postive = 1;
+	has_sign = 0;
 	if (str[0] == '-' || str[0] == '+')
 	{
 		is_postive -= (str[0] == '-');
-		str++;
+		has_sign = 1;
 	}
 	// 부호 처리
 
-	if (!ft_isnum(str, ft_isdigit))
+	if (!ft_isnum(str + has_sign, ft_isdigit))
+	{
+		ft_printf("<<< There wrong arguments >>>\n");
 		return (FAIL);
+	}
 	// 정수 이외문자 처리
 
-	if (ft_strlen(str) > 10)
+	if (ft_strlen(str + has_sign) > 10)
+	{
+		ft_printf("<<< Arguments overflow >>>\n");
 		return (FAIL);
-	else if (ft_strlen(str) == 10)
-		if (str[0] > '2')
+	}
+	else if (ft_strlen(str + has_sign) == 10)
+	{
+		if ((str + has_sign)[0] > '2')
+		{
+			ft_printf("<<< Arguments overflow >>>\n");
 			return (FAIL);
+		}
+	}
 	// 자릿수 및 첫자리수 처리
 
 	if ((ft_atoi(str) >= 0) != is_postive)
+	{
+		ft_printf("<<< Arguments overflow >>>\n");
 		return (FAIL);
+	}
 	return (SUCCESS);
 	// overflow로 인한 부호 변화 처리
 }
 
-int main(int argc, char *argv[])
+int	is_argv_dup(char *bit_masking, unsigned int num)
 {
-	if (argc < 2)
-		exit(0);
-	
+	// char *bit_masking = ft_calloc(UINT_MAX / 8, sizeof(char)); // calloc에서 꽤나 시간이 걸림...
+
+	int	div = num / 8;
+	int mod = num % 8;
+
+	if (*(bit_masking + div) & (1 << mod))
+	{
+		ft_printf("<<< (%d) already exist in array >>>\n", num);
+		return (FAIL);
+	}
+
+	*(bit_masking + div) = (*(bit_masking + div) | (1 << mod));
+	ft_printf("(%d) add to array \n", num);
+	return (SUCCESS);
+}
+
+void parse_test(int argc, char *argv[])
+{
 	ft_printf("total argc: %d\n", argc);
 	
 	ft_printf("===============================\n");
@@ -67,10 +98,16 @@ int main(int argc, char *argv[])
 	ft_printf("===============================\n");
 
 	t_ft_list *stack_a = NULL;
+	char *bit_masking = ft_calloc((UINT_MAX / 8), sizeof(char));
 
 	for (int i = 1; i < argc; i++)
 	{
 		if (!ft_isnumint(argv[i]))
+			exit(EXIT_FAILURE);
+		
+		int num = ft_atoi(argv[i]);
+		
+		if (!is_argv_dup(bit_masking, num))
 			exit(EXIT_FAILURE);
 
 		t_ft_list *cur_node = stack_a;
@@ -78,7 +115,7 @@ int main(int argc, char *argv[])
 			cur_node = cur_node->next;
 
 		t_ft_list *new_node = (t_ft_list *)malloc(sizeof(t_ft_list));
-		new_node->val = ft_atoi(argv[i]);
+		new_node->val = num;
 		new_node->next = NULL;
 
 		if (cur_node)
@@ -94,18 +131,28 @@ int main(int argc, char *argv[])
 		ft_printf("stack_a[%d]: %d\n", i++, print_node->val);
 		print_node = print_node->next;
 	}
+}
 
-	ft_printf("===============================\n");
+int main(int argc, char *argv[])
+{
+	if (argc < 2)
+		exit(0);
+	
+	parse_test(argc, argv);
 
-	ft_printf("test const macro [SUCCESS]: %d\n", SUCCESS);
-	ft_printf("test const macro [FAIL]: %d\n", FAIL);
+	///////////// 비트 마스킹 간단 실습 /////////////////
+	
+	// char *bit_masking = ft_calloc(1, sizeof(char)); // -> char : 1byte = 8bit ->> 8개의 요소에 대해서 중복체크 가능?
 
-	ft_printf("===============================\n");
+	// int num = 4;
+	
+	// *bit_masking = *bit_masking | (1 << num);
 
-	ft_printf("test exit function\n");
-	ft_printf("\n");
-	ft_printf("Could you see this messege?\n");
-	ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
-	exit(EXIT_FAILURE);
-	ft_printf("Than, How about now?\n");
+	// if (*bit_masking & (1 << num))
+	// 	ft_printf("This bit array has %d\n", num);
+
+	///////////////////////////////////////////////
+
+	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
+	// exit(EXIT_FAILURE);
 }
