@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/09 16:24:46 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/10 09:21:23 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,26 +102,36 @@ void parse_test(int argc, char *argv[])
 
 	for (int i = 1; i < argc; i++)
 	{
-		if (!ft_isnumint(argv[i]))
-			exit(EXIT_FAILURE);
+		char **split_argv = ft_split(argv[i], ' ');
+
+		while (*split_argv)
+		{
+			ft_printf("cur str: %s\n", *split_argv);
+
+			if (!ft_isnumint(*split_argv))
+				exit(EXIT_FAILURE);
+			
+			int num = ft_atoi(*split_argv);
+			
+			if (!is_argv_dup(bit_masking, num))
+				exit(EXIT_FAILURE);
+
+			t_ft_list *cur_node = stack_a;
+			while (stack_a && cur_node->next)
+				cur_node = cur_node->next;
+
+			t_ft_list *new_node = (t_ft_list *)malloc(sizeof(t_ft_list));
+			new_node->val = num;
+			new_node->next = NULL;
+
+			if (cur_node)
+				cur_node->next = new_node;
+			else
+				stack_a = new_node;
+			
+			split_argv++;
+		}
 		
-		int num = ft_atoi(argv[i]);
-		
-		if (!is_argv_dup(bit_masking, num))
-			exit(EXIT_FAILURE);
-
-		t_ft_list *cur_node = stack_a;
-		while (stack_a && cur_node->next)
-			cur_node = cur_node->next;
-
-		t_ft_list *new_node = (t_ft_list *)malloc(sizeof(t_ft_list));
-		new_node->val = num;
-		new_node->next = NULL;
-
-		if (cur_node)
-			cur_node->next = new_node;
-		else
-			stack_a = new_node;
 	}
 
 	t_ft_list *print_node = stack_a;
