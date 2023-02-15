@@ -14,26 +14,25 @@
 
 int	ft_strisint(char *str)
 {
-	int	is_postive;
-	int	has_sign;
+	char	*str_ptr;
 
-	is_postive = 1;
-	has_sign = 0;
-	if (str[0] == '-' || str[0] == '+')
-	{
-		is_postive -= (str[0] == '-');
-		has_sign = 1;
-	}
-	if (!ft_strisnum(str + has_sign, ft_isdigit))
+	str_ptr = str;
+	if (*str_ptr == '-' || *str_ptr == '+')
+		str_ptr++;
+	if (!*str_ptr || !ft_strisnum(str_ptr, ft_isdigit))
 		return (0);
-	if (ft_strlen(str + has_sign) > 10)
+	while (*str_ptr == '0')
+		str_ptr++;
+	if (!*str_ptr)
+		return (1);
+	else if (ft_strlen(str_ptr) > 10)
 		return (0);
-	else if (ft_strlen(str + has_sign) == 10)
+	else if (ft_strlen(str_ptr) == 10)
 	{
-		if ((str + has_sign)[0] > '2')
+		if (*str_ptr > '2')
 			return (0);
 	}
-	if ((ft_atoi(str) >= 0) != is_postive)
+	if ((ft_atoi(str) < 0) != (*str == '-'))
 		return (0);
 	return (1);
 }
