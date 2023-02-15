@@ -6,7 +6,7 @@
 #    By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/14 11:29:52 by yonghyle          #+#    #+#              #
-#    Updated: 2023/02/06 17:00:36 by yonghyle         ###   ########.fr        #
+#    Updated: 2023/02/15 10:36:59 by yonghyle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,8 @@ LIBFT_SRCS = ${addprefix libft_srcs/,\
 						 ft_substr.c \
 						 ft_tolower.c \
 						 ft_toupper.c \
+						 ft_strisnum.c \
+						 ft_strisint.c \
 }
 
 LIBFT_OBJS = ${LIBFT_SRCS:.c=.o}

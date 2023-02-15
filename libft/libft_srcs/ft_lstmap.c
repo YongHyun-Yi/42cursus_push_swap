@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:00:31 by yonghyle          #+#    #+#             */
-/*   Updated: 2022/11/22 16:59:54 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:40:14 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	void	*new_content;
 
 	start_of_lst = 0;
-	if (lst && f && del)
+	if (lst || f || del)
 	{
 		current = lst;
 		while (current)

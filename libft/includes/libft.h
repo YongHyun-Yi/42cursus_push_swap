@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 09:12:18 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/06 14:58:59 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:37:39 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,8 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 void	ft_lstdel_node(t_list **list, t_list *target, void (*del)(void *));
+
+int		ft_strisnum(char *str, int (*f)(int));
+int		ft_strisint(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 16:58:55 by yonghyle          #+#    #+#             */
-/*   Updated: 2022/11/22 17:15:02 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:42:23 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	t_list	*current;
 	t_list	*next_node;
 
-	if (*lst && del)
+	if (*lst)
 	{
 		current = *lst;
 		while (current)
