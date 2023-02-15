@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/15 10:56:50 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:01:26 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,6 @@ int main(int argc, char *argv[])
 	// parse_test(argc, argv);
 
 	push_swap_parsing(argv + 1);
-
-	///////////// 비트 마스킹 간단 실습 /////////////////
-	
-	// char *bit_masking = ft_calloc(1, sizeof(char)); // -> char : 1byte = 8bit ->> 8개의 요소에 대해서 중복체크 가능?
-
-	// int num = 4;
-	
-	// *bit_masking = *bit_masking | (1 << num);
-
-	// if (*bit_masking & (1 << num))
-	// 	ft_printf("This bit array has %d\n", num);
-
-	///////////////////////////////////////////////
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);
