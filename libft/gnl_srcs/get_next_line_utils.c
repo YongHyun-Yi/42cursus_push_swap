@@ -49,16 +49,13 @@ t_list	*ft_create_fd_stat(t_list **list, int fd)
 
 t_list	*ft_find_fd_stat(t_list **list, int fd)
 {
-	t_list	*prev_node;
 	t_list	*cur_node;
 
-	prev_node = NULL;
 	cur_node = *list;
 	while (cur_node)
 	{
 		if (((t_fd_stat *)(cur_node->content))->fd == fd)
 			return (cur_node);
-		prev_node = cur_node;
 		cur_node = cur_node->next;
 	}
 	return (ft_create_fd_stat(list, fd));
