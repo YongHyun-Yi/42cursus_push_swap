@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 09:12:18 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/15 10:37:39 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:53:11 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@ void	ft_lstdel_node(t_list **list, t_list *target, void (*del)(void *));
 
 int		ft_strisnum(char *str, int (*f)(int));
 int		ft_strisint(char *str);
+
+int		ft_check_intdup(char *bit_array, unsigned int num);
 
 #endif

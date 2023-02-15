@@ -6,86 +6,12 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/15 10:29:16 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:56:50 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
-
-// int	ft_strisnum(char *str, int (*f)(int)) // 모듈화
-// {
-// 	while (*str)
-// 	{
-// 		if (!f(*str++))
-// 			return (FAIL);
-// 	}
-// 	return (SUCCESS);
-// }
-
-// int	ft_strisint(char *str) // 모듈화
-// {
-// 	int	is_postive;
-// 	int	has_sign;
-
-// 	is_postive = 1;
-// 	has_sign = 0;
-// 	if (str[0] == '-' || str[0] == '+')
-// 	{
-// 		is_postive -= (str[0] == '-');
-// 		has_sign = 1;
-// 	}
-// 	// 부호 처리
-
-// 	if (!ft_strisnum(str + has_sign, ft_isdigit))
-// 	{
-// 		ft_printf("<<< There wrong arguments >>>\n");
-// 		ft_printf("argument: %s\n", str);
-// 		return (FAIL);
-// 	}
-// 	// 정수 이외문자 처리
-
-// 	if (ft_strlen(str + has_sign) > 10)
-// 	{
-// 		ft_printf("<<< Arguments overflow >>>\n");
-// 		return (FAIL);
-// 	}
-// 	else if (ft_strlen(str + has_sign) == 10)
-// 	{
-// 		if ((str + has_sign)[0] > '2')
-// 		{
-// 			ft_printf("<<< Arguments overflow >>>\n");
-// 			return (FAIL);
-// 		}
-// 	}
-// 	// 자릿수 및 첫자리수 처리
-
-// 	if ((ft_atoi(str) >= 0) != is_postive)
-// 	{
-// 		ft_printf("<<< Arguments overflow >>>\n");
-// 		return (FAIL);
-// 	}
-// 	return (SUCCESS);
-// 	// overflow로 인한 부호 변화 처리
-// }
-
-int	is_int_dup(char *bit_masking, unsigned int num) // 모듈화
-{
-	// char *bit_masking = ft_calloc(UINT_MAX / 8, sizeof(char)); // calloc에서 꽤나 시간이 걸림...
-
-	int	div = num / 8;
-	int mod = num % 8;
-
-	if (*(bit_masking + div) & (1 << mod))
-	{
-		ft_printf("<<< (%d) already exist in array >>>\n", num);
-		return (FAIL);
-	}
-
-	*(bit_masking + div) = (*(bit_masking + div) | (1 << mod));
-	ft_printf("(%d) add to array \n", num);
-	return (SUCCESS);
-}
 
 t_ps_stat *push_swap_parsing(char *argv[])
 {
@@ -104,12 +30,18 @@ t_ps_stat *push_swap_parsing(char *argv[])
 		while (*split_argv) // 기본단위인 문자열을 기준으로 본격적인 작업을 시작
 		{
 			if (!ft_strisint(*split_argv)) // 숫자이고 int 범위인가?
+			{
+				ft_printf("arguments are not int!\n");
 				exit(EXIT_FAILURE);
+			}
 			
 			int num = ft_atoi(*split_argv);
 			
-			if (!is_int_dup(bit_masking, num)) // 중복되는 수가 들어왔는가?
+			if (!ft_check_intdup(bit_masking, num)) // 중복되는 수가 들어왔는가?
+			{
+				ft_printf("arguments are dup!\n");
 				exit(EXIT_FAILURE);
+			}
 
 			// ----------------
 			t_ft_list *cur_node = ps_stat->stack_a;
@@ -132,63 +64,6 @@ t_ps_stat *push_swap_parsing(char *argv[])
 	}
 	return (ps_stat); // 파싱을 끝내고 stack 들이 들어있는 구조체를 반환한다
 }
-
-// void parse_test(int argc, char *argv[])
-// {
-// 	ft_printf("total argc: %d\n", argc);
-	
-// 	ft_printf("===============================\n");
-	
-// 	for (int i = 1; i < argc; i++)
-// 		ft_printf("argv[%d]: %s\n", i, argv[i]);
-	
-// 	ft_printf("===============================\n");
-
-// 	t_ft_list *stack_a = NULL;
-// 	char *bit_masking = ft_calloc((UINT_MAX / 8), sizeof(char));
-
-// 	for (int i = 1; i < argc; i++)
-// 	{
-// 		char **split_argv = ft_split(argv[i], ' ');
-
-// 		while (*split_argv)
-// 		{
-// 			ft_printf("cur str: %s\n", *split_argv);
-
-// 			if (!ft_isnumint(*split_argv))
-// 				exit(EXIT_FAILURE);
-			
-// 			int num = ft_atoi(*split_argv);
-			
-// 			if (!is_argv_dup(bit_masking, num))
-// 				exit(EXIT_FAILURE);
-
-// 			t_ft_list *cur_node = stack_a;
-// 			while (stack_a && cur_node->next)
-// 				cur_node = cur_node->next;
-
-// 			t_ft_list *new_node = (t_ft_list *)malloc(sizeof(t_ft_list));
-// 			new_node->val = num;
-// 			new_node->next = NULL;
-
-// 			if (cur_node)
-// 				cur_node->next = new_node;
-// 			else
-// 				stack_a = new_node;
-			
-// 			split_argv++;
-// 		}
-		
-// 	}
-
-// 	t_ft_list *print_node = stack_a;
-// 	int i = 0;
-// 	while (print_node)
-// 	{
-// 		ft_printf("stack_a[%d]: %d\n", i++, print_node->val);
-// 		print_node = print_node->next;
-// 	}
-// }
 
 int main(int argc, char *argv[])
 {
