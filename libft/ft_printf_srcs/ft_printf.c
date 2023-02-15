@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:18:34 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/06 15:25:01 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:20:31 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_print_handler(t_print_data	pd)
 	return (pd.blank + ft_strlen(pd.prefix) + pd.zero + pd.print_length);
 }
 
-int	ft_parsing(const char *str, va_list ap)
+int	ft_printf_parsing(const char *str, va_list ap)
 {
 	int				total_len;
 	int				current_len;
@@ -74,7 +74,7 @@ int	ft_printf(const char *last, ...)
 
 	total_len = 0;
 	va_start(ap, last);
-	total_len = ft_parsing(last, ap);
+	total_len = ft_printf_parsing(last, ap);
 	va_end(ap);
 	return (total_len);
 }

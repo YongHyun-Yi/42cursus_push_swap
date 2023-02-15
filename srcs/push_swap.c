@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/15 11:01:26 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:02:50 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int main(int argc, char *argv[])
 {
 	if (argc < 2)
 		exit(EXIT_SUCCESS);
-	
-	// parse_test(argc, argv);
 
 	push_swap_parsing(argv + 1);
 
