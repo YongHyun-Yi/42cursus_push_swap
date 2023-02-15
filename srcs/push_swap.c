@@ -6,68 +6,68 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/14 15:56:16 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:29:16 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-int	ft_strisnum(char *str, int (*f)(int)) // 모듈화
-{
-	while (*str)
-	{
-		if (!f(*str++))
-			return (FAIL);
-	}
-	return (SUCCESS);
-}
+// int	ft_strisnum(char *str, int (*f)(int)) // 모듈화
+// {
+// 	while (*str)
+// 	{
+// 		if (!f(*str++))
+// 			return (FAIL);
+// 	}
+// 	return (SUCCESS);
+// }
 
-int	ft_strisint(char *str) // 모듈화
-{
-	int	is_postive;
-	int	has_sign;
+// int	ft_strisint(char *str) // 모듈화
+// {
+// 	int	is_postive;
+// 	int	has_sign;
 
-	is_postive = 1;
-	has_sign = 0;
-	if (str[0] == '-' || str[0] == '+')
-	{
-		is_postive -= (str[0] == '-');
-		has_sign = 1;
-	}
-	// 부호 처리
+// 	is_postive = 1;
+// 	has_sign = 0;
+// 	if (str[0] == '-' || str[0] == '+')
+// 	{
+// 		is_postive -= (str[0] == '-');
+// 		has_sign = 1;
+// 	}
+// 	// 부호 처리
 
-	if (!ft_strisnum(str + has_sign, ft_isdigit))
-	{
-		ft_printf("<<< There wrong arguments >>>\n");
-		ft_printf("argument: %s\n", str);
-		return (FAIL);
-	}
-	// 정수 이외문자 처리
+// 	if (!ft_strisnum(str + has_sign, ft_isdigit))
+// 	{
+// 		ft_printf("<<< There wrong arguments >>>\n");
+// 		ft_printf("argument: %s\n", str);
+// 		return (FAIL);
+// 	}
+// 	// 정수 이외문자 처리
 
-	if (ft_strlen(str + has_sign) > 10)
-	{
-		ft_printf("<<< Arguments overflow >>>\n");
-		return (FAIL);
-	}
-	else if (ft_strlen(str + has_sign) == 10)
-	{
-		if ((str + has_sign)[0] > '2')
-		{
-			ft_printf("<<< Arguments overflow >>>\n");
-			return (FAIL);
-		}
-	}
-	// 자릿수 및 첫자리수 처리
+// 	if (ft_strlen(str + has_sign) > 10)
+// 	{
+// 		ft_printf("<<< Arguments overflow >>>\n");
+// 		return (FAIL);
+// 	}
+// 	else if (ft_strlen(str + has_sign) == 10)
+// 	{
+// 		if ((str + has_sign)[0] > '2')
+// 		{
+// 			ft_printf("<<< Arguments overflow >>>\n");
+// 			return (FAIL);
+// 		}
+// 	}
+// 	// 자릿수 및 첫자리수 처리
 
-	if ((ft_atoi(str) >= 0) != is_postive)
-	{
-		ft_printf("<<< Arguments overflow >>>\n");
-		return (FAIL);
-	}
-	return (SUCCESS);
-	// overflow로 인한 부호 변화 처리
-}
+// 	if ((ft_atoi(str) >= 0) != is_postive)
+// 	{
+// 		ft_printf("<<< Arguments overflow >>>\n");
+// 		return (FAIL);
+// 	}
+// 	return (SUCCESS);
+// 	// overflow로 인한 부호 변화 처리
+// }
 
 int	is_int_dup(char *bit_masking, unsigned int num) // 모듈화
 {
