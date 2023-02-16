@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/14 15:20:34 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:27:23 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ typedef struct s_ft_list
 	int					val;
 	struct s_ft_list	*next;
 }	t_ft_list;
+
+typedef struct s_dlist
+{
+	int				value;
+	struct s_dlist	*prev;
+	struct s_dlist	*next;
+}	t_dlist;
 
 typedef struct s_ps_stat
 {
