@@ -13,6 +13,30 @@
 #include "push_swap.h"
 #include <stdio.h>
 
+void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new)
+{
+	if (!*lst) // list가 비어있을때, '리스트의 헤더를 담당하는 노드'의 '주소값'을 넘겨줌, 노드가 가진 주소값이 아니라 노드 자체의 주소값임
+	{
+		*lst = new;
+		new->prev = new;
+		new->next = new;
+	}
+	else
+	{
+		new->prev = (*lst)->prev;
+		new->next = *lst;
+		(new->prev)->next = new;
+		(new->next)->prev = new;
+	}
+}
+
+void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new)
+{
+	ft_cir_dlstadd_back(lst, new);
+	if ((*lst)->next != *lst)
+		*lst = (*lst)->prev;
+}
+
 t_ps_stat *push_swap_parsing(char *argv[])
 {
 	t_ps_stat *ps_stat; // 전역변수를 사용할수 없으니 stack 들을 가리킬 변수가 필요하다
@@ -43,21 +67,10 @@ t_ps_stat *push_swap_parsing(char *argv[])
 				exit(EXIT_FAILURE);
 			}
 
-			// ----------------
-			t_ft_list *cur_node = ps_stat->stack_a;
-			while (ps_stat->stack_a && cur_node->next)
-				cur_node = cur_node->next;
+			t_dlist *new_node = calloc(1, sizeof(t_dlist));
+			new_node->value = num;
+			ft_cir_dlstadd_back(&ps_stat->stack_a, new_node);
 
-			t_ft_list *new_node = (t_ft_list *)malloc(sizeof(t_ft_list));
-			new_node->val = num;
-			new_node->next = NULL;
-
-			if (cur_node)
-				cur_node->next = new_node;
-			else
-				ps_stat->stack_a = new_node;
-			
-			// ---------------- 스택에 노드 추가하는 부분, 따로 함수화 할것, 스택의 함수들을 구현한 파일을 따로 만들기...?
 			split_argv++; // 다음 문자열을 살펴본다
 		}
 		argv++; // 모든 문자열을 살펴봤으면 다음 인자를 살펴본다
@@ -65,12 +78,50 @@ t_ps_stat *push_swap_parsing(char *argv[])
 	return (ps_stat); // 파싱을 끝내고 stack 들이 들어있는 구조체를 반환한다
 }
 
+void	print_my_stack(t_dlist *my_stack)
+{
+	t_dlist *cur_node;
+
+	cur_node = my_stack;
+	while (cur_node)
+	{
+		ft_printf("%d ", cur_node->value);
+		if (cur_node->next == my_stack)
+			break ;
+		cur_node = cur_node->next;
+	}
+	ft_printf("\n");
+	return ;
+}
+
+void	print_all_my_stack(t_ps_stat *ps_stat)
+{
+	ft_printf("\n");
+	ft_printf("======== << print stack >> ========\n");
+	ft_printf("\n");
+	ft_printf("stack a: ");
+	print_my_stack(ps_stat->stack_a);
+	ft_printf("stack b: ");
+	print_my_stack(ps_stat->stack_b);
+	ft_printf("\n");
+	ft_printf("===================================\n");
+	ft_printf("\n");
+
+	return ;
+}
+
 int main(int argc, char *argv[])
 {
+	t_ps_stat *ps_stat;
 	if (argc < 2)
 		exit(EXIT_SUCCESS);
 
-	push_swap_parsing(argv + 1);
+	ps_stat = push_swap_parsing(argv + 1);
+	if (!ps_stat)
+		return (0);
+
+	print_all_my_stack(ps_stat);
+	print_all_my_stack(ps_stat);
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);

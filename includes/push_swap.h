@@ -23,12 +23,6 @@
 # define SUCCESS 1
 # define FAIL 0
 
-typedef struct s_ft_list
-{
-	int					val;
-	struct s_ft_list	*next;
-}	t_ft_list;
-
 typedef struct s_dlist
 {
 	int				value;
@@ -38,20 +32,16 @@ typedef struct s_dlist
 
 typedef struct s_ps_stat
 {
-	t_ft_list	*stack_a;
-	t_ft_list	*stack_b;
+	t_dlist	*stack_a;
+	t_dlist	*stack_b;
 }	t_ps_stat;
 
-void	swap_a(t_ft_list **stack_a);
-void	swap_b(void);
-void	swap_a_swap_b(void);
-void	push_a(t_ft_list **stack_a, t_ft_list **stack_b);
-void	push_b(void);
-void	rotate_a(t_ft_list **stack_a);
-void	rotate_b(void);
-void	rotate_a_rotate_b(void);
-void	reverse_rotate_a(t_ft_list **stack_a);
-void	reverse_rotate_b(void);
-void	reverse_rotate_a_rotate_b(void);
+void	my_swap(t_dlist *my_stack);
+void	my_push(t_dlist *dest, t_dlist *src);
+void	my_rotate(t_dlist **my_stack);
+void	my_reverse_rotate(t_dlist **my_stack);
+
+void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
+void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
 
 #endif
