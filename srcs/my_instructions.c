@@ -33,9 +33,16 @@ t_dlist	*my_pop(t_dlist **my_stack)
 	target_node = *my_stack;
 	if (!target_node)
 		return (NULL);
-	(target_node->prev)->next = target_node->next;
-	(target_node->next)->prev = target_node->prev;
-	*my_stack = target_node->next;
+	if (target_node->next != target_node) // 리스트에 노드가 둘 이상 있을경우
+	{
+		(target_node->prev)->next = target_node->next;
+		(target_node->next)->prev = target_node->prev;
+		*my_stack = target_node->next;
+		// 나머지 노드들을 연결해주고 헤더를 변경한다
+	}
+	else // 노드가 하나만 있을경우
+		*my_stack = NULL;
+		// 헤더가 가리키는 노드는 없다
 	return (target_node);
 }
 

@@ -23,10 +23,10 @@ int	ft_is_allstack_sorted(t_ps_stat *ps_stat)
 	cur_node = ps_stat->stack_a;
 	while (1)
 	{
+		if (cur_node->next == ps_stat->stack_a) // 다음 노드가 헤더라면, 마지막 노드까지 왔다 즉, 문제없이 한 바퀴 돌았다면
+			return (SUCCESS);
 		if (cur_node->value > (cur_node->next)->value) // 다음 노드보다 값이 크면 즉, 오름차순이 아니면
 			return (FAIL);
-		if (cur_node->next == ps_stat->stack_a) // 다음 노드가 헤더라면 즉, 문제없이 한 바퀴 돌았다면
-			return (SUCCESS);
 		cur_node = cur_node->next;
 	}
 }
@@ -149,12 +149,18 @@ int main(int argc, char *argv[])
 	// 구조체를 넘겨주는게 아니라 여기서 stack_a만 반환받는것은...?
 
 	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
-	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
-	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
 
 	print_all_my_stack(ps_stat);
 
 	my_push(&ps_stat->stack_a, &ps_stat->stack_b);
+
+	print_all_my_stack(ps_stat);
+
+	my_rotate(&ps_stat->stack_a);
+
+	print_all_my_stack(ps_stat);
+
+	my_reverse_rotate(&ps_stat->stack_a);
 
 	print_all_my_stack(ps_stat);
 
