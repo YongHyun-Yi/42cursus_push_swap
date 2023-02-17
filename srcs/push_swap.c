@@ -6,12 +6,30 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/17 11:50:44 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/17 13:16:54 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
+
+int	ft_is_allstack_sorted(t_ps_stat *ps_stat)
+{
+	// stack_b 가 비어있고 stack_a 가 모두 정렬되어있어야함
+	t_dlist	*cur_node;
+
+	if (ps_stat->stack_b || !ps_stat->stack_a)
+		return (FAIL);
+	cur_node = ps_stat->stack_a;
+	while (1)
+	{
+		if (cur_node->value > (cur_node->next)->value) // 다음 노드보다 값이 크면 즉, 오름차순이 아니면
+			return (FAIL);
+		if (cur_node->next == ps_stat->stack_a) // 다음 노드가 헤더라면 즉, 문제없이 한 바퀴 돌았다면
+			return (SUCCESS);
+		cur_node = cur_node->next;
+	}
+}
 
 void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new)
 {
@@ -139,6 +157,8 @@ int main(int argc, char *argv[])
 	my_push(&ps_stat->stack_a, &ps_stat->stack_b);
 
 	print_all_my_stack(ps_stat);
+
+	ft_printf("is sorted?: %d\n", ft_is_allstack_sorted(ps_stat));
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);
