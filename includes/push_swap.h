@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/16 14:27:23 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/17 10:05:38 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_ps_stat
 }	t_ps_stat;
 
 void	my_swap(t_dlist *my_stack);
-void	my_push(t_dlist *dest, t_dlist *src);
+void	my_push(t_dlist **dest, t_dlist **src);
 void	my_rotate(t_dlist **my_stack);
 void	my_reverse_rotate(t_dlist **my_stack);
 

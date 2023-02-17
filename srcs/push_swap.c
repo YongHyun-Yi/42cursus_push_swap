@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/15 11:02:50 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/17 10:16:29 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new)
 	ft_cir_dlstadd_back(lst, new);
 	if ((*lst)->next != *lst)
 		*lst = (*lst)->prev;
+		// 헤더만 옮겨준다
 }
 
 t_ps_stat *push_swap_parsing(char *argv[])
@@ -121,6 +122,15 @@ int main(int argc, char *argv[])
 		return (0);
 
 	print_all_my_stack(ps_stat);
+
+	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
+	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
+	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
+
+	print_all_my_stack(ps_stat);
+
+	my_push(&ps_stat->stack_a, &ps_stat->stack_b);
+
 	print_all_my_stack(ps_stat);
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
