@@ -146,25 +146,26 @@ int main(int argc, char *argv[])
 		exit(EXIT_SUCCESS); // my_exit 만들어서 호출할것
 
 	print_all_my_stack(ps_stat);
-	// 구조체를 넘겨주는게 아니라 여기서 stack_a만 반환받는것은...?
 
-	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
+	// my_push(&ps_stat->stack_b, &ps_stat->stack_a);
 
-	print_all_my_stack(ps_stat);
+	// print_all_my_stack(ps_stat);
 
-	my_push(&ps_stat->stack_a, &ps_stat->stack_b);
+	// my_push(&ps_stat->stack_a, &ps_stat->stack_b);
 
-	print_all_my_stack(ps_stat);
+	// print_all_my_stack(ps_stat);
 
-	my_rotate(&ps_stat->stack_a);
+	// my_rotate(&ps_stat->stack_a);
 
-	print_all_my_stack(ps_stat);
+	// print_all_my_stack(ps_stat);
 
-	my_reverse_rotate(&ps_stat->stack_a);
+	// my_reverse_rotate(&ps_stat->stack_a);
 
-	print_all_my_stack(ps_stat);
+	// print_all_my_stack(ps_stat);
 
-	ft_printf("is sorted?: %d\n", ft_is_allstack_sorted(ps_stat));
+	// ft_printf("is sorted?: %d\n", ft_is_allstack_sorted(ps_stat));
+
+	my_push_swap_solve(ps_stat);
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);

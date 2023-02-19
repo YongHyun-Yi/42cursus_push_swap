@@ -44,4 +44,6 @@ void	my_reverse_rotate(t_dlist **my_stack);
 void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
 
+void	my_push_swap_solve(ps_stat);
+
 #endif
