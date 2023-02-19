@@ -43,7 +43,9 @@ void	my_reverse_rotate(t_dlist **my_stack);
 
 void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
+size_t	ft_cir_dlstsize(t_dlist *lst);
 
-void	my_push_swap_solve(ps_stat);
+int		ft_is_allstack_sorted(t_ps_stat *ps_stat);
+int		my_push_swap_solve(t_ps_stat *ps_stat);
 
 #endif

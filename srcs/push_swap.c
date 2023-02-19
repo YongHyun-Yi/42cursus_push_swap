@@ -31,6 +31,23 @@ int	ft_is_allstack_sorted(t_ps_stat *ps_stat)
 	}
 }
 
+size_t	ft_cir_dlstsize(t_dlist *lst)
+{
+	t_dlist *cur_node;
+	size_t	size;
+
+	cur_node = lst;
+	size = 0;
+	while (cur_node)
+	{
+		size++;
+		if (cur_node->next == lst)
+			break ;
+		cur_node = cur_node->next;
+	}
+	return (size);
+}
+
 void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new)
 {
 	if (!*lst) // list가 비어있을때, '리스트의 헤더를 담당하는 노드'의 '주소값'을 넘겨줌, 노드가 가진 주소값이 아니라 노드 자체의 주소값임
@@ -138,12 +155,11 @@ int main(int argc, char *argv[])
 {
 	t_ps_stat *ps_stat;
 
-	ps_stat = calloc(1, sizeof(t_ps_stat));
-	if (argc < 2 || !ps_stat)
-		exit(EXIT_SUCCESS); // my_exit 만들어서 호출할것
-
-	if (!push_swap_parsing(ps_stat, argv + 1))
-		exit(EXIT_SUCCESS); // my_exit 만들어서 호출할것
+	if (argc < 2)
+		return (0);
+	ps_stat = ft_calloc(1, sizeof(t_ps_stat));
+	if (!ps_stat || !push_swap_parsing(ps_stat, argv + 1))
+		exit(EXIT_FAILURE); // my_exit 만들어서 호출할것
 
 	print_all_my_stack(ps_stat);
 
@@ -165,7 +181,12 @@ int main(int argc, char *argv[])
 
 	// ft_printf("is sorted?: %d\n", ft_is_allstack_sorted(ps_stat));
 
+	if (ft_is_allstack_sorted(ps_stat))
+		return (EXIT_SUCCESS);
+	
 	my_push_swap_solve(ps_stat);
+
+	print_all_my_stack(ps_stat);
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);
