@@ -13,22 +13,30 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-int	ft_is_allstack_sorted(t_ps_stat *ps_stat)
+int ft_is_stack_sorted(t_dlist *my_stack)
 {
-	// stack_b 가 비어있고 stack_a 가 모두 정렬되어있어야함
 	t_dlist	*cur_node;
 
-	if (ps_stat->stack_b || !ps_stat->stack_a)
+	if (!my_stack)
 		return (FAIL);
-	cur_node = ps_stat->stack_a;
+	cur_node = my_stack;
 	while (1)
 	{
-		if (cur_node->next == ps_stat->stack_a) // 다음 노드가 헤더라면, 마지막 노드까지 왔다 즉, 문제없이 한 바퀴 돌았다면
+		if (cur_node->next == my_stack) // 다음 노드가 헤더라면, 마지막 노드까지 왔다 즉, 문제없이 한 바퀴 돌았다면
 			return (SUCCESS);
 		if (cur_node->value > (cur_node->next)->value) // 다음 노드보다 값이 크면 즉, 오름차순이 아니면
 			return (FAIL);
 		cur_node = cur_node->next;
 	}
+}
+
+int	ft_is_allstack_sorted(t_ps_stat *ps_stat)
+{
+	// stack_b 가 비어있고 stack_a 가 모두 정렬되어있어야함
+
+	if (ps_stat->stack_b || !ps_stat->stack_a)
+		return (FAIL);
+	return (ft_is_stack_sorted(ps_stat->stack_a));
 }
 
 size_t	ft_cir_dlstsize(t_dlist *lst)
@@ -187,6 +195,8 @@ int main(int argc, char *argv[])
 	my_push_swap_solve(ps_stat);
 
 	print_all_my_stack(ps_stat);
+
+	printf("all command: %zu\n", ps_stat->com_cnt);
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);

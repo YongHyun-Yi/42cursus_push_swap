@@ -2,15 +2,104 @@
 
 #include "push_swap.h"
 
-// void	sort_under5_elements(t_ps_stat *ps_stat)
-// {
-// 	t_dlist *my_stack;
+void	sort_under5_elements(t_ps_stat *ps_stat)
+{
+	while (ft_cir_dlstsize(ps_stat->stack_a) > 3)
+	{
+		pb(ps_stat);
+		ft_printf("\ninitial push\n\n");
+		print_all_my_stack(ps_stat);
+	}
+	
+	if (!ft_is_stack_sorted(ps_stat->stack_a))
+	{
+		sort_3_elements(ps_stat);
+		ft_printf("\n3 sort\n\n");
+		print_all_my_stack(ps_stat);
+	}
+	
+	if (ft_cir_dlstsize(ps_stat->stack_b) == 2 && (ps_stat->stack_b)->value < ((ps_stat->stack_b)->next)->value)
+	{
+		sb(ps_stat);
+		ft_printf("\nswap b\n\n");
+		print_all_my_stack(ps_stat);
+	}
 
-// 	my_push(ps_stat->stack_b, ps_stat->stack_a);
-// 	my_push(ps_stat->stack_b, ps_stat->stack_a);
-// 	sort_3_elements(ps_stat);
-// 	my_stack = ps_stat->stack_b;
-// }
+	while (ps_stat->stack_b) // stack_b의 헤더가 null 이 될때까지
+	{
+		int rot_cnt = 0;
+		t_dlist *cur_node = ps_stat->stack_a;
+		while (1)
+		{
+			if (((ps_stat->stack_b)->value < cur_node->value && (ps_stat->stack_b)->value > (cur_node->prev)->value)) // 사잇값
+				break ;
+			if ((ps_stat->stack_b)->value < cur_node->value && (ps_stat->stack_b)->value < (cur_node->prev)->value && ft_is_stack_sorted(cur_node)) // 최솟값
+				break ;
+			if ((ps_stat->stack_b)->value > cur_node->value && (ps_stat->stack_b)->value > (cur_node->prev)->value && ft_is_stack_sorted(cur_node)) // 최댓값
+				break ;
+			// 최대 or 최소값일때 현재 노드 기준으로 정렬되어있으면 회전을 멈춘다
+			rot_cnt++;
+			if (cur_node->next == ps_stat->stack_a)
+				break ;
+			cur_node = cur_node->next;
+		}
+		if ((unsigned long)rot_cnt > ft_cir_dlstsize(ps_stat->stack_a))
+			rot_cnt = -1;
+		else if ((unsigned long)rot_cnt > ft_cir_dlstsize(ps_stat->stack_a) / 2)
+			rot_cnt -= ft_cir_dlstsize(ps_stat->stack_a);
+		// 정방향 회전과 역방향 회전 중 어느게 더 빠른지 계산한다
+		ft_printf("rot cnt: %d", rot_cnt);
+		while (rot_cnt)
+		{
+			if (rot_cnt > 0)
+			{
+				ra(ps_stat);
+				rot_cnt--;
+			}
+			else
+			{
+				rra(ps_stat);
+				rot_cnt++;
+			}
+		}
+		pa(ps_stat);
+		
+		ft_printf("\nsorting...\n\n");
+		print_all_my_stack(ps_stat);
+	}
+	// stack_b에 원소가 있는건 전체 원소수와 상관없나...?
+	// stack_a에서의 적절한 위치찾아 넣는건 수가 많을때도 똑같지 않을까...?
+
+	int last_rot_cnt = 0;
+	t_dlist *last_cur_node = ps_stat->stack_a;
+	while (!ft_is_stack_sorted(last_cur_node))
+	{
+		last_rot_cnt++;
+		if (last_cur_node->next == ps_stat->stack_a)
+			break ;
+		last_cur_node = last_cur_node->next;
+	}
+	if ((unsigned long)last_rot_cnt > ft_cir_dlstsize(ps_stat->stack_a))
+		last_rot_cnt = -1;
+	else if ((unsigned long)last_rot_cnt > ft_cir_dlstsize(ps_stat->stack_a) / 2)
+		last_rot_cnt -= ft_cir_dlstsize(ps_stat->stack_a);
+	
+	while (last_rot_cnt)
+	{
+		if (last_rot_cnt > 0)
+		{
+			ra(ps_stat);
+			last_rot_cnt--;
+		}
+		else
+		{
+			rra(ps_stat);
+			last_rot_cnt++;
+		}
+	}
+
+	return ;
+}
 
 void	sort_3_elements(t_ps_stat *ps_stat)
 {
@@ -26,20 +115,21 @@ void	sort_3_elements(t_ps_stat *ps_stat)
 
 	if (first < second && !(second < third))
 	{
-		my_reverse_rotate(&ps_stat->stack_a); // rra
+		rra(ps_stat);
 		if (!(third < first))
-			my_swap(ps_stat->stack_a); // sa
+			sa(ps_stat);
 	}
-	else if (!(first < second) && !(second < third) && third < first)
+
+	else if (second < third && third < first)
+		ra(ps_stat);
+
+	else
 	{
-		my_swap(ps_stat->stack_a); // sa
-		my_reverse_rotate(&ps_stat->stack_a); // rra
+		sa(ps_stat);
+		if (!(second < third) && third < first)
+			rra(ps_stat);
 	}
-	else if (!(first < second) && second < third && !(third < first))
-		my_swap(ps_stat->stack_a); // sa
-	else if (!(first < second) && second < third && third < first)
-		my_rotate(&ps_stat->stack_a); // ra
-	
+
 	return ;
 }
 
@@ -70,12 +160,17 @@ int	my_push_swap_solve(t_ps_stat *ps_stat)
 	size_t lst_size = ft_cir_dlstsize(ps_stat->stack_a);
 	if (lst_size == 2)
 	{
-		my_swap(ps_stat->stack_a); // sa
+		sa(ps_stat); // sa
 		return (SUCCESS);
 	}
 	else if (lst_size == 3)
 	{
 		sort_3_elements(ps_stat);
+		return (SUCCESS);
+	}
+	else if (lst_size <= 5)
+	{
+		sort_under5_elements(ps_stat);
 		return (SUCCESS);
 	}
 	return (SUCCESS);
