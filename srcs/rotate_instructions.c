@@ -12,9 +12,9 @@
 
 #include "push_swap.h"
 
-void	ra(void);
-void	rb(void);
-void	rr(void);
-void	rra(void);
-void	rrb(void);
-void	rrr(void);
+// void	ra(void);
+// void	rb(void);
+// void	rr(void);
+// void	rra(void);
+// void	rrb(void);
+// void	rrr(void);

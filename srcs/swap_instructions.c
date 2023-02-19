@@ -12,6 +12,6 @@
 
 #include "push_swap.h"
 
-void	sa(void);
-void	sb(void);
-void	ss(void);
+// void	sa(void);
+// void	sb(void);
+// void	ss(void);
