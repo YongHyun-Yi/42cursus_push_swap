@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
 int ft_is_stack_sorted(t_dlist *my_stack)
 {

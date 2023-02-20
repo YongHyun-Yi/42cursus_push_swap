@@ -36,19 +36,19 @@ void	rra(t_ps_stat *ps_stat)
 	ps_stat->com_cnt++;
 }
 
-void	n_rot_a(t_ps_stat *ps_stat, int rot_cnt)
+void	n_ra(t_ps_stat *ps_stat, long long cnt)
 {
-	while (rot_cnt)
+	while (cnt)
 	{
-		if (rot_cnt > 0)
+		if (cnt > 0)
 		{
 			ra(ps_stat);
-			rot_cnt--;
+			cnt--;
 		}
 		else
 		{
 			rra(ps_stat);
-			rot_cnt++;
+			cnt++;
 		}
 	}
 	return ;
@@ -78,19 +78,19 @@ void	rrb(t_ps_stat *ps_stat)
 	ps_stat->com_cnt++;
 }
 
-void	n_rot_b(t_ps_stat *ps_stat, int rot_cnt)
+void	n_rb(t_ps_stat *ps_stat, long long cnt)
 {
-	while (rot_cnt)
+	while (cnt)
 	{
-		if (rot_cnt > 0)
+		if (cnt > 0)
 		{
 			rb(ps_stat);
-			rot_cnt--;
+			cnt--;
 		}
 		else
 		{
 			rrb(ps_stat);
-			rot_cnt++;
+			cnt++;
 		}
 	}
 	return ;
@@ -112,4 +112,22 @@ void	rrr(t_ps_stat *ps_stat)
 {
 	rra(ps_stat);
 	rrb(ps_stat);
+}
+
+void	n_rr(t_ps_stat *ps_stat, long long cnt)
+{
+	while (cnt)
+	{
+		if (cnt > 0)
+		{
+			rr(ps_stat);
+			cnt--;
+		}
+		else
+		{
+			rrr(ps_stat);
+			cnt++;
+		}
+	}
+	return ;
 }

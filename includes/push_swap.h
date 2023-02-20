@@ -20,6 +20,8 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
+#include <stdio.h>
+
 # define SUCCESS 1
 # define FAIL 0
 
@@ -35,6 +37,9 @@ typedef struct s_ps_stat
 	t_dlist	*stack_a;
 	t_dlist	*stack_b;
 	size_t	com_cnt;
+	// 명령어 문자열을 저장할 리스트로 대체 해야함
+	// 단순 명령어 수만 출력하고싶다면 list_size를 마지막에 출력하는 방법도...
+	// lstiter를 사용해서 순회하며 ft_putstr을 호출하고 싶었지만 함수 인자가 (void *)가 아니라서 불가...
 }	t_ps_stat;
 
 void	my_swap(t_dlist *my_stack);
@@ -46,15 +51,16 @@ void	sa(t_ps_stat *ps_stat);
 void	pa(t_ps_stat *ps_stat);
 void	ra(t_ps_stat *ps_stat);
 void	rra(t_ps_stat *ps_stat);
-void	n_rot_a(t_ps_stat *ps_stat, int rot_cnt);
+void	n_ra(t_ps_stat *ps_stat, long long cnt);
 void	sb(t_ps_stat *ps_stat);
 void	pb(t_ps_stat *ps_stat);
 void	rb(t_ps_stat *ps_stat);
 void	rrb(t_ps_stat *ps_stat);
-void	n_rot_b(t_ps_stat *ps_stat, int rot_cnt);
+void	n_rb(t_ps_stat *ps_stat, long long cnt);
 void	ss(t_ps_stat *ps_stat);
 void	rr(t_ps_stat *ps_stat);
 void	rrr(t_ps_stat *ps_stat);
+void	n_rr(t_ps_stat *ps_stat, long long cnt);
 
 void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
