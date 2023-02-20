@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:19:23 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/01/26 13:19:59 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:00:23 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@ void	rra(t_ps_stat *ps_stat)
 	ps_stat->com_cnt++;
 }
 
+void	n_rot_a(t_ps_stat *ps_stat, int rot_cnt)
+{
+	while (rot_cnt)
+	{
+		if (rot_cnt > 0)
+		{
+			ra(ps_stat);
+			rot_cnt--;
+		}
+		else
+		{
+			rra(ps_stat);
+			rot_cnt++;
+		}
+	}
+	return ;
+}
+
 void	sb(t_ps_stat *ps_stat)
 {
 	my_swap(ps_stat->stack_b);
@@ -58,6 +76,24 @@ void	rrb(t_ps_stat *ps_stat)
 {
 	my_reverse_rotate(&ps_stat->stack_b);
 	ps_stat->com_cnt++;
+}
+
+void	n_rot_b(t_ps_stat *ps_stat, int rot_cnt)
+{
+	while (rot_cnt)
+	{
+		if (rot_cnt > 0)
+		{
+			rb(ps_stat);
+			rot_cnt--;
+		}
+		else
+		{
+			rrb(ps_stat);
+			rot_cnt++;
+		}
+	}
+	return ;
 }
 
 void	ss(t_ps_stat *ps_stat)

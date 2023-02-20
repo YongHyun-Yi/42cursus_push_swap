@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/17 10:05:38 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/20 18:01:13 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ void	sa(t_ps_stat *ps_stat);
 void	pa(t_ps_stat *ps_stat);
 void	ra(t_ps_stat *ps_stat);
 void	rra(t_ps_stat *ps_stat);
+void	n_rot_a(t_ps_stat *ps_stat, int rot_cnt);
 void	sb(t_ps_stat *ps_stat);
 void	pb(t_ps_stat *ps_stat);
 void	rb(t_ps_stat *ps_stat);
 void	rrb(t_ps_stat *ps_stat);
+void	n_rot_b(t_ps_stat *ps_stat, int rot_cnt);
 void	ss(t_ps_stat *ps_stat);
 void	rr(t_ps_stat *ps_stat);
 void	rrr(t_ps_stat *ps_stat);
