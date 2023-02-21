@@ -44,6 +44,12 @@ t_dlist *get_smallest_node(t_dlist *my_stack)
 	return (min_node);
 }
 
+size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist target_node)
+{
+	get_rotcnt_topos(dest, target_node); // ra rra
+	get_rotcnt_totop(src, target_node); // rb rrb
+}
+
 size_t	my_abs(long long nb)
 {
 	if (nb < 0)
@@ -116,7 +122,7 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 		ft_printf("\n3 sort\n\n");
 		print_all_my_stack(ps_stat);
 	}
-	
+
 	if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && (ps_stat->stack_b)->value < ((ps_stat->stack_b)->next)->value)
 	{
 		sb(ps_stat);
@@ -134,6 +140,12 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 	// 둘다 양수라면 둘 중 하나라도 0이 될때까지 하나씩 줄이고 rr을 추가
 	// 둘다 음수라면 둘 중 하나라도 0이 될때까지 하나씩 늘리고 rrr을 추가
 	// r_cnt, rr_cnt가 필요, 해당 변수만큼 n_r, n_rr 을 호출
+
+	// r_cnt rr_cnt 까지 총합한 수를 구하는 함수가 필요 -> 이를 통해 b를 swap할지 말지 결정
+	// first_r_cnt > second_r_cnt || (first_r_cnt == second_r_cnt && first.value < second.value)
+	// rr_cnt 구하는 함수가 필요, r_cnt rr_cnt 구하는 함수를 조합해서 총 횟수를 구하는 함수 구현
+	// my_stack, target_node를 인자로 받고 안에서는 dest, src에 따라 나머지 rotate 구하는 함수 호출
+	// 두 값을 비교하여 계산한 값을 size_t로 반환, my_abs를 사용?
 
 	while (ps_stat->stack_b) // stack_b의 헤더가 null 이 될때까지
 	{
