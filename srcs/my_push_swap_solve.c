@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:34:21 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/22 12:06:19 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/22 15:50:17 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,63 +49,6 @@ size_t	my_abs(long long nb)
 	if (nb < 0)
 		nb *= -1;
 	return (nb);
-}
-
-size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
-{
-	long long r_cnt;
-	long long rr_cnt;
-
-	r_cnt = get_rotcnt_topos(dest, target_node) + get_rotcnt_totop(src, target_node);
-	rr_cnt = get_double_rotcnt(dest, src, target_node);
-	if ((r_cnt > 0) != (rr_cnt > 0))
-		rr_cnt *= -1;
-	// double rotate count 와 그냥 rotate count를 어떻게 합칠것인지...?
-	// ex) rr 3회, ra 4회 -> 총 4회 / rr 2회, ra 6회 -> 총 6회...?
-	// 겹치는 부분은 double rotate로 나머지는 rotate로 세는데 더하면 결국 같나...?
-	// ex) rr 2회, ra 4회, rb 2회 -> 총 4회 / rr2회, ra 6회, rb 2회 -> 총 6회 / rr 3회 ra 4회 rb 3회 -> 총 4회
-	// 기존이라면 ra + rb 가 되겠지만 rr이 추가되면 ra, rb 둘중에 큰것만 선택하면 된다...?
-	// 어차피 겹치는 부분은 같이 세니까...
-	// ra인지 rra인지는 양음수 부호를 통해 알 수 있다 이 부분은 어떻게 계산할것인지?
-	// 우선 한 스택이 동시에 양방향으로 회전하는 케이스는 없을것...
-	// ex) rr 0회, ra 4회, rb -2회 -> 총 6회 / rr 0회, ra -6회, rb 2회 -> 총 6회 // rr -3회 ra -4회 rb -3회 -> 총 4회
-	// c++처럼 pair를 사용할수는 없음, 두개 이상의 변수를 return 하기 위해서는 구조체에 변수를 선언하는 방법외에는...
-}
-
-long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
-{
-	long long r_topos_cnt;
-	long long r_totop_cnt;
-	long long rr_cnt;
-
-	r_topos_cnt = get_rotcnt_topos(dest, target_node); // ra rra
-	r_totop_cnt = get_rotcnt_totop(src, target_node); // rb rrb
-	rr_cnt = 0;
-
-	if ((r_topos_cnt > 0) != (r_totop_cnt > 0))
-		return (rr_cnt);
-
-	while (r_topos_cnt && r_totop_cnt)
-	{
-		if (r_topos_cnt > 0 && r_totop_cnt > 0)
-		{
-			r_topos_cnt--;
-			r_totop_cnt--;
-			rr_cnt++;
-		}
-		if (r_topos_cnt < 0 && r_totop_cnt < 0)
-		{
-			r_topos_cnt++;
-			r_totop_cnt++;
-			rr_cnt--;
-		}
-	}
-	return (rr_cnt);
-}
-
-long long	get_rotcnt_topush(t_dlist *dest, t_dlist *src, t_dlist *target_node)
-{
-	return (get_rotcnt_topos(dest, target_node) + get_rotcnt_totop(src, target_node));
 }
 
 long long	get_rotcnt_totop(t_dlist *my_stack, t_dlist *target_node)
@@ -158,6 +101,121 @@ long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node)
 	return (rot_cnt);
 }
 
+long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
+{
+	// long long r_topos_cnt;
+	// long long r_totop_cnt;
+	long long dest_rotcnt;
+	long long src_rotcnt;
+
+	// ft_printf("double dest rotcnt -> ");
+	// r_topos_cnt = get_rotcnt_topos(dest, target_node); // ra rra
+	// ft_printf("double src rotcnt -> ");
+	// r_totop_cnt = get_rotcnt_totop(src, target_node); // rb rrb
+	// rr_cnt = 0;
+
+	// if ((r_topos_cnt > 0) != (r_totop_cnt > 0))
+		// return (rr_cnt);
+
+	// while (r_topos_cnt && r_totop_cnt)
+	// {
+	// 	if (r_topos_cnt > 0 && r_totop_cnt > 0)
+	// 	{
+	// 		r_topos_cnt--;
+	// 		r_totop_cnt--;
+	// 		rr_cnt++;
+	// 	}
+	// 	if (r_topos_cnt < 0 && r_totop_cnt < 0)
+	// 	{
+	// 		r_topos_cnt++;
+	// 		r_totop_cnt++;
+	// 		rr_cnt--;
+	// 	}
+	// }
+	// return (rr_cnt);
+	// ex) ra 4회 rb 2회 -> rr 2회, ra 2회, rb 0회
+	// 다른 한쪽이 0이 될때까지 -> 둘의 차이를 구한다 -> 최대 그만큼 돌 수 있다
+
+	ft_printf("double dest rotcnt -> ");
+	dest_rotcnt = get_rotcnt_topos(dest, target_node);
+	ft_printf("double src rotcnt -> ");
+	src_rotcnt = get_rotcnt_totop(src, target_node);
+	
+	if ((dest_rotcnt >= 0) != (src_rotcnt >= 0))
+	{
+		if (my_abs(dest_rotcnt) == ft_cir_dlstsize(dest) / 2)
+			dest_rotcnt *= -1;
+		else if (my_abs(src_rotcnt) == ft_cir_dlstsize(src) / 2)
+			src_rotcnt *= -1;
+	}
+	
+	if ((dest_rotcnt >= 0) == (src_rotcnt >= 0))
+	{
+		if (dest_rotcnt == src_rotcnt)
+			return (dest_rotcnt);
+			// 둘이 회전수가 같다면 둘중 하나로 반환한다
+		else if (dest_rotcnt < src_rotcnt)
+			dest_rotcnt *= -1;
+		else
+			src_rotcnt *= -1;
+		return (dest_rotcnt + src_rotcnt);
+		// 더 작은쪽의 부호를 반전시키고
+		// 둘을 합하여 둘의 차이를 구한다
+		// 최대 이만큼 동시 회전가능하다
+	}
+	return (0);
+	// 불가한 경우에는 0을 반환
+}
+
+size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
+{
+	long long dest_rotcnt;
+	long long src_rotcnt;
+	long long double_rotcnt;
+
+	ft_printf("total dest rotcnt -> ");
+	dest_rotcnt = get_rotcnt_topos(dest, target_node);
+	ft_printf("total src rotcnt -> ");
+	src_rotcnt = get_rotcnt_totop(src, target_node);
+	double_rotcnt = get_double_rotcnt(dest, src, target_node);
+	printf("total double rotcnt -> %lld", double_rotcnt);
+
+	// if ((dest_rotcnt >= 0) != (src_rotcnt >= 0))
+	// {
+	// 	if (my_abs(dest_rotcnt) == ft_cir_dlstsize(dest) / 2)
+	// 		dest_rotcnt *= -1;
+	// 	else if (my_abs(src_rotcnt) == ft_cir_dlstsize(src) / 2)
+	// 		src_rotcnt *= -1;
+	// }
+	// 부호를 반전 시켰을때 double rotate로 더 줄일수 있는지 체크해야함
+	// 부호가 다른데 절댓값이 같다면...?
+	// 대소구분은 어떻게 해야할까... -> 보통은 반전시킨게 더 크게 나와야함
+	// 그렇지 않으면 반전된 방향이 더 최적화된 값으로 뽑혀나왔었을테니까
+	// 그럼 누구를 반전 시켜야 하는가...?
+	// 그냥 둘다 한번씩 반전시켜보는걸로...?
+	
+	// 부호를 반전시킨다기보단 회전 방향을 반전시킨다는식으로 생각할것...!
+	
+	// if (ft_cir_dlstsize(dest) - dest_rotcnt <= src_rotcnt)
+	// 	return (my_abs(src_rotcnt));
+	// else if (dest_rotcnt >= src_rotcnt * -1)
+	// 	return (my_abs(dest_rotcnt));
+	// 부호를 반전시키는게 아니라 사이즈에서 회전수를 빼서 회전수를 반전...시키는걸로..?
+	// 보통은 크게 나오겠지, 커버가 되려면 정 중앙쯤일텐데
+	// 그냥 위의 코드로 계속하는게 나을듯
+
+	// if ((dest_rotcnt >= 0) == (src_rotcnt >= 0))
+	// {
+	// 	if (my_abs(dest_rotcnt) > my_abs(dest_rotcnt))
+	// 		return (my_abs(dest_rotcnt));
+	// 	return (my_abs(src_rotcnt));
+	// 	// 부호가 같다면 결국 가장 많이 도는쪽의 횟수로 반환한다
+	// }
+
+	return (my_abs(dest_rotcnt) + my_abs(dest_rotcnt) - my_abs(double_rotcnt));
+	// 부호가 다르면 둘의 절댓값을 합친 횟수를 반환한다
+}
+
 void	sort_under5_elements(t_ps_stat *ps_stat)
 {
 	while (ft_cir_dlstsize(ps_stat->stack_a) > 3)
@@ -174,12 +232,12 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 		print_all_my_stack(ps_stat);
 	}
 
-	if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && (ps_stat->stack_b)->value < ((ps_stat->stack_b)->next)->value)
-	{
-		sb(ps_stat);
-		ft_printf("\nswap b\n\n");
-		print_all_my_stack(ps_stat);
-	}
+	// if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && (ps_stat->stack_b)->value < ((ps_stat->stack_b)->next)->value)
+	// {
+	// 	sb(ps_stat);
+	// 	ft_printf("\nswap b\n\n");
+	// 	print_all_my_stack(ps_stat);
+	// }
 	// if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && my_abs(get_rotcnt_topos(ps_stat->stack_a, ps_stat->stack_b)) >= my_abs(get_rotcnt_topos(ps_stat->stack_a, (ps_stat->stack_b)->next)) + 1)
 	// 원소가 둘 이상이고 서로의 회전수를 비교해서 swap을 하는게 더 유리하다면 swap한다
 	// 하지만 한번 push 하고나서 나머지의 회전수가 급격하게 바뀌는 케이스가 있다...
@@ -197,6 +255,25 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 	// rr_cnt 구하는 함수가 필요, r_cnt rr_cnt 구하는 함수를 조합해서 총 횟수를 구하는 함수 구현
 	// my_stack, target_node를 인자로 받고 안에서는 dest, src에 따라 나머지 rotate 구하는 함수 호출
 	// 두 값을 비교하여 계산한 값을 size_t로 반환, my_abs를 사용?
+
+	// rotate 횟수의 부호를 반전 시켰을때 double rotate로 더 줄일수 있는지 체크해야함
+
+	printf("first total rotcnt: %zu\n", get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, ps_stat->stack_b));
+	printf("second total rotcnt: %zu\n", get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next));
+
+	if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, ps_stat->stack_b) >= get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
+	{
+		// sb(ps_stat);
+		// ft_printf("\nswap b\n\n");
+		// print_all_my_stack(ps_stat);
+		printf("hi\n");
+		if (get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
+		{
+			n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next));
+			ft_printf("\ndouble rotate\n\n");
+			print_all_my_stack(ps_stat);
+		}
+	}
 
 	while (ps_stat->stack_b) // stack_b의 헤더가 null 이 될때까지
 	{
