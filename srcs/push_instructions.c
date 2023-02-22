@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:19:23 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/20 18:00:23 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/22 16:39:28 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,15 @@ void	rr(t_ps_stat *ps_stat)
 {
 	ra(ps_stat);
 	rb(ps_stat);
+	ps_stat->com_cnt--;
+	// ra rb 안에서 각각 cnt를 두개씩 올려주기 때문에 한번 줄여야 한다
 }
 
 void	rrr(t_ps_stat *ps_stat)
 {
 	rra(ps_stat);
 	rrb(ps_stat);
+	ps_stat->com_cnt--;
 }
 
 void	n_rr(t_ps_stat *ps_stat, long long cnt)
