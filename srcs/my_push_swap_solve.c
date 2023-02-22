@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:34:21 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/20 18:05:10 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/22 12:06:19 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,68 @@ t_dlist *get_smallest_node(t_dlist *my_stack)
 	return (min_node);
 }
 
-size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist target_node)
-{
-	get_rotcnt_topos(dest, target_node); // ra rra
-	get_rotcnt_totop(src, target_node); // rb rrb
-}
-
 size_t	my_abs(long long nb)
 {
 	if (nb < 0)
 		nb *= -1;
 	return (nb);
+}
+
+size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
+{
+	long long r_cnt;
+	long long rr_cnt;
+
+	r_cnt = get_rotcnt_topos(dest, target_node) + get_rotcnt_totop(src, target_node);
+	rr_cnt = get_double_rotcnt(dest, src, target_node);
+	if ((r_cnt > 0) != (rr_cnt > 0))
+		rr_cnt *= -1;
+	// double rotate count 와 그냥 rotate count를 어떻게 합칠것인지...?
+	// ex) rr 3회, ra 4회 -> 총 4회 / rr 2회, ra 6회 -> 총 6회...?
+	// 겹치는 부분은 double rotate로 나머지는 rotate로 세는데 더하면 결국 같나...?
+	// ex) rr 2회, ra 4회, rb 2회 -> 총 4회 / rr2회, ra 6회, rb 2회 -> 총 6회 / rr 3회 ra 4회 rb 3회 -> 총 4회
+	// 기존이라면 ra + rb 가 되겠지만 rr이 추가되면 ra, rb 둘중에 큰것만 선택하면 된다...?
+	// 어차피 겹치는 부분은 같이 세니까...
+	// ra인지 rra인지는 양음수 부호를 통해 알 수 있다 이 부분은 어떻게 계산할것인지?
+	// 우선 한 스택이 동시에 양방향으로 회전하는 케이스는 없을것...
+	// ex) rr 0회, ra 4회, rb -2회 -> 총 6회 / rr 0회, ra -6회, rb 2회 -> 총 6회 // rr -3회 ra -4회 rb -3회 -> 총 4회
+	// c++처럼 pair를 사용할수는 없음, 두개 이상의 변수를 return 하기 위해서는 구조체에 변수를 선언하는 방법외에는...
+}
+
+long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
+{
+	long long r_topos_cnt;
+	long long r_totop_cnt;
+	long long rr_cnt;
+
+	r_topos_cnt = get_rotcnt_topos(dest, target_node); // ra rra
+	r_totop_cnt = get_rotcnt_totop(src, target_node); // rb rrb
+	rr_cnt = 0;
+
+	if ((r_topos_cnt > 0) != (r_totop_cnt > 0))
+		return (rr_cnt);
+
+	while (r_topos_cnt && r_totop_cnt)
+	{
+		if (r_topos_cnt > 0 && r_totop_cnt > 0)
+		{
+			r_topos_cnt--;
+			r_totop_cnt--;
+			rr_cnt++;
+		}
+		if (r_topos_cnt < 0 && r_totop_cnt < 0)
+		{
+			r_topos_cnt++;
+			r_totop_cnt++;
+			rr_cnt--;
+		}
+	}
+	return (rr_cnt);
+}
+
+long long	get_rotcnt_topush(t_dlist *dest, t_dlist *src, t_dlist *target_node)
+{
+	return (get_rotcnt_topos(dest, target_node) + get_rotcnt_totop(src, target_node));
 }
 
 long long	get_rotcnt_totop(t_dlist *my_stack, t_dlist *target_node)
