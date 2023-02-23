@@ -6,11 +6,16 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/17 13:16:54 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 09:02:48 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	print_inst_lst(void *str)
+{
+	ft_printf("%s", str);
+}
 
 int ft_is_stack_sorted(t_dlist *my_stack)
 {
@@ -195,7 +200,13 @@ int main(int argc, char *argv[])
 
 	print_all_my_stack(ps_stat);
 
-	printf("all command: %zu\n", ps_stat->com_cnt);
+	// printf("all command: %zu\n", ps_stat->com_cnt);
+
+	ft_lstiter(ps_stat->inst_lst, print_inst_lst);
+
+	ft_printf("instruction count: %d\n", ft_lstsize(ps_stat->inst_lst));
+
+	ft_lstclear(&ps_stat->inst_lst, free);
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);

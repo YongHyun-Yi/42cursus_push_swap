@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:34:21 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/22 16:31:15 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 08:52:36 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 	// printf("total dest rotcnt -> %lld\n", src_rotcnt);
 	// printf("total double rotcnt -> %lld\n", double_rotcnt);
 
-	return (my_abs(dest_rotcnt) + my_abs(dest_rotcnt) - my_abs(double_rotcnt));
+	return (my_abs(dest_rotcnt) + my_abs(src_rotcnt) - my_abs(double_rotcnt));
 	// 부호가 다르면 둘의 절댓값을 합친 횟수를 반환한다
 }
 

@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/20 18:01:13 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 08:48:06 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,14 @@ typedef struct s_ps_stat
 	// 명령어 문자열을 저장할 리스트로 대체 해야함
 	// 단순 명령어 수만 출력하고싶다면 list_size를 마지막에 출력하는 방법도...
 	// lstiter를 사용해서 순회하며 ft_putstr을 호출하고 싶었지만 함수 인자가 (void *)가 아니라서 불가...
+	t_list	*inst_lst;
 }	t_ps_stat;
 
 void	my_swap(t_dlist *my_stack);
 void	my_push(t_dlist **dest, t_dlist **src);
 void	my_rotate(t_dlist **my_stack);
 void	my_reverse_rotate(t_dlist **my_stack);
+int		my_add_inst(t_list **inst_lst, char *str);
 
 void	sa(t_ps_stat *ps_stat);
 void	pa(t_ps_stat *ps_stat);
