@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:34:21 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 08:52:36 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 09:10:07 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ long long	get_rotcnt_totop(t_dlist *my_stack, t_dlist *target_node)
 	else if ((unsigned long long)rot_cnt > ft_cir_dlstsize(my_stack) / 2)
 		rot_cnt -= ft_cir_dlstsize(my_stack);
 	// 정방향 회전과 역방향 회전 중 어느게 더 빠른지 계산한다
-	// printf("rot cnt: %lld\n", rot_cnt);
 	return (rot_cnt);
 }
 
@@ -97,7 +96,6 @@ long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node)
 	else if ((unsigned long)rot_cnt > ft_cir_dlstsize(my_stack) / 2)
 		rot_cnt -= ft_cir_dlstsize(my_stack);
 	// 정방향 회전과 역방향 회전 중 어느게 더 빠른지 계산한다
-	// printf("rot cnt: %lld\n", rot_cnt);
 	return (rot_cnt);
 }
 
@@ -108,43 +106,23 @@ long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 
 	dest_rotcnt = get_rotcnt_topos(dest, target_node);
 	src_rotcnt = get_rotcnt_totop(src, target_node);
-	printf("double dest rotcnt -> %lld\n", dest_rotcnt);
-	printf("double src rotcnt -> %lld\n", src_rotcnt);
 
 	if ((dest_rotcnt == 0) || (src_rotcnt == 0))
-	{
-		printf("impossible\n");
 		return (0);
-	}
 	
 	if ((dest_rotcnt > 0) != (src_rotcnt > 0))
 	{
-		// if (my_abs(dest_rotcnt) == ft_cir_dlstsize(dest) / 2)
-		// 	dest_rotcnt *= -1;
-		// else if (my_abs(src_rotcnt) == ft_cir_dlstsize(src) / 2)
-		// 	src_rotcnt *= -1;
-		// 단순히 사이즈 / 2 만 해서는 사이즈가 홀수일때 정확한 값을 구하기가 어렵다
-		ft_printf("sign different\n");
 		if (ft_cir_dlstsize(dest) - dest_rotcnt <= my_abs(dest_rotcnt) + my_abs(src_rotcnt))
-		{
-			ft_printf("case1\n");
 			dest_rotcnt -= ft_cir_dlstsize(dest);
-			printf("double dest rotcnt -> %lld\n", dest_rotcnt);
-		}
 		else if (ft_cir_dlstsize(src) - src_rotcnt <= my_abs(dest_rotcnt) + my_abs(src_rotcnt))
-		{
-			ft_printf("case2\n");
 			src_rotcnt -= ft_cir_dlstsize(src);
-			printf("double src rotcnt -> %lld\n", src_rotcnt);
-		}
+		// 반대 회전을 구해서 동시회전으로 돌리는 횟수가
+		// 최선의 회전수를 합친것보다 이득이면 반대 회전수를 취한다
 	}
 
 	if (dest_rotcnt == src_rotcnt)
-	{
-		printf("double rotcnt -> %lld\n", dest_rotcnt);
 		return (dest_rotcnt);
 		// 둘이 회전수가 같다면 둘중 하나로 반환한다
-	}
 	
 	if ((dest_rotcnt > 0) == (src_rotcnt > 0))
 	{
@@ -152,13 +130,12 @@ long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 			dest_rotcnt *= -1;
 		else
 			src_rotcnt *= -1;
-		printf("double rotcnt -> %lld\n", dest_rotcnt + src_rotcnt);
 		return (dest_rotcnt + src_rotcnt);
 		// 더 작은쪽의 부호를 반전시키고
 		// 둘을 합하여 둘의 차이를 구한다
 		// 최대 이만큼 동시 회전가능하다
+		// 큰 쪽의 부호를 살리는 이유는 부호가 곧 방향이기 떄문
 	}
-	printf("impossible\n");
 	return (0);
 	// 불가한 경우에는 0을 반환
 
@@ -176,9 +153,6 @@ size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 	dest_rotcnt = get_rotcnt_topos(dest, target_node);
 	src_rotcnt = get_rotcnt_totop(src, target_node);
 	double_rotcnt = get_double_rotcnt(dest, src, target_node);
-	// printf("total src rotcnt -> %lld\n", dest_rotcnt);
-	// printf("total dest rotcnt -> %lld\n", src_rotcnt);
-	// printf("total double rotcnt -> %lld\n", double_rotcnt);
 
 	return (my_abs(dest_rotcnt) + my_abs(src_rotcnt) - my_abs(double_rotcnt));
 	// 부호가 다르면 둘의 절댓값을 합친 횟수를 반환한다
@@ -200,44 +174,10 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 		print_all_my_stack(ps_stat);
 	}
 
-	// if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && (ps_stat->stack_b)->value < ((ps_stat->stack_b)->next)->value)
-	// {
-	// 	sb(ps_stat);
-	// 	ft_printf("\nswap b\n\n");
-	// 	print_all_my_stack(ps_stat);
-	// }
-	// if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && my_abs(get_rotcnt_topos(ps_stat->stack_a, ps_stat->stack_b)) >= my_abs(get_rotcnt_topos(ps_stat->stack_a, (ps_stat->stack_b)->next)) + 1)
-	// 원소가 둘 이상이고 서로의 회전수를 비교해서 swap을 하는게 더 유리하다면 swap한다
-	// 하지만 한번 push 하고나서 나머지의 회전수가 급격하게 바뀌는 케이스가 있다...
-	// 그냥 간단하게 큰 값을 먼저 push하는 식으로 우선 타협
-	// 4 2 5 3 1 -> sb 보다 rrr을 하고 나머지 작업을 수행하면 명령수가 하나 더 줄어든다
-
-	// 여기선 get_rotcnt_topos가 ra, get_rotcnt_totop가 rb를 뜻하게 된다
-	// 만약 둘다 0이아니라면
-	// 둘다 양수라면 둘 중 하나라도 0이 될때까지 하나씩 줄이고 rr을 추가
-	// 둘다 음수라면 둘 중 하나라도 0이 될때까지 하나씩 늘리고 rrr을 추가
-	// r_cnt, rr_cnt가 필요, 해당 변수만큼 n_r, n_rr 을 호출
-
-	// r_cnt rr_cnt 까지 총합한 수를 구하는 함수가 필요 -> 이를 통해 b를 swap할지 말지 결정
-	// first_r_cnt > second_r_cnt || (first_r_cnt == second_r_cnt && first.value < second.value)
-	// rr_cnt 구하는 함수가 필요, r_cnt rr_cnt 구하는 함수를 조합해서 총 횟수를 구하는 함수 구현
-	// my_stack, target_node를 인자로 받고 안에서는 dest, src에 따라 나머지 rotate 구하는 함수 호출
-	// 두 값을 비교하여 계산한 값을 size_t로 반환, my_abs를 사용?
-
-	// rotate 횟수의 부호를 반전 시켰을때 double rotate로 더 줄일수 있는지 체크해야함
-
-	// printf("first total rotcnt: %zu\n", get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, ps_stat->stack_b));
-	// printf("second total rotcnt: %zu\n", get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next));
-
 	if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, ps_stat->stack_b) >= get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
 	{
-		// sb(ps_stat);
-		// ft_printf("\nswap b\n\n");
-		// print_all_my_stack(ps_stat);
-		printf("hi!!!!!!!!!!!!!!!!!!!!\n");
 		if (get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
 		{
-			// printf("\ndouble rotcnt: %lld\n", get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next));
 			n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next));
 			ft_printf("double rotate\n\n");
 			print_all_my_stack(ps_stat);
@@ -319,7 +259,7 @@ int	my_push_swap_solve(t_ps_stat *ps_stat)
 	size_t lst_size = ft_cir_dlstsize(ps_stat->stack_a);
 	if (lst_size == 2)
 	{
-		sa(ps_stat); // sa
+		sa(ps_stat);
 		return (SUCCESS);
 	}
 	else if (lst_size == 3)

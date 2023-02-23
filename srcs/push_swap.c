@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 09:02:48 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 09:26:30 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,6 @@ int	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
 	t_dlist 	*new_node;
 
 	bit_masking = ft_calloc((UINT_MAX / 8) + 1, sizeof(char));
-	if (!bit_masking)
-		return (FAIL);
 	
 	while (*argv) // 인자 한 덩어리 기준으로 작업을 시작
 	{
@@ -140,7 +138,6 @@ int	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
 			}
 			
 			num = ft_atoi(*split_argv);
-			
 			if (!ft_check_intdup(bit_masking, num)) // 중복되는 수가 들어왔는가?
 			{
 				ft_printf("arguments are dup!\n");
@@ -158,8 +155,10 @@ int	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
 
 			split_argv++; // 다음 문자열을 살펴본다
 		}
+		// free(split_argv); // 올바른 free를 위해서는 인덱스로 쓸 변수를 만들어 원래 주소를 보존해야 한다
 		argv++; // 모든 문자열을 살펴봤으면 다음 인자를 살펴본다
 	}
+	free(bit_masking);
 	return (SUCCESS);
 }
 
@@ -175,32 +174,14 @@ int main(int argc, char *argv[])
 
 	print_all_my_stack(ps_stat);
 
-	// my_push(&ps_stat->stack_b, &ps_stat->stack_a);
-
-	// print_all_my_stack(ps_stat);
-
-	// my_push(&ps_stat->stack_a, &ps_stat->stack_b);
-
-	// print_all_my_stack(ps_stat);
-
-	// my_rotate(&ps_stat->stack_a);
-
-	// print_all_my_stack(ps_stat);
-
-	// my_reverse_rotate(&ps_stat->stack_a);
-
-	// print_all_my_stack(ps_stat);
-
-	// ft_printf("is sorted?: %d\n", ft_is_allstack_sorted(ps_stat));
-
 	if (ft_is_allstack_sorted(ps_stat))
 		return (EXIT_SUCCESS);
 	
 	my_push_swap_solve(ps_stat);
 
-	print_all_my_stack(ps_stat);
+	ft_printf("\n - finish! - \n\n");
 
-	// printf("all command: %zu\n", ps_stat->com_cnt);
+	print_all_my_stack(ps_stat);
 
 	ft_lstiter(ps_stat->inst_lst, print_inst_lst);
 
