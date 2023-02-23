@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:34:21 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 10:12:49 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 12:05:53 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node)
 	if (target_node->value < get_smallest_node(my_stack, dlist_valcmp)->value) // 최솟값
 		return (get_rotcnt_totop(my_stack, get_smallest_node(my_stack, dlist_valcmp)));
 	else if (target_node->value > get_largest_node(my_stack, dlist_valcmp)->value) // 최댓값
-		return (get_rotcnt_totop(my_stack, get_largest_node(my_stack, dlist_valcmp)));
+		return (get_rotcnt_totop(my_stack, get_smallest_node(my_stack, dlist_valcmp)));
 	rot_cnt = 0;
 	cur_node = my_stack;
 	while (!(target_node->value < cur_node->value && target_node->value > (cur_node->prev)->value)) // 사잇값

@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 10:03:21 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 12:06:46 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ int ft_is_stack_sorted(t_dlist *my_stack)
 	if (!my_stack)
 		return (FAIL);
 	cur_node = my_stack;
-	while (1)
+	while (cur_node->next != my_stack) // 다음 노드가 헤더라면, 마지막 노드까지 왔다 즉, 문제없이 한 바퀴 돌았다면 끝
 	{
-		if (cur_node->next == my_stack) // 다음 노드가 헤더라면, 마지막 노드까지 왔다 즉, 문제없이 한 바퀴 돌았다면
-			return (SUCCESS);
-		if (cur_node->value > (cur_node->next)->value) // 다음 노드보다 값이 크면 즉, 오름차순이 아니면
+		if (!dlist_valcmp(cur_node, cur_node->next)) // 다음 노드보다 값이 크면 즉, 오름차순이 아니면
 			return (FAIL);
 		cur_node = cur_node->next;
 	}
+	return (SUCCESS);
 }
 
 int	ft_is_allstack_sorted(t_ps_stat *ps_stat)

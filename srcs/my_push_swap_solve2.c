@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 09:46:54 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 09:53:02 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 12:01:41 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@
 
 void	sort_under100_elements(t_ps_stat *ps_stat)
 {
-	//
+	ps_stat = 0;
 }
