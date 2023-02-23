@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 08:48:06 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 10:22:24 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ typedef struct s_ps_stat
 {
 	t_dlist	*stack_a;
 	t_dlist	*stack_b;
-	size_t	com_cnt;
-	// 명령어 문자열을 저장할 리스트로 대체 해야함
-	// 단순 명령어 수만 출력하고싶다면 list_size를 마지막에 출력하는 방법도...
-	// lstiter를 사용해서 순회하며 ft_putstr을 호출하고 싶었지만 함수 인자가 (void *)가 아니라서 불가...
 	t_list	*inst_lst;
 }	t_ps_stat;
 
@@ -68,6 +64,17 @@ void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
 size_t	ft_cir_dlstsize(t_dlist *lst);
 
+size_t	my_abs(long long nb);
+
+int		dlist_valcmp(t_dlist *a, t_dlist *b);
+t_dlist	*get_largest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *));
+t_dlist	*get_smallest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *));
+
+long long	get_rotcnt_totop(t_dlist *my_stack, t_dlist *target_node);
+long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node);
+long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node);
+size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node);
+
 void	print_my_stack(t_dlist *my_stack);
 void	print_all_my_stack(t_ps_stat *ps_stat); // 디버깅용
 
@@ -77,5 +84,6 @@ int		ft_is_allstack_sorted(t_ps_stat *ps_stat);
 void	sort_under5_elements(t_ps_stat *ps_stat);
 void	sort_3_elements(t_ps_stat *ps_stat);
 int		my_push_swap_solve(t_ps_stat *ps_stat);
+void	sort_under100_elements(t_ps_stat *ps_stat);
 
 #endif

@@ -6,13 +6,18 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:34:21 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 09:10:07 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/23 10:12:49 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_dlist *get_largest_node(t_dlist *my_stack)
+int	dlist_valcmp(t_dlist *a, t_dlist *b)
+{
+	return (a->value < b->value);
+}
+
+t_dlist *get_largest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *))
 {
 	t_dlist *cur_node;
 	t_dlist *max_node;
@@ -22,13 +27,13 @@ t_dlist *get_largest_node(t_dlist *my_stack)
 	while (cur_node->next != my_stack)
 	{
 		cur_node = cur_node->next;
-		if (cur_node->value > max_node->value)
+		if (!cmp(cur_node, max_node))
 			max_node = cur_node;
 	}
 	return (max_node);
 }
 
-t_dlist *get_smallest_node(t_dlist *my_stack)
+t_dlist *get_smallest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *))
 {
 	t_dlist *cur_node;
 	t_dlist *min_node;
@@ -38,11 +43,16 @@ t_dlist *get_smallest_node(t_dlist *my_stack)
 	while (cur_node->next != my_stack)
 	{
 		cur_node = cur_node->next;
-		if (cur_node->value < min_node->value)
+		if (cmp(cur_node, min_node))
 			min_node = cur_node;
 	}
 	return (min_node);
 }
+
+// 비교하는 함수를 함수포인터로 비워두었다
+// 나중에 dlist의 content에 무엇이 들어있고 그것을 어떻게 가공을해서 비교를 하던
+// 그에 따라 비교하는 알고리즘을 가진 함수를 함수 포인터 부분에 넘겨주면
+// 알아서 최댓값과 최솟값을 가진 노드를 반환해준다
 
 size_t	my_abs(long long nb)
 {
@@ -78,10 +88,10 @@ long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node)
 	long long rot_cnt;
 	t_dlist *cur_node;
 
-	if (target_node->value < get_smallest_node(my_stack)->value) // 최솟값
-		return (get_rotcnt_totop(my_stack, get_smallest_node(my_stack)));
-	else if (target_node->value > get_largest_node(my_stack)->value) // 최댓값
-		return (get_rotcnt_totop(my_stack, get_largest_node(my_stack)));
+	if (target_node->value < get_smallest_node(my_stack, dlist_valcmp)->value) // 최솟값
+		return (get_rotcnt_totop(my_stack, get_smallest_node(my_stack, dlist_valcmp)));
+	else if (target_node->value > get_largest_node(my_stack, dlist_valcmp)->value) // 최댓값
+		return (get_rotcnt_totop(my_stack, get_largest_node(my_stack, dlist_valcmp)));
 	rot_cnt = 0;
 	cur_node = my_stack;
 	while (!(target_node->value < cur_node->value && target_node->value > (cur_node->prev)->value)) // 사잇값
@@ -195,7 +205,7 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 	// stack_b에 원소가 있는건 전체 원소수와 상관없나...?
 	// stack_a에서의 적절한 위치찾아 넣는건 수가 많을때도 똑같지 않을까...?
 
-	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a)));
+	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a, dlist_valcmp)));
 
 	return ;
 }
@@ -270,6 +280,11 @@ int	my_push_swap_solve(t_ps_stat *ps_stat)
 	else if (lst_size <= 5)
 	{
 		sort_under5_elements(ps_stat);
+		return (SUCCESS);
+	}
+	else if (lst_size <= 100)
+	{
+		sort_under100_elements(ps_stat);
 		return (SUCCESS);
 	}
 	return (SUCCESS);
