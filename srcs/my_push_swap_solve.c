@@ -193,6 +193,11 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 			print_all_my_stack(ps_stat);
 		}
 	}
+	// 이 부분을 아래의 while문에 넣어버리거나 함수화 한다
+	// 여기서는 stack_b에 단지 두개의 노드가 있을때를 가정해서 만들어졌지만
+	// 이후의 많은 노드를 정렬할때도 비슷하게 stack_b에 있는 노드를 순회하며
+	// smallest node 함수와 get_total_rotcnt 를 비교함수로 사용하여
+	// 그 순간에 가장 회전수가 작은 노드를 삽입하는식으로 진행하는것으로...
 
 	while (ps_stat->stack_b) // stack_b의 헤더가 null 이 될때까지
 	{
@@ -222,20 +227,20 @@ void	sort_3_elements(t_ps_stat *ps_stat)
 	second = (my_stack->next)->value;
 	third = ((my_stack->next)->next)->value;
 
-	if (first < second && !(second < third))
+	if (first < second && !(second < third)) // 2 3 1
 	{
 		rra(ps_stat);
-		if (!(third < first))
+		if (!(third < first)) // 1 3 2 (sa, ra) (rra, sa)
 			sa(ps_stat);
 	}
 
-	else if (second < third && third < first)
+	else if (second < third && third < first) // 3 1 2 (ra)
 		ra(ps_stat);
 
-	else
+	else // 2 1 3 (sa)
 	{
 		sa(ps_stat);
-		if (!(second < third) && third < first)
+		if (!(second < third) && third < first) // 3 2 1 (ra, sa) (sa, rra)
 			rra(ps_stat);
 	}
 

@@ -188,6 +188,9 @@ int main(int argc, char *argv[])
 
 	ft_lstclear(&ps_stat->inst_lst, free);
 
+	// 2 4 3 5 1 -> pb pb rra rr pa ra ra pa ra ra / rra + rr을 rb로 바꿀수있다
+	// 아직 후처리를 통한 최적화가 적용되지 않은 상태
+
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);
 }
