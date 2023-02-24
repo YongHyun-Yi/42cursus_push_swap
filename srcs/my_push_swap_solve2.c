@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 09:46:54 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/24 14:26:50 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/24 18:25:37 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // divide 2 group
 // divide 3 group
 
-int *get_lis_lst(t_dlist *my_stack)
+void	get_lis_lst(t_dlist *my_stack)
 {
 	// 가장 긴 증가 수열
 	// 비교는 항상 최대 인덱스를 가진 노드부터
@@ -58,26 +58,90 @@ int *get_lis_lst(t_dlist *my_stack)
 	// -> lstadd_back을 하면 prev, next가 변경되기 때문에
 	// 기존의 리스트가 변경될 여지가 있음, 기각...
 
-	t_dlist *idx_lst;
+	size_t	iter_max = 0;
+	t_dlist *cur_node;
+	t_dlist *cmp_node;
 
-	idx_lst = NULL;
-	t_dlist *cur_node = my_stack;
+	t_dlist *idx_lst = NULL;
+	t_dlist *idx_cur_node;
+	t_dlist *idx_cmp_node;
 	size_t	max_idx = 1;
-	size_t	cur_idx;
-	while (1)
+	size_t	cur_idx = 1;
+	
+	ft_cir_dlstadd_back(&idx_lst, ft_dlstnew(cur_idx)); // 이전노드를 탐색할때 인덱스 리스트에서 세그폴트가 발생하지 않게 맨 처음 노드를 미리 추가하고 시작한다
+
+	while (iter_max < ft_cir_dlstsize(my_stack))
 	{
-		t_dlist *serch_node = my_stack->prev; // 맨 마지막노드 부터
-		cur_idx = max_idx;
-		while (1)
+		
+		cur_node = my_stack;
+		idx_cur_node = idx_lst;
+		
+		size_t	iter_idx = 0;
+		while (iter_idx < iter_max)
 		{
-			if (cur_idx == 1)
-				ft_cir_dlstadd_back(&idx_lst, ft_dlstnew(cur_idx));
-			if (serch_node->value == cur_idx)
-			serch_node = serch_node->prev;
+			cur_node = cur_node->next;
+			idx_cur_node = idx_cur_node->next;
+			iter_idx++;
 		}
-		if (cur_node->next == my_stack)
-			break ;
+		// 작업 시작점까지 이동
+
+		cmp_node = cur_node->prev;
+		idx_cmp_node = idx_cur_node->prev;
+		// 이전 노드부터 비교하며 시작
+
+		cur_idx = max_idx;
+		while (iter_idx)
+		{
+			// 인덱스 리스트 값 비교, 원래 리스트 값 비교, 부합하지 않으면 두 리스트 모두 한칸씩 이전으로 당기기, cur idx값 줄이기
+			// 인덱스 리스트 값이 cur idx와 같다면 비교를 시작한다, 그렇지 않으면 (두 리스트 모두 한칸씩 이전으로 당긴다)
+			// 현재 노드와 비교할 노드의 값을 비교한다, 현재 노드가 더 크다면 인덱스 리스트에 cur idx + 1 값으로 새로운 노드를 추가한다
+			// 그렇지 않다면 cur idx - 1 값을 가진채 (두 리스트 모두 한칸씩 이전으로 당긴다)
+			if (idx_cmp_node->value == (int)cur_idx)
+			{
+				if (cur_node->value > cmp_node->value)
+				{
+					cur_idx++;
+					if (cur_idx > max_idx)
+						max_idx = cur_idx;
+					ft_cir_dlstadd_back(&idx_lst, ft_dlstnew(cur_idx));
+					break ;
+				}
+				if (cur_idx == 1) // 1 까지 내려왔으면 그냥 추가
+					ft_cir_dlstadd_back(&idx_lst, ft_dlstnew(1));
+				cur_idx--;
+			}
+			cmp_node = cmp_node->prev;
+			idx_cmp_node = idx_cmp_node->prev;
+			iter_idx--;
+		}
+		iter_max++;
 	}
+
+	t_dlist *print_ori_lst;
+	t_dlist *print_idx_lst;
+	print_ori_lst = my_stack;
+	print_idx_lst = idx_lst;
+	size_t print_idx;
+	size_t print_max;
+	print_idx = 0;
+	print_max = ft_cir_dlstsize(my_stack);
+	ft_printf("ORI: ");
+	while (print_idx < print_max)
+	{
+		ft_printf("%d ", print_ori_lst->value);
+		print_ori_lst = print_ori_lst->next;
+		print_idx++;
+	}
+	ft_printf("\n");
+	ft_printf("LIS: ");
+	print_idx = 0;
+	while (print_idx < print_max)
+	{
+		ft_printf("%d ", print_idx_lst->value);
+		print_idx_lst = print_idx_lst->next;
+		print_idx++;
+	}
+	ft_printf("\n");
 
 	// my_stack 을 전부 순회
 	// cur_node - my_stack 순회하는 노드
@@ -96,7 +160,8 @@ int *get_lis_lst(t_dlist *my_stack)
 	// 맨 처음 노드를 인덱스 리스트에 1을 추가한채 시작한다, 매 반복문마다 시작점은 한칸씩 전진한다
 	// 비교 전에 원래 리스트와 인덱스 리스트를 같은 위치까지 가리킨다 (새로 추가할 위치 && 새로 검사할 위치)
 	// cur idx와 비교할 인덱스 리스트의 value와 같다면, 원래 리스트의 현재 노드와 새로 검사할 노드의 값을 비교한다
-	// 만약 새로 검사할 노드의 값이 더 크다면 인덱스 리스트 맨 뒤에 현재 인덱스 리스트 value += 1 을 갖는 노드를 추가한다
+	// 만약 새로 검사할 노드의 값이 더 크다면 인덱스 리스트 맨 뒤에 현재 인덱스 리스트 value = cur_idx + 1 을 갖는 노드를 추가한다
+	// max_idx 가 인덱스 리스트의 맨 마지막 노드의 값보다 작으면 갱신한다
 	// 그렇지 않다면 cur idx를 1 감소시킨다
 	// 원래 리스트와 인덱스 리스트 모두 이전 노드를 가리키며 계속한다
 	// cur idx 가 1로 줄어들면 인덱스 리스트 맨 뒤에 value = 1 을 갖는 노드를 추가하고 다음단게로 넘어간다
@@ -135,4 +200,5 @@ int *get_lis_lst(t_dlist *my_stack)
 void	sort_under100_elements(t_ps_stat *ps_stat)
 {
 	get_lis_lst(ps_stat->stack_a);
+	// ft_is_stack_sorted(ps_stat->stack_a);
 }
