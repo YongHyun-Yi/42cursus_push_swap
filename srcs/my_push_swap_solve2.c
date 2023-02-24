@@ -15,7 +15,33 @@
 // get biggest sorted
 // bubble sort or quick sort
 // divide 2 group
-// divide 3 group
+// divide 3 group <- 그냥 인자 갯수에 따라 청크 갯수를 나눠주는식으로 해도 될듯...?
+
+void	inst_lst_optimizing(t_list *inst_lst)
+{
+	// 명령어가 담긴 리스트를 순회하며 합칠수있거나 지울수있는거 처리하기
+	// 대신 push를 만나면 그 다음 push가 아닌 명령어 찾아서 기준점(?) 삼기
+	// -> push는 두 리스트 모두에게 영향을 주니까 최적화를 할수없다 by. jmaing
+	//
+	// 단일 연결리스트이므로 libft 함수를 사용가능하다
+	// lstiter를 사용해도 될듯...? 현재 노드부터 시작해서 자신 뒤에 있는 노드들만 보면됨
+	// pa pb 나오는순간 return ; 으로 종료
+	// 나머지는 현재 선택한 명령어의 종류에 따라 줄일수 있는 케이스에 한해서만 줄이기
+	// list도 dlist처럼 pop을 따로 만들껄 그랬나, delnode에서 연결은 해주지만
+	// list에서 노드를 뽑아내면서 연결하는것 따로, free하는거 따로 조합하는식으로 구현하는게
+	// 좀 더 모듈화에 좋지 않았을까...
+	// 현재 선택한 노드도 pa pb라면 바로 return ; 으로 종료하고 다음 iter로 넘어간다
+	//
+	// ra - rra(둘 다 삭제), rb(rr), rrr(rrb)
+	// rra - ra(둘 다 삭제), rrb(rrr), rr(rb)
+	// rb - rrb(둘 다 삭제), ra(rr), rrr(rra)
+	// rrb - rb(둘 다 삭제), rra(rrr), rr(ra)
+	// rr - rra(rb), rrb(ra)
+	// rrr - ra(rrb), rb(rra)
+	// sa - sb(ss)
+	// sb - sa(ss)
+	printf("%s\n", (char *)(inst_lst->content));
+}
 
 void	get_lis_lst(t_dlist *my_stack)
 {

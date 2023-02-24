@@ -68,8 +68,11 @@ size_t	ft_cir_dlstsize(t_dlist *lst);
 size_t	my_abs(long long nb);
 
 int		dlist_valcmp(t_dlist *a, t_dlist *b);
-t_dlist	*get_largest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *));
-t_dlist	*get_smallest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *));
+t_dlist	*get_largest_node(t_dlist *my_stack);
+t_dlist	*get_smallest_node(t_dlist *my_stack);
+
+int 	dlist_rotcmp(t_dlist *dest, t_dlist *src, t_dlist *a, t_dlist *b);
+t_dlist	*get_leastrot_node(t_dlist *dest, t_dlist *src);
 
 long long	get_rotcnt_totop(t_dlist *my_stack, t_dlist *target_node);
 long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node);

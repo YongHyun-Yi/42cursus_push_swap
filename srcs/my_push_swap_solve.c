@@ -12,12 +12,49 @@
 
 #include "push_swap.h"
 
+int dlist_rotcmp(t_dlist *dest, t_dlist *src, t_dlist *a, t_dlist *b)
+{
+	if (get_total_rotcnt(dest, src, a) < get_total_rotcnt(dest, src, b))
+		return (1);
+	if (get_total_rotcnt(dest, src, a) == get_total_rotcnt(dest, src, b))
+	{
+		if (get_double_rotcnt(dest, src, a) > get_double_rotcnt(dest, src, b))
+			return (1);
+		// 일단은 동시회전이 이득이 아닐까...
+		// 두 리스트 간의 value를 비교하여 더 큰것을 먼저 넣어주는게 이득인 경우도 많다
+	}
+	return (0);
+}
+// 비교함수 여러개를 준비하여 최소 최댓값 함수에 함수포인터 매개변수로 넘겨주려 했으나
+// 비교함수 안에서 수행하는 함수마다 매개변수가 모두 다르기 때문에 일단 포기...
+// void *로 비교할 매개변수들을 배열로 만들면 가능은 하겠지만...
+// 모든 케이스를 완벽하게 커버할수는 없는것같다 ㅠㅠ
+
+t_dlist *get_leastrot_node(t_dlist *dest, t_dlist *src)
+{
+	t_dlist *cur_node;
+	t_dlist *least_node;
+
+	cur_node = src;
+	least_node = cur_node;
+	while (cur_node->next != src)
+	{
+		cur_node = cur_node->next;
+		if (dlist_rotcmp(dest, src, cur_node, least_node))
+			least_node = cur_node;
+	}
+	return (least_node);
+}
+// 현재 src라는 리스트에 존재하는 노드 중 dest라는 리스트로 보내는
+// 회전수가 가장 작은 노드를 반환한다
+// 어떻게보면 이 함수 자체가 그리디 알고리즘이라고 할수있다...?
+
 int	dlist_valcmp(t_dlist *a, t_dlist *b)
 {
 	return (a->value < b->value);
 }
 
-t_dlist *get_largest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *))
+t_dlist *get_largest_node(t_dlist *my_stack)
 {
 	t_dlist *cur_node;
 	t_dlist *max_node;
@@ -27,13 +64,13 @@ t_dlist *get_largest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *))
 	while (cur_node->next != my_stack)
 	{
 		cur_node = cur_node->next;
-		if (!cmp(cur_node, max_node))
+		if (!dlist_valcmp(cur_node, max_node))
 			max_node = cur_node;
 	}
 	return (max_node);
 }
 
-t_dlist *get_smallest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *))
+t_dlist *get_smallest_node(t_dlist *my_stack)
 {
 	t_dlist *cur_node;
 	t_dlist *min_node;
@@ -43,7 +80,7 @@ t_dlist *get_smallest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *))
 	while (cur_node->next != my_stack)
 	{
 		cur_node = cur_node->next;
-		if (cmp(cur_node, min_node))
+		if (dlist_valcmp(cur_node, min_node))
 			min_node = cur_node;
 	}
 	return (min_node);
@@ -53,6 +90,12 @@ t_dlist *get_smallest_node(t_dlist *my_stack, int(*cmp)(t_dlist *, t_dlist *))
 // 나중에 dlist의 content에 무엇이 들어있고 그것을 어떻게 가공을해서 비교를 하던
 // 그에 따라 비교하는 알고리즘을 가진 함수를 함수 포인터 부분에 넘겨주면
 // 알아서 최댓값과 최솟값을 가진 노드를 반환해준다
+//
+// 비교함수가 모두 (t_dlist *, t_dlist *)라는 매개변수를 가지는건 아니다...
+// 회전수를 비교하는 비교함수를 만드는 상황만 보더라도
+// 회전수를 구할때 dest와 src라는 매개변수를 추가로 요구하며
+// 노드역할을 하는 t_dlist *는 하나뿐이다..
+// 다시 원상태로 되돌린다
 
 size_t	my_abs(long long nb)
 {
@@ -88,10 +131,12 @@ long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node)
 	long long rot_cnt;
 	t_dlist *cur_node;
 
-	if (target_node->value < get_smallest_node(my_stack, dlist_valcmp)->value) // 최솟값
-		return (get_rotcnt_totop(my_stack, get_smallest_node(my_stack, dlist_valcmp)));
-	else if (target_node->value > get_largest_node(my_stack, dlist_valcmp)->value) // 최댓값
-		return (get_rotcnt_totop(my_stack, get_smallest_node(my_stack, dlist_valcmp)));
+	if (my_stack == NULL)
+		return (0);
+	if (target_node->value < get_smallest_node(my_stack)->value) // 최솟값
+		return (get_rotcnt_totop(my_stack, get_smallest_node(my_stack)));
+	else if (target_node->value > get_largest_node(my_stack)->value) // 최댓값
+		return (get_rotcnt_totop(my_stack, get_smallest_node(my_stack)));
 	rot_cnt = 0;
 	cur_node = my_stack;
 	while (!(target_node->value < cur_node->value && target_node->value > (cur_node->prev)->value)) // 사잇값
@@ -184,15 +229,15 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 		print_all_my_stack(ps_stat);
 	}
 
-	if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, ps_stat->stack_b) >= get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
-	{
-		if (get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
-		{
-			n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next));
-			ft_printf("double rotate\n\n");
-			print_all_my_stack(ps_stat);
-		}
-	}
+	// if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, ps_stat->stack_b) >= get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
+	// {
+	// 	if (get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
+	// 	{
+	// 		n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next));
+	// 		ft_printf("double rotate\n\n");
+	// 		print_all_my_stack(ps_stat);
+	// 	}
+	// }
 	// 이 부분을 아래의 while문에 넣어버리거나 함수화 한다
 	// 여기서는 stack_b에 단지 두개의 노드가 있을때를 가정해서 만들어졌지만
 	// 이후의 많은 노드를 정렬할때도 비슷하게 stack_b에 있는 노드를 순회하며
@@ -201,7 +246,12 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 
 	while (ps_stat->stack_b) // stack_b의 헤더가 null 이 될때까지
 	{
-		n_ra(ps_stat, get_rotcnt_topos(ps_stat->stack_a, ps_stat->stack_b));
+		t_dlist *cur_node;
+
+		cur_node = get_leastrot_node(ps_stat->stack_a, ps_stat->stack_b);
+		n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, cur_node));
+		n_ra(ps_stat, get_rotcnt_topos(ps_stat->stack_a, cur_node));
+		n_rb(ps_stat, get_rotcnt_totop(ps_stat->stack_b, cur_node));
 		pa(ps_stat);
 		
 		ft_printf("\nsorting...\n\n");
@@ -209,8 +259,10 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 	}
 	// stack_b에 원소가 있는건 전체 원소수와 상관없나...?
 	// stack_a에서의 적절한 위치찾아 넣는건 수가 많을때도 똑같지 않을까...?
+	//
+	// chunk만 나눠주면 완성될듯하다
 
-	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a, dlist_valcmp)));
+	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a)));
 
 	return ;
 }
@@ -289,6 +341,7 @@ int	my_push_swap_solve(t_ps_stat *ps_stat)
 	}
 	else if (lst_size <= 100)
 	{
+		// sort_under5_elements(ps_stat);
 		sort_under100_elements(ps_stat);
 		return (SUCCESS);
 	}
