@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 12:01:31 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/24 14:12:48 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	rr(t_ps_stat *ps_stat);
 void	rrr(t_ps_stat *ps_stat);
 void	n_rr(t_ps_stat *ps_stat, long long cnt);
 
+t_dlist *ft_dlstnew(int value);
 void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
 size_t	ft_cir_dlstsize(t_dlist *lst);

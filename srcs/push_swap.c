@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 12:06:46 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/24 14:12:41 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,17 @@ void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new)
 	if ((*lst)->next != *lst)
 		*lst = (*lst)->prev;
 		// 헤더만 옮겨준다
+}
+
+t_dlist *ft_dlstnew(int value)
+{
+	t_dlist *new;
+
+	new = (t_dlist *)malloc(sizeof(t_dlist));
+	if (!new)
+		return (NULL);
+	new->value = value;
+	return (new);
 }
 
 void	print_my_stack(t_dlist *my_stack)

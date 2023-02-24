@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 09:46:54 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 12:01:41 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/24 14:26:50 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // divide 2 group
 // divide 3 group
 
-void	get_biggest_sorted(t_dlist *my_stack)
+int *get_lis_lst(t_dlist *my_stack)
 {
 	// 가장 긴 증가 수열
 	// 비교는 항상 최대 인덱스를 가진 노드부터
@@ -50,22 +50,81 @@ void	get_biggest_sorted(t_dlist *my_stack)
 	//     1 2 2 3  4 4 1 5 6 1
 
 	// 그냥 int 배열 두개만들어서 해버릴까...
-	t_dlist *biggest_sorted_dlst;
 
-	biggest_sorted_dlst = 0;
+	// 인덱스용 list만 새로 할당하고
+	// 값을 넣어놓는건 원래 list를 추가하기만 하면
+	// 나중에 비교함수를 사용해서도 활용하기 좋지 않을까...
+	// pivot도 비슷하게?
+	// -> lstadd_back을 하면 prev, next가 변경되기 때문에
+	// 기존의 리스트가 변경될 여지가 있음, 기각...
+
+	t_dlist *idx_lst;
+
+	idx_lst = NULL;
 	t_dlist *cur_node = my_stack;
-	size_t	max_idx = 0;
+	size_t	max_idx = 1;
 	size_t	cur_idx;
 	while (1)
 	{
-		t_dlist *serch_node = my_stack;
+		t_dlist *serch_node = my_stack->prev; // 맨 마지막노드 부터
 		cur_idx = max_idx;
 		while (1)
 		{
-			serch_node = serch_node->prev;
+			if (cur_idx == 1)
+				ft_cir_dlstadd_back(&idx_lst, ft_dlstnew(cur_idx));
 			if (serch_node->value == cur_idx)
+			serch_node = serch_node->prev;
 		}
+		if (cur_node->next == my_stack)
+			break ;
 	}
+
+	// my_stack 을 전부 순회
+	// cur_node - my_stack 순회하는 노드
+	// cmp_node - 비교할 노드
+	
+	// cmp_node = cur_node->prev
+	// if cur_idx > 1
+	//  if cur_idx == prev_idx
+	//   if cur_node > cmp_node
+	//    lstadd(idx_lst->value + 1)
+	//   prev_idx--
+	//   cmp_node--
+	// else
+	//  lstadd(1)
+
+	// 맨 처음 노드를 인덱스 리스트에 1을 추가한채 시작한다, 매 반복문마다 시작점은 한칸씩 전진한다
+	// 비교 전에 원래 리스트와 인덱스 리스트를 같은 위치까지 가리킨다 (새로 추가할 위치 && 새로 검사할 위치)
+	// cur idx와 비교할 인덱스 리스트의 value와 같다면, 원래 리스트의 현재 노드와 새로 검사할 노드의 값을 비교한다
+	// 만약 새로 검사할 노드의 값이 더 크다면 인덱스 리스트 맨 뒤에 현재 인덱스 리스트 value += 1 을 갖는 노드를 추가한다
+	// 그렇지 않다면 cur idx를 1 감소시킨다
+	// 원래 리스트와 인덱스 리스트 모두 이전 노드를 가리키며 계속한다
+	// cur idx 가 1로 줄어들면 인덱스 리스트 맨 뒤에 value = 1 을 갖는 노드를 추가하고 다음단게로 넘어간다
+
+	// int *ori_arr;
+	// size_t	ori_arr_size = ft_cir_dlstsize(my_stack);
+	// ori_arr = (int *)malloc(sizeof(int) * ori_arr_size);
+	// if (!ori_arr)
+	// 	return (FAIL);
+	// t_dlist *cur_node;
+	// cur_node = my_stack;
+	// size_t	idx = 0;
+	// while (idx < ori_arr_size)
+	// {
+	// 	ori_arr[idx] = cur_node->value;
+	// 	cur_node = cur_node->next;
+	// 	idx++;
+	// }
+
+	// idx = 0;
+	// while (idx < ori_arr_size)
+	// {
+	// 	ft_printf("ori arr[%d]: %d\n", (int)idx, ori_arr[idx]);
+	// 	idx++;
+	// }
+
+	// int *lis_arr;
+	// return (0);
 }
 
 // stack_b에 두개 이상의 노드가 있을때
@@ -75,5 +134,5 @@ void	get_biggest_sorted(t_dlist *my_stack)
 
 void	sort_under100_elements(t_ps_stat *ps_stat)
 {
-	ft_is_allstack_sorted(ps_stat);
+	get_lis_lst(ps_stat->stack_a);
 }
