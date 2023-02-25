@@ -40,6 +40,7 @@ typedef struct s_ps_stat
 }	t_ps_stat;
 
 void	my_swap(t_dlist *my_stack);
+t_dlist	*my_pop(t_dlist **my_stack);
 void	my_push(t_dlist **dest, t_dlist **src);
 void	my_rotate(t_dlist **my_stack);
 void	my_reverse_rotate(t_dlist **my_stack);
