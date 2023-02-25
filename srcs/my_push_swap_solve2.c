@@ -110,10 +110,28 @@ void	get_lis_lst(t_dlist *my_stack)
 			iter_idx++;
 		}
 		// 작업 시작점까지 이동
+		// idx_list는 특정 사이즈만큼 한꺼번에 만들지 않는데
+		// 그냥 header에서 prev로 가리키면 되지 않을까
+		// 여기서 cur_node로 선택할 노드를 찾는부분을 함수로 따로 뺄까...?
 
 		cmp_node = cur_node->prev;
 		idx_cmp_node = idx_cur_node->prev;
 		// 이전 노드부터 비교하며 시작
+		//
+		// 이 부분도 함수로 뺄까...현재 노드랑 인덱스 리스트를 넘겨주면
+		// 알아서 비교해서 lis index를 반환하도록...?
+		// 현재 노드랑 현재 노드의 스택을 안보내줘도 되는 이유는
+		// header까지 탐색을 끝마쳐야 하는게 아니라 idx가 1이 될때까지
+		// 혹은 대소비교에서 크다면 바로 끝마치기때문
+		// 한바퀴 돌아버린것과는 문제가 없다
+		// max idx는 get largest node로 idx lst에서 구한다
+		// 현재 노드와 idx lst 를 매개변수로 쓴다
+		//
+		// get_lis_lst, get_lis_idx_lst, get_lis_idx
+		// get_lis_lst에서 lis_idx_lst로 lis노드를 골라내고
+		// lis lst에 addback으로 추가
+		// lis node 구하는 과정에서 필요없는 lis idx는 pop, free 한다
+		// 항상 비교작업에서 유효한 마지막 노드부터 시작하기 위함
 
 		cur_idx = max_idx;
 		while (iter_idx)
@@ -168,6 +186,45 @@ void	get_lis_lst(t_dlist *my_stack)
 		print_idx++;
 	}
 	ft_printf("\n");
+
+	t_dlist *lis_lst = NULL;
+
+	cur_node = my_stack->prev;
+	idx_cur_node = idx_lst->prev;
+	cur_idx = max_idx;
+	while (cur_idx)
+	{
+		if (idx_cur_node->value == (int)cur_idx)
+		{
+			t_dlist *new = ft_dlstnew(cur_node->value);
+			if (!new)
+				return ;
+			ft_cir_dlstadd_back(&lis_lst, new);
+			cur_idx--;
+		}
+		cur_node = cur_node->prev;
+		idx_cur_node = idx_cur_node->prev;
+	}
+
+	ft_printf("RETURNED LIS: ");
+	size_t print_lis = 0;
+	t_dlist *print_lis_lst = lis_lst;
+	while (print_lis < max_idx)
+	{
+		ft_printf("%d ", print_lis_lst->value);
+		print_lis_lst = print_lis_lst->next;
+		print_lis++;
+	}
+	ft_printf("\n");
+	printf("LIS LIST SIZE: %zu\n", ft_cir_dlstsize(lis_lst));
+	
+	// 인덱스 리스트와 오리지널 리스트를 순회하며
+	// 인덱스 리스트의 값 비교에 따라 오리지널 리스트의 값을 가진
+	// 새 d_list 리스트를 만들기?
+
+	// 아니면 시작부터 오리지널 리스트의 값들을 가진 사본을 만들고
+	// 인덱스 리스트 마킹후 인덱스 리스트의 값 비교에 따라
+	// 특정 노드들 pop, free 하기?
 
 	// my_stack 을 전부 순회
 	// cur_node - my_stack 순회하는 노드
