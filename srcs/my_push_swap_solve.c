@@ -14,27 +14,30 @@
 
 int dlist_rotcmp2(t_dlist *src, t_dlist *a, t_dlist *b)
 {
-	if (my_abs(get_rotcnt_totop(src, a)) < my_abs(get_rotcnt_totop(src, b)))
+	if (my_abs(get_rotcnt_totop(src, a)) <= my_abs(get_rotcnt_totop(src, b)))
 		return (1);
-	if (my_abs(get_rotcnt_totop(src, a)) == my_abs(get_rotcnt_totop(src, b)))
-	{
-		if (a->value < b->value)
-			return (1);
-	}
+	// if (my_abs(get_rotcnt_totop(src, a)) == my_abs(get_rotcnt_totop(src, b)))
+	// {
+	// 	if (a->value < b->value)
+	// 		return (1);
+	// }
 	return (0);
 }
 
 int dlist_rotcmp(t_dlist *dest, t_dlist *src, t_dlist *a, t_dlist *b)
 {
-	if (get_total_rotcnt(dest, src, a) < get_total_rotcnt(dest, src, b))
+	if (get_total_rotcnt(dest, src, a) <= get_total_rotcnt(dest, src, b))
 		return (1);
-	if (get_total_rotcnt(dest, src, a) == get_total_rotcnt(dest, src, b))
-	{
-		if (a->value > b->value && get_double_rotcnt(dest, src, a))
-			return (1);
-		// 일단은 동시회전이 이득이 아닐까...
-		// 두 리스트 간의 value를 비교하여 더 큰것을 먼저 넣어주는게 이득인 경우도 많다
-	}
+	// if (get_total_rotcnt(dest, src, a) == get_total_rotcnt(dest, src, b))
+	// {
+	// 	if (a->value < b->value)
+	// 		return (1);
+	// 	// 일단은 동시회전이 이득이 아닐까...
+	// 	// 두 리스트 간의 value를 비교하여 더 큰것을 먼저 넣어주는게 이득인 경우도 많다
+	// }
+	//
+	// 조건을 간단하게 잡는게 가장 나았다...어째서...?
+	// 총 회전수가 같을때 두 노드간의 값이라던지 동시회전수 비교같은건 의미가 없었나...?
 	return (0);
 }
 // 비교함수 여러개를 준비하여 최소 최댓값 함수에 함수포인터 매개변수로 넘겨주려 했으나
@@ -187,30 +190,48 @@ long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 	
 	if ((dest_rotcnt > 0) != (src_rotcnt > 0))
 	{
-		if (ft_cir_dlstsize(dest) - dest_rotcnt <= my_abs(dest_rotcnt) + my_abs(src_rotcnt))
-			dest_rotcnt -= ft_cir_dlstsize(dest);
-		else if (ft_cir_dlstsize(src) - src_rotcnt <= my_abs(dest_rotcnt) + my_abs(src_rotcnt))
-			src_rotcnt -= ft_cir_dlstsize(src);
+		// if (ft_cir_dlstsize(dest) - dest_rotcnt <= my_abs(dest_rotcnt) + my_abs(src_rotcnt))
+		// 	dest_rotcnt -= ft_cir_dlstsize(dest);
+		// else if (ft_cir_dlstsize(src) - src_rotcnt <= my_abs(dest_rotcnt) + my_abs(src_rotcnt))
+		// 	src_rotcnt -= ft_cir_dlstsize(src);
 		// 반대 회전을 구해서 동시회전으로 돌리는 횟수가
 		// 최선의 회전수를 합친것보다 이득이면 반대 회전수를 취한다
 		return (0);
 	}
 
-	if (dest_rotcnt == src_rotcnt)
-		return (dest_rotcnt);
-		// 둘이 회전수가 같다면 둘중 하나로 반환한다
+	// if (dest_rotcnt == src_rotcnt)
+	// 	return (dest_rotcnt);
+	// 	// 둘이 회전수가 같다면 둘중 하나로 반환한다
 	
 	if ((dest_rotcnt > 0) == (src_rotcnt > 0))
 	{
-		if (my_abs(dest_rotcnt) < my_abs(src_rotcnt))
-			dest_rotcnt *= -1;
-		else
-			src_rotcnt *= -1;
-		return (dest_rotcnt + src_rotcnt);
+		// printf("dest rotcnt: %lld\n", dest_rotcnt);
+		// printf("src rotcnt: %lld\n", src_rotcnt);
+		// if (my_abs(dest_rotcnt) < my_abs(src_rotcnt))
+		// 	dest_rotcnt *= -1;
+		// else
+		// 	src_rotcnt *= -1;
+		// printf("double rotcnt: %lld\n\n", dest_rotcnt + src_rotcnt);
+		// return (dest_rotcnt + src_rotcnt);
+
 		// 더 작은쪽의 부호를 반전시키고
 		// 둘을 합하여 둘의 차이를 구한다
 		// 최대 이만큼 동시 회전가능하다
 		// 큰 쪽의 부호를 살리는 이유는 부호가 곧 방향이기 떄문
+		//
+		// 만약 ra 5 rb 1 이라면
+		// 동시회전수는 5 - 1 인 4가 되나?
+		// 땡 둘다 포함할수있는 1이 된다
+		// 즉 작은쪽의 값을 그대로 반환하면 된다
+		//
+		// ra 6 rb 4 일때 -> 왜인진 모르겠지만 동시회전수가 2라고 생각함
+		// 하지만 실제로 동시회전수는 4임, 그냥 산수 헛갈렷음 또...
+		// 다만 음수 양수일때 대소구분은 주의할것
+		// 아니지...여기서 부호는 방향일뿐 숫자만 놓고 비교해야한다
+
+		if (my_abs(dest_rotcnt) > my_abs(src_rotcnt))
+			return (src_rotcnt);
+		return (dest_rotcnt);
 	}
 	return (0);
 	// 불가한 경우에는 0을 반환
@@ -224,13 +245,34 @@ size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 {
 	long long dest_rotcnt;
 	long long src_rotcnt;
-	// long long double_rotcnt;
+	long long double_rotcnt;
 
 	dest_rotcnt = get_rotcnt_topos(dest, target_node);
 	src_rotcnt = get_rotcnt_totop(src, target_node);
-	// double_rotcnt = get_double_rotcnt(dest, src, target_node); << 이 놈이 범이이였음 ㅋㅋ;
+	double_rotcnt = get_double_rotcnt(dest, src, target_node); //<< 이 놈이 범이이였음 ㅋㅋ;
 
-	return (my_abs(dest_rotcnt) + my_abs(src_rotcnt)); //  - my_abs(double_rotcnt)
+	// printf("dest rotcnt: %lld\n", dest_rotcnt);
+	// printf("src rotcnt: %lld\n", src_rotcnt);
+	// printf("double rotcnt: %lld\n\n", double_rotcnt);
+
+	if (double_rotcnt)
+	{
+		if (my_abs(dest_rotcnt) > my_abs(src_rotcnt))
+		{
+			// printf("return: %zu\n\n", my_abs(dest_rotcnt));
+			return (my_abs(dest_rotcnt));
+		}
+		// printf("return: %zu\n\n", my_abs(src_rotcnt));
+		return (my_abs(src_rotcnt));
+	}
+	// 동시회전이 가능하다면
+	// 가장 큰 회전수를 그대로 반환해주면 된다
+	// 결과적으로 동시회전 후 남은회전과 더하면 가장 큰 회전수와 같아지므로...
+	//
+	// 왜 동시회전수를 사용하지 않아야 더 적게 나오는거지...?
+	// 같은 결과일텐데 이해가 안간다
+	// printf("return: %zu\n\n", my_abs(dest_rotcnt) + my_abs(src_rotcnt));
+	return (my_abs(dest_rotcnt) + my_abs(src_rotcnt));
 	// 부호가 다르면 둘의 절댓값을 합친 횟수를 반환한다
 }
 

@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
 	// ft_lstiter(ps_stat->inst_lst, print_inst_lst);
 
 	// ft_printf("\ninstruction optimizing...\n\n");
-	// inst_lst_optimizing(ps_stat->inst_lst);
+	// inst_lst_optimizing(ps_stat->inst_lst); // 뭔가 문제있음
 
 	ft_lstiter(ps_stat->inst_lst, print_inst_lst);
 

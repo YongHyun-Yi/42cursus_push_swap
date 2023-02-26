@@ -51,14 +51,16 @@ void	inst_lst_optimizing(t_list *inst_lst)
 	while (cur_node->next)
 	{
 		cmp_node = cur_node->next;
-		while(cmp_node->next != NULL)
+		while(cmp_node)
 		{
 			cmp_inst = (char *)(cmp_node->content);
-			if (cur_inst[0] != cmp_inst[0] || (cur_inst[0] == 'p' || cmp_inst[0] == 'p') || ft_strnstr(cur_inst, cmp_inst, 3))
+			if (cur_inst[0] != cmp_inst[0] || (cur_inst[0] == 'p' || cmp_inst[0] == 'p'))
 				break ;
-			// 전혀 다른종류의 명령어이거나 or push 명령어이거나 or 완전 같은 명령어이거나
+			// 전혀 다른종류의 명령어이거나 or push 명령어이거나
+			ft_printf("cur inst: %s", cur_inst);
+			ft_printf("cmp inst: %s\n", cmp_inst);
 
-			if (cur_inst[0] == 's' && (!ft_strnstr(cur_inst, "ss\n", 3) && !ft_strnstr(cmp_inst, "ss\n", 3)) && cur_inst[1] != cmp_inst[1]) // sa sb
+			if (cur_inst[0] == 's' && (!ft_strnstr(cur_inst, "ss", 3) && !ft_strnstr(cmp_inst, "ss", 3)) && cur_inst[1] != cmp_inst[1]) // sa sb
 			{
 				cur_node->content = "ss\n";
 				cmp_node->content = "";
@@ -72,31 +74,31 @@ void	inst_lst_optimizing(t_list *inst_lst)
 					cmp_node->content = "";
 					break ;
 				}
-				if ((ft_strnstr(cur_inst, "rra\n", 3) && ft_strnstr(cmp_inst, "rrb\n", 3)) || (ft_strnstr(cur_inst, "rrb\n", 3) && ft_strnstr(cmp_inst, "rra\n", 3)))
+				if ((ft_strnstr(cur_inst, "rra", 3) && ft_strnstr(cmp_inst, "rrb", 3)) || (ft_strnstr(cur_inst, "rrb", 3) && ft_strnstr(cmp_inst, "rra", 3)))
 				{
 					cur_node->content = "rrr\n";
 					cmp_node->content = "";
 					break ;
 				}
-				if ((ft_strnstr(cur_inst, "rr\n", 3) && ft_strnstr(cmp_inst, "rra\n", 3)) || (ft_strnstr(cur_inst, "rra\n", 3) && ft_strnstr(cmp_inst, "rr\n", 3)))
+				if ((ft_strnstr(cur_inst, "rr\n", 3) && ft_strnstr(cmp_inst, "rra", 3)) || (ft_strnstr(cur_inst, "rra", 3) && ft_strnstr(cmp_inst, "rr\n", 3)))
 				{
 					cur_node->content = "rb\n";
 					cmp_node->content = "";
 					break ;
 				}
-				if ((ft_strnstr(cur_inst, "rr\n", 3) && ft_strnstr(cmp_inst, "rrb\n", 3)) || (ft_strnstr(cur_inst, "rrb\n", 3) && ft_strnstr(cmp_inst, "rr\n", 3)))
+				if ((ft_strnstr(cur_inst, "rr\n", 3) && ft_strnstr(cmp_inst, "rrb", 3)) || (ft_strnstr(cur_inst, "rrb", 3) && ft_strnstr(cmp_inst, "rr\n", 3)))
 				{
 					cur_node->content = "ra\n";
 					cmp_node->content = "";
 					break ;
 				}
-				if ((ft_strnstr(cur_inst, "rrr\n", 3) && ft_strnstr(cmp_inst, "ra\n", 3)) || (ft_strnstr(cur_inst, "ra\n", 3) && ft_strnstr(cmp_inst, "rrr\n", 3)))
+				if ((ft_strnstr(cur_inst, "rrr", 3) && ft_strnstr(cmp_inst, "ra\n", 3)) || (ft_strnstr(cur_inst, "ra\n", 3) && ft_strnstr(cmp_inst, "rrr", 3)))
 				{
 					cur_node->content = "rrb\n";
 					cmp_node->content = "";
 					break ;
 				}
-				if ((ft_strnstr(cur_inst, "rrr\n", 3) && ft_strnstr(cmp_inst, "rb\n", 3)) || (ft_strnstr(cur_inst, "rb\n", 3) && ft_strnstr(cmp_inst, "rrr\n", 3)))
+				if ((ft_strnstr(cur_inst, "rrr", 3) && ft_strnstr(cmp_inst, "rb\n", 3)) || (ft_strnstr(cur_inst, "rb\n", 3) && ft_strnstr(cmp_inst, "rrr", 3)))
 				{
 					cur_node->content = "rra\n";
 					cmp_node->content = "";
@@ -106,7 +108,7 @@ void	inst_lst_optimizing(t_list *inst_lst)
 			cmp_node = cmp_node->next;
 		}
 		cur_node = cur_node->next;
-		cur_inst = (char *)(cmp_node->content);
+		cur_inst = (char *)(cur_node->content);
 	}
 	return ;
 }
@@ -236,12 +238,8 @@ void	b_to_a(t_ps_stat *ps_stat)
 		t_dlist *target_node;
 
 		target_node = get_leastrot_node(ps_stat->stack_a, ps_stat->stack_b);
-		// printf("stack_a size: %zu\n", ft_cir_dlstsize(ps_stat->stack_a));
-		// printf("stack_b size: %zu\n", ft_cir_dlstsize(ps_stat->stack_b));
-		// printf("double rotate: %lld\n\n", get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
-		// printf("ra: %lld\n", get_rotcnt_topos(ps_stat->stack_a, target_node));
-		// printf("rb: %lld\n\n", get_rotcnt_totop(ps_stat->stack_b, target_node));
-		// n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
+		// 동시회전수를 잘못게산해서 꽤나 골치아팠다...
+		n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
 		n_ra(ps_stat, get_rotcnt_topos(ps_stat->stack_a, target_node));
 		n_rb(ps_stat, get_rotcnt_totop(ps_stat->stack_b, target_node));
 		pa(ps_stat);
@@ -255,26 +253,27 @@ void	b_to_a(t_ps_stat *ps_stat)
 void	a_to_b(t_ps_stat *ps_stat, t_dlist *lis_list, int pivot)
 {
 	// t_dlist *target_node;
-	size_t i = 0;
-	size_t max_i = ft_cir_dlstsize(ps_stat->stack_a);
-
+	
 	// while (1)
 	// {
-		// target_node = get_leastrot_nonlis_node(ps_stat->stack_a, lis_list);
-		// if (!target_node)
-		// 	return ;
-		// n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, target_node));
+	// 	target_node = get_leastrot_nonlis_node(ps_stat->stack_a, lis_list);
+	// 	if (!target_node)
+	// 		return ;
+	// 	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, target_node));
 		
-		// pb(ps_stat);
+	// 	pb(ps_stat);
 
-		// // pivot에 따라 분기, 사이즈가 1이거나 같은 청크끼리 붙어잇으면 패스
-		// if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && target_node->value < pivot && (target_node->next)->value >= pivot)
-		// 	rb(ps_stat);
+	// 	// pivot에 따라 분기, 사이즈가 1이거나 같은 청크끼리 붙어잇으면 패스
+	// 	if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && target_node->value >= pivot && (target_node->next)->value < pivot)
+	// 		rb(ps_stat);
 
-		// ft_printf("\na to b...\n\n");
-		// print_all_my_stack(ps_stat);
-		// 그리디 없이 수행한다면...?
+	// 	// ft_printf("\na to b...\n\n");
+	// 	// print_all_my_stack(ps_stat);
+	// 	// 그리디 없이 수행한다면...?
 	// }
+
+	size_t i = 0;
+	size_t max_i = ft_cir_dlstsize(ps_stat->stack_a);
 
 	while(i < max_i)
 	{
@@ -289,6 +288,8 @@ void	a_to_b(t_ps_stat *ps_stat, t_dlist *lis_list, int pivot)
 		}
 		i++;
 	}
+	// 그리디가 항상 최선은 아니라는것을 생각해야한다
+	// 오히려 모두 순회하는편이 더 적게 먹힌다...
 }
 
 int	get_pivot(t_dlist *my_stack)
