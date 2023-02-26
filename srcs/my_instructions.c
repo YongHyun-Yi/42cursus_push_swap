@@ -75,18 +75,25 @@ void	my_reverse_rotate(t_dlist **my_stack)
 
 int	my_add_inst(t_list **inst_lst, char *str)
 {
-	char	*inst;
+	// char	*inst;
+	// t_list	*new_node;
+
+	// inst = ft_strdup(str);
+	// if (!inst)
+	// 	return (FAIL);
+	// new_node = ft_lstnew(inst);
+	// if (!new_node)
+	// {
+	// 	free(inst);
+	// 	return (FAIL);
+	// }
+	// ft_lstadd_back(inst_lst, new_node);
+
 	t_list	*new_node;
 
-	inst = ft_strdup(str);
-	if (!inst)
-		return (FAIL);
-	new_node = ft_lstnew(inst);
+	new_node = ft_lstnew(str);
 	if (!new_node)
-	{
-		free(inst);
 		return (FAIL);
-	}
-	ft_lstadd_back(inst_lst, new_node);
+	ft_lstadd_back(inst_lst, ft_lstnew(str));
 	return (SUCCESS);
 }

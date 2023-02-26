@@ -73,6 +73,7 @@ t_dlist	*get_largest_node(t_dlist *my_stack);
 t_dlist	*get_smallest_node(t_dlist *my_stack);
 
 int 	dlist_rotcmp(t_dlist *dest, t_dlist *src, t_dlist *a, t_dlist *b);
+int		dlist_rotcmp2(t_dlist *src, t_dlist *a, t_dlist *b);
 t_dlist	*get_leastrot_node(t_dlist *dest, t_dlist *src);
 
 long long	get_rotcnt_totop(t_dlist *my_stack, t_dlist *target_node);
@@ -82,6 +83,7 @@ size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node);
 
 void	print_my_stack(t_dlist *my_stack);
 void	print_all_my_stack(t_ps_stat *ps_stat); // 디버깅용
+void	inst_lst_optimizing(t_list *inst_lst);
 
 int 	ft_is_stack_sorted(t_dlist *my_stack);
 int		ft_is_allstack_sorted(t_ps_stat *ps_stat);

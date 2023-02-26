@@ -40,15 +40,144 @@ void	inst_lst_optimizing(t_list *inst_lst)
 	// rrr - ra(rrb), rb(rra)
 	// sa - sb(ss)
 	// sb - sa(ss)
-	printf("%s\n", (char *)(inst_lst->content));
+
+	t_list *cur_node;
+	t_list *cmp_node;
+	char *cur_inst;
+	char *cmp_inst;
+
+	cur_node = inst_lst;
+	cur_inst = (char *)(cur_node->content);
+	while (cur_node->next)
+	{
+		cmp_node = cur_node->next;
+		while(cmp_node->next != NULL)
+		{
+			cmp_inst = (char *)(cmp_node->content);
+			if (cur_inst[0] != cmp_inst[0] || (cur_inst[0] == 'p' || cmp_inst[0] == 'p') || ft_strnstr(cur_inst, cmp_inst, 3))
+				break ;
+			// 전혀 다른종류의 명령어이거나 or push 명령어이거나 or 완전 같은 명령어이거나
+
+			if (cur_inst[0] == 's' && (!ft_strnstr(cur_inst, "ss\n", 3) && !ft_strnstr(cmp_inst, "ss\n", 3)) && cur_inst[1] != cmp_inst[1]) // sa sb
+			{
+				cur_node->content = "ss\n";
+				cmp_node->content = "";
+				break ;
+			}
+			else // r? r?
+			{
+				if ((ft_strnstr(cur_inst, "ra\n", 3) && ft_strnstr(cmp_inst, "rb\n", 3)) || (ft_strnstr(cur_inst, "rb\n", 3) && ft_strnstr(cmp_inst, "ra\n", 3)))
+				{
+					cur_node->content = "rr\n";
+					cmp_node->content = "";
+					break ;
+				}
+				if ((ft_strnstr(cur_inst, "rra\n", 3) && ft_strnstr(cmp_inst, "rrb\n", 3)) || (ft_strnstr(cur_inst, "rrb\n", 3) && ft_strnstr(cmp_inst, "rra\n", 3)))
+				{
+					cur_node->content = "rrr\n";
+					cmp_node->content = "";
+					break ;
+				}
+				if ((ft_strnstr(cur_inst, "rr\n", 3) && ft_strnstr(cmp_inst, "rra\n", 3)) || (ft_strnstr(cur_inst, "rra\n", 3) && ft_strnstr(cmp_inst, "rr\n", 3)))
+				{
+					cur_node->content = "rb\n";
+					cmp_node->content = "";
+					break ;
+				}
+				if ((ft_strnstr(cur_inst, "rr\n", 3) && ft_strnstr(cmp_inst, "rrb\n", 3)) || (ft_strnstr(cur_inst, "rrb\n", 3) && ft_strnstr(cmp_inst, "rr\n", 3)))
+				{
+					cur_node->content = "ra\n";
+					cmp_node->content = "";
+					break ;
+				}
+				if ((ft_strnstr(cur_inst, "rrr\n", 3) && ft_strnstr(cmp_inst, "ra\n", 3)) || (ft_strnstr(cur_inst, "ra\n", 3) && ft_strnstr(cmp_inst, "rrr\n", 3)))
+				{
+					cur_node->content = "rrb\n";
+					cmp_node->content = "";
+					break ;
+				}
+				if ((ft_strnstr(cur_inst, "rrr\n", 3) && ft_strnstr(cmp_inst, "rb\n", 3)) || (ft_strnstr(cur_inst, "rb\n", 3) && ft_strnstr(cmp_inst, "rrr\n", 3)))
+				{
+					cur_node->content = "rra\n";
+					cmp_node->content = "";
+					break ;
+				}
+				// if (cur_inst[1] != cmp_inst[1])  // r! r!
+				// {
+				// 	if (cur_inst[2] == cmp_inst[2]) // ra\n rb\n || rb\n ra\n
+				// 	{
+				// 		cur_node->content = "rr\n";
+				// 		cmp_node->content = "";
+				// 		break ;
+				// 	}
+				// 	else if (cur_inst[1] == cmp_inst[2] || cur_inst[2] == cmp_inst[1]) // ra rra, rra ra || rb rrb, rrb rb
+				// 	{
+				// 		cur_node->content = "";
+				// 		cmp_node->content = "";
+				// 		break ;
+				// 	}
+				// }
+				// else if (cur_inst[2] != cmp_inst[2]) // rr! rr!
+				// {
+				// 	if (cur_inst[2] != '\n' && cmp_inst[2] != '\n') // rra rrb
+				// 	{
+				// 		cur_node->content = "rrr\n";
+				// 		cmp_node->content = "";
+				// 		break ;
+				// 	}
+				// 	else if (cur_inst[2] == 'a' || cmp_inst[2] == 'a') // rr rra
+				// 	{
+				// 		cur_node->content = "rrb\n";
+				// 		cmp_node->content = "";
+				// 		break ;
+				// 	}
+				// 	else // rr rrb || rrb rr
+				// 	{
+				// 		cur_node->content = "rra\n";
+				// 		cmp_node->content = "";
+				// 		break ;
+				// 	}
+				// }
+				// else // rrr
+				// {
+				// 	if (cur_inst[1] == 'a' || cmp_inst[1] == 'a') // rrr ra || ra rrr
+				// 	{
+				// 		cur_node->content = "rrb\n";
+				// 		cmp_node->content = "";
+				// 		break ;
+				// 	}
+				// 	else // rrr rb || rb rrr
+				// 	{
+				// 		cur_node->content = "rra\n";
+				// 		cmp_node->content = "";
+				// 		break ;
+				// 	}
+				// }
+			}
+			cmp_node = cmp_node->next;
+		}
+		cur_node = cur_node->next;
+		cur_inst = (char *)(cmp_node->content);
+	}
+	return ;
 }
 
-// t_dlist *get_lis_node(t_dlist *target_node, t_dlist *idx_lst)
-// {
-// 	// 이 함수는 my_stack과 idx_lst를 역으로 순회하며 검사하는 함수
-// 	if ((idx_lst->prev)->value == get_largest_node(idx_lst)->value)
-// 	return (0);
-// }
+int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val)
+{
+	t_dlist	*cur_node;
+
+	if (!my_dlst)
+		return (0);
+	cur_node = my_dlst;
+	while (1)
+	{
+		if (cur_node->value == val)
+			return (1);
+		if (cur_node->next == my_dlst)
+			return (0);
+		cur_node = cur_node->next;
+	}
+}
 
 size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
 {
@@ -63,7 +192,7 @@ size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
 	idx_cmp_node = idx_lst->prev;
 	while (1)
 	{
-		if ((int)cur_idx == idx_cmp_node->value)
+		if (cur_idx == (size_t)idx_cmp_node->value)
 		{
 			if (target_node->value > val_cmp_node->value)
 				return (cur_idx + 1);
@@ -78,77 +207,41 @@ size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
 
 t_dlist *get_lis_idx_list(t_dlist *my_stack)
 {
-	t_dlist *idx_lst;
+	t_dlist *idx_list;
 	t_dlist *cur_node;
 	t_dlist *new;
 
-	idx_lst = NULL;
+	idx_list = NULL;
 	cur_node = my_stack;
 	while (1)
 	{
-		new = ft_dlstnew(get_lis_idx(cur_node, idx_lst));
+		new = ft_dlstnew(get_lis_idx(cur_node, idx_list));
 		if (!new)
 			return (FAIL);
-		ft_cir_dlstadd_back(&idx_lst, new);
+		ft_cir_dlstadd_back(&idx_list, new);
 		if (cur_node->next == my_stack)
 			break ;
 		cur_node = cur_node->next;
 	}
-	return (idx_lst);
+	return (idx_list);
 }
 
 t_dlist *get_lis_list(t_dlist *my_stack)
 {
 	t_dlist *idx_list;
 	t_dlist *lis_list;
-
-	idx_list = get_lis_idx_list(my_stack);
-	lis_list = NULL;
-
-	// t_dlist *cur_node;
-	// t_dlist *cur_idx_node;
-	// t_dlist *new;
-	// size_t	cur_idx = get_largest_node(idx_list)->value;
-	// cur_node = my_stack->prev;
-	// cur_idx_node = idx_list->prev;
-	// while (1)
-	// {
-		// if (cur_idx_node->value == (int)cur_idx) // 항상 idx_list의 마지막 노드와 비교한다
-		// {
-		// 	new = ft_dlstnew(cur_node->value);
-		// 	if (!new)
-		// 		return (FAIL);
-		// 	ft_cir_dlstadd_back(&lis_list, new);
-		// 	cur_idx--;
-		// }
-		// if (cur_node->prev == my_stack->prev)
-		// 	break ;
-		// cur_node = cur_node->prev;
-		// cur_idx_node = cur_idx_node->prev;
-
-		// free(my_pop(&(idx_list->prev))); // 비교한 idx 노드는 삭제한다, cur node와 같은 위치를 가리키게 하도록 && 최댓값을 갱신하기 위해
-		// if (cur_idx_node != idx_list)
-		// {
-		// 	(cur_idx_node->prev)->next = idx_list;
-		// 	idx_list->prev = cur_idx_node->prev;
-		// }
-		// free(cur_idx_node);
-	// }
-
-	// my_stack, idx_list 를 인자로 받는 함수 작성
-	// 얘네들의 주소값을 넘겨줘서 포인터 연산을 해서 작업을 수행
-	// 한바퀴 다 돌았다는것을 어떻게 확인할것인지...?
-	// 여태까지는 my_stack은 그대로 두고 값을 복사한 cur_node와 비교하여 확인하였음
-
 	size_t	cur_idx;
 	t_dlist *cur_node;
 	t_dlist *new;
+
+	idx_list = get_lis_idx_list(my_stack);
+	lis_list = NULL;
 	cur_idx = get_largest_node(idx_list)->value;
 	cur_node = my_stack->prev;
 	idx_list = idx_list->prev;
 	while (1)
 	{
-		if (idx_list->value == (int)cur_idx)
+		if ((size_t)idx_list->value == cur_idx)
 		{
 			new = ft_dlstnew(cur_node->value);
 			if (!new)
@@ -161,51 +254,111 @@ t_dlist *get_lis_list(t_dlist *my_stack)
 		cur_node = cur_node->prev;
 		idx_list = idx_list->prev;
 	}
+	return (lis_list);
+}
+// instructions optimizing
 
-	ft_printf("RETURNED LIS: ");
-	size_t print_lis = 0;
-	t_dlist *print_lis_lst = lis_list;
-	while (print_lis < ft_cir_dlstsize(lis_list))
+// b_to_a
+// get leastrot node -> pa
+
+// a_to_b
+// if in LIS -> ra
+// else -> pb
+// if less than pivot -> rb
+
+t_dlist *get_leastrot_nonlis_node(t_dlist *src, t_dlist *lis_list)
+{
+	t_dlist *cur_node;
+	t_dlist *least_node;
+	
+	cur_node = src;
+	least_node = NULL;
+	while (cur_node->next != src)
 	{
-		ft_printf("%d ", print_lis_lst->value);
-		print_lis_lst = print_lis_lst->next;
-		print_lis++;
+		cur_node = cur_node->next;
+		if (!ft_cir_dlst_hasval(lis_list, cur_node->value))
+		{
+			if (least_node == NULL)
+				least_node = cur_node;
+			else if (dlist_rotcmp2(src, cur_node, least_node)) // 오직 totop이 가장작은애만
+				least_node = cur_node;
+		}
 	}
-	ft_printf("\n");
-	printf("LIS SIZE: %zu\n", ft_cir_dlstsize(lis_list));
+	return (least_node);
+}
 
-	// t_dlist *temp = lis_list->prev;
-	// free(my_pop(&(lis_list->prev)));
+void	b_to_a(t_ps_stat *ps_stat)
+{
+	while (ps_stat->stack_b) // stack_b의 헤더가 null 이 될때까지
+	{
+		t_dlist *target_node;
 
-	// ft_printf("RETURNED LIS: ");
-	// print_lis = 0;
-	// print_lis_lst = lis_list;
-	// while (print_lis < ft_cir_dlstsize(lis_list))
-	// {
-	// 	ft_printf("%d ", print_lis_lst->value);
-	// 	print_lis_lst = print_lis_lst->next;
-	// 	print_lis++;
-	// }
-	// ft_printf("\n");
-	// printf("LIS SIZE: %zu\n", ft_cir_dlstsize(lis_list));
+		target_node = get_leastrot_node(ps_stat->stack_a, ps_stat->stack_b);
+		n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
+		n_ra(ps_stat, get_rotcnt_topos(ps_stat->stack_a, target_node));
+		n_rb(ps_stat, get_rotcnt_totop(ps_stat->stack_b, target_node));
+		pa(ps_stat);
+		
+		ft_printf("\nb to a...\n\n");
+		print_all_my_stack(ps_stat);
+	}
+	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a)));
+}
 
-	// ft_printf("RETURNED LIS: ");
-	// print_lis = 0;
-	// print_lis_lst = lis_list->prev;
-	// while (print_lis < ft_cir_dlstsize(lis_list))
-	// {
-	// 	ft_printf("%d ", print_lis_lst->value);
-	// 	print_lis_lst = print_lis_lst->prev;
-	// 	print_lis++;
-	// }
-	// ft_printf("\n");
-	// printf("LIS SIZE: %zu\n", ft_cir_dlstsize(lis_list));
+void	a_to_b(t_ps_stat *ps_stat, t_dlist *lis_list, int pivot)
+{
+	t_dlist *target_node;
 
-	return (0);
+	while (1)
+	{
+		target_node = get_leastrot_nonlis_node(ps_stat->stack_a, lis_list);
+		if (!target_node)
+			return ;
+		// n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_b, ps_stat->stack_a, target_node));
+		// n_rb(ps_stat, get_rotcnt_topos(ps_stat->stack_b, target_node));
+		n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, target_node));
+		
+		pb(ps_stat);
+
+		// pivot에 따라 분기, 사이즈가 1이거나 같은 청크끼리 붙어잇으면 패스
+		if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && target_node->value < pivot && (target_node->next)->value >= pivot)
+			rb(ps_stat);
+
+		ft_printf("\na to b...\n\n");
+		print_all_my_stack(ps_stat);
+	}
+}
+
+int	get_pivot(t_dlist *my_stack)
+{
+	int min_val;
+	int max_val;
+
+	min_val = get_smallest_node(my_stack)->value;
+	max_val = get_largest_node(my_stack)->value;
+	return ((min_val + max_val) / 2);
 }
 
 void	sort_under100_elements(t_ps_stat *ps_stat)
 {
-	get_lis_list(ps_stat->stack_a);
-	// ft_is_stack_sorted(ps_stat->stack_a);
+	t_dlist *lis_list;
+	lis_list = get_lis_list(ps_stat->stack_a);
+	ft_printf("lis ptr: %p\n", lis_list);
+	int	pivot;
+	pivot = get_pivot(ps_stat->stack_a);
+	ft_printf("pivot: %d\n", pivot);
+	a_to_b(ps_stat, lis_list, pivot);
+	b_to_a(ps_stat);
+	return ;
+
+	// LIS를 구하는 함수
+	// pivot을 구하는 함수 구현
+	
+	// get_leastrot_node를 수정해서 조건에 LIS가 아닌 노드만 그리디로 a에서 b로 보냄
+	// pivot에 따라 chunk를 나눔 pa후 rb할지 결정
+
+	// get_leastrot_node로 그리디로 b에서 a로 보냄
+
+	// 명령어 최적화
 }
+//

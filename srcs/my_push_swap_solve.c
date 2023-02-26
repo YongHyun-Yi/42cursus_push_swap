@@ -12,13 +12,25 @@
 
 #include "push_swap.h"
 
+int dlist_rotcmp2(t_dlist *src, t_dlist *a, t_dlist *b)
+{
+	if (my_abs(get_rotcnt_totop(src, a)) < my_abs(get_rotcnt_totop(src, b)))
+		return (1);
+	if (my_abs(get_rotcnt_totop(src, a)) == my_abs(get_rotcnt_totop(src, b)))
+	{
+		if (a->value < b->value)
+			return (1);
+	}
+	return (0);
+}
+
 int dlist_rotcmp(t_dlist *dest, t_dlist *src, t_dlist *a, t_dlist *b)
 {
 	if (get_total_rotcnt(dest, src, a) < get_total_rotcnt(dest, src, b))
 		return (1);
 	if (get_total_rotcnt(dest, src, a) == get_total_rotcnt(dest, src, b))
 	{
-		if (get_double_rotcnt(dest, src, a) > get_double_rotcnt(dest, src, b))
+		if (a->value > b->value && get_double_rotcnt(dest, src, a))
 			return (1);
 		// 일단은 동시회전이 이득이 아닐까...
 		// 두 리스트 간의 value를 비교하여 더 큰것을 먼저 넣어주는게 이득인 경우도 많다
@@ -339,7 +351,7 @@ int	my_push_swap_solve(t_ps_stat *ps_stat)
 		sort_under5_elements(ps_stat);
 		return (SUCCESS);
 	}
-	else if (lst_size <= 100)
+	else// if (lst_size <= 100)
 	{
 		// sort_under5_elements(ps_stat);
 		sort_under100_elements(ps_stat);
