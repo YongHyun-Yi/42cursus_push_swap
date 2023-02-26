@@ -48,12 +48,16 @@ t_dlist *get_leastrot_node(t_dlist *dest, t_dlist *src)
 	t_dlist *least_node;
 
 	cur_node = src;
-	least_node = cur_node;
-	while (cur_node->next != src)
+	least_node = NULL;
+	while (1)
 	{
-		cur_node = cur_node->next;
-		if (dlist_rotcmp(dest, src, cur_node, least_node))
+		if (least_node == NULL)
 			least_node = cur_node;
+		else if (dlist_rotcmp(dest, src, cur_node, least_node))
+			least_node = cur_node;
+		if (cur_node->next == src)
+			break ;
+		cur_node = cur_node->next;
 	}
 	return (least_node);
 }
@@ -230,31 +234,16 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 	while (ft_cir_dlstsize(ps_stat->stack_a) > 3)
 	{
 		pb(ps_stat);
-		ft_printf("\ninitial push\n\n");
-		print_all_my_stack(ps_stat);
+		// ft_printf("\ninitial push\n\n");
+		// print_all_my_stack(ps_stat);
 	} // biggest sort 로 대체 가능성 있음
 	
 	if (!ft_is_stack_sorted(ps_stat->stack_a))
 	{
 		sort_3_elements(ps_stat);
-		ft_printf("\n3 sort\n\n");
-		print_all_my_stack(ps_stat);
+		// ft_printf("\n3 sort\n\n");
+		// print_all_my_stack(ps_stat);
 	}
-
-	// if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, ps_stat->stack_b) >= get_total_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
-	// {
-	// 	if (get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next))
-	// 	{
-	// 		n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, (ps_stat->stack_b)->next));
-	// 		ft_printf("double rotate\n\n");
-	// 		print_all_my_stack(ps_stat);
-	// 	}
-	// }
-	// 이 부분을 아래의 while문에 넣어버리거나 함수화 한다
-	// 여기서는 stack_b에 단지 두개의 노드가 있을때를 가정해서 만들어졌지만
-	// 이후의 많은 노드를 정렬할때도 비슷하게 stack_b에 있는 노드를 순회하며
-	// smallest node 함수와 get_total_rotcnt 를 비교함수로 사용하여
-	// 그 순간에 가장 회전수가 작은 노드를 삽입하는식으로 진행하는것으로...
 
 	while (ps_stat->stack_b) // stack_b의 헤더가 null 이 될때까지
 	{
@@ -266,12 +255,9 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 		n_rb(ps_stat, get_rotcnt_totop(ps_stat->stack_b, cur_node));
 		pa(ps_stat);
 		
-		ft_printf("\nsorting...\n\n");
-		print_all_my_stack(ps_stat);
+		// ft_printf("\nsorting...\n\n");
+		// print_all_my_stack(ps_stat);
 	}
-	// stack_b에 원소가 있는건 전체 원소수와 상관없나...?
-	// stack_a에서의 적절한 위치찾아 넣는건 수가 많을때도 똑같지 않을까...?
-	//
 	// chunk만 나눠주면 완성될듯하다
 
 	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a)));

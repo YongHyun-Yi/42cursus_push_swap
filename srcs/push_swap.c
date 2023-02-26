@@ -189,14 +189,14 @@ int main(int argc, char *argv[])
 	
 	my_push_swap_solve(ps_stat);
 
-	ft_printf("\n - finish! - \n\n");
+	// ft_printf("\n - finish! - \n\n");
 
-	print_all_my_stack(ps_stat);
+	// print_all_my_stack(ps_stat);
 
-	ft_lstiter(ps_stat->inst_lst, print_inst_lst);
+	// ft_lstiter(ps_stat->inst_lst, print_inst_lst);
 
-	ft_printf("\ninstruction optimizing...\n\n");
-	inst_lst_optimizing(ps_stat->inst_lst);
+	// ft_printf("\ninstruction optimizing...\n\n");
+	// inst_lst_optimizing(ps_stat->inst_lst);
 
 	ft_lstiter(ps_stat->inst_lst, print_inst_lst);
 

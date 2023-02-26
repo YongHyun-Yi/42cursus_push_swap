@@ -102,57 +102,6 @@ void	inst_lst_optimizing(t_list *inst_lst)
 					cmp_node->content = "";
 					break ;
 				}
-				// if (cur_inst[1] != cmp_inst[1])  // r! r!
-				// {
-				// 	if (cur_inst[2] == cmp_inst[2]) // ra\n rb\n || rb\n ra\n
-				// 	{
-				// 		cur_node->content = "rr\n";
-				// 		cmp_node->content = "";
-				// 		break ;
-				// 	}
-				// 	else if (cur_inst[1] == cmp_inst[2] || cur_inst[2] == cmp_inst[1]) // ra rra, rra ra || rb rrb, rrb rb
-				// 	{
-				// 		cur_node->content = "";
-				// 		cmp_node->content = "";
-				// 		break ;
-				// 	}
-				// }
-				// else if (cur_inst[2] != cmp_inst[2]) // rr! rr!
-				// {
-				// 	if (cur_inst[2] != '\n' && cmp_inst[2] != '\n') // rra rrb
-				// 	{
-				// 		cur_node->content = "rrr\n";
-				// 		cmp_node->content = "";
-				// 		break ;
-				// 	}
-				// 	else if (cur_inst[2] == 'a' || cmp_inst[2] == 'a') // rr rra
-				// 	{
-				// 		cur_node->content = "rrb\n";
-				// 		cmp_node->content = "";
-				// 		break ;
-				// 	}
-				// 	else // rr rrb || rrb rr
-				// 	{
-				// 		cur_node->content = "rra\n";
-				// 		cmp_node->content = "";
-				// 		break ;
-				// 	}
-				// }
-				// else // rrr
-				// {
-				// 	if (cur_inst[1] == 'a' || cmp_inst[1] == 'a') // rrr ra || ra rrr
-				// 	{
-				// 		cur_node->content = "rrb\n";
-				// 		cmp_node->content = "";
-				// 		break ;
-				// 	}
-				// 	else // rrr rb || rb rrr
-				// 	{
-				// 		cur_node->content = "rra\n";
-				// 		cmp_node->content = "";
-				// 		break ;
-				// 	}
-				// }
 			}
 			cmp_node = cmp_node->next;
 		}
@@ -256,15 +205,6 @@ t_dlist *get_lis_list(t_dlist *my_stack)
 	}
 	return (lis_list);
 }
-// instructions optimizing
-
-// b_to_a
-// get leastrot node -> pa
-
-// a_to_b
-// if in LIS -> ra
-// else -> pb
-// if less than pivot -> rb
 
 t_dlist *get_leastrot_nonlis_node(t_dlist *src, t_dlist *lis_list)
 {
@@ -273,9 +213,8 @@ t_dlist *get_leastrot_nonlis_node(t_dlist *src, t_dlist *lis_list)
 	
 	cur_node = src;
 	least_node = NULL;
-	while (cur_node->next != src)
+	while (1)
 	{
-		cur_node = cur_node->next;
 		if (!ft_cir_dlst_hasval(lis_list, cur_node->value))
 		{
 			if (least_node == NULL)
@@ -283,6 +222,9 @@ t_dlist *get_leastrot_nonlis_node(t_dlist *src, t_dlist *lis_list)
 			else if (dlist_rotcmp2(src, cur_node, least_node)) // 오직 totop이 가장작은애만
 				least_node = cur_node;
 		}
+		if (cur_node->next == src)
+			break ;
+		cur_node = cur_node->next;
 	}
 	return (least_node);
 }
@@ -294,38 +236,52 @@ void	b_to_a(t_ps_stat *ps_stat)
 		t_dlist *target_node;
 
 		target_node = get_leastrot_node(ps_stat->stack_a, ps_stat->stack_b);
-		n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
+		// n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
 		n_ra(ps_stat, get_rotcnt_topos(ps_stat->stack_a, target_node));
 		n_rb(ps_stat, get_rotcnt_totop(ps_stat->stack_b, target_node));
 		pa(ps_stat);
 		
-		ft_printf("\nb to a...\n\n");
-		print_all_my_stack(ps_stat);
+		// ft_printf("\nb to a...\n\n");
+		// print_all_my_stack(ps_stat);
 	}
 	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a)));
 }
 
 void	a_to_b(t_ps_stat *ps_stat, t_dlist *lis_list, int pivot)
 {
-	t_dlist *target_node;
+	// t_dlist *target_node;
+	size_t i = 0;
+	size_t max_i = ft_cir_dlstsize(ps_stat->stack_a);
 
-	while (1)
-	{
-		target_node = get_leastrot_nonlis_node(ps_stat->stack_a, lis_list);
-		if (!target_node)
-			return ;
-		// n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_b, ps_stat->stack_a, target_node));
-		// n_rb(ps_stat, get_rotcnt_topos(ps_stat->stack_b, target_node));
-		n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, target_node));
+	// while (1)
+	// {
+		// target_node = get_leastrot_nonlis_node(ps_stat->stack_a, lis_list);
+		// if (!target_node)
+		// 	return ;
+		// n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, target_node));
 		
-		pb(ps_stat);
+		// pb(ps_stat);
 
-		// pivot에 따라 분기, 사이즈가 1이거나 같은 청크끼리 붙어잇으면 패스
-		if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && target_node->value < pivot && (target_node->next)->value >= pivot)
-			rb(ps_stat);
+		// // pivot에 따라 분기, 사이즈가 1이거나 같은 청크끼리 붙어잇으면 패스
+		// if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && target_node->value < pivot && (target_node->next)->value >= pivot)
+		// 	rb(ps_stat);
 
-		ft_printf("\na to b...\n\n");
-		print_all_my_stack(ps_stat);
+		// ft_printf("\na to b...\n\n");
+		// print_all_my_stack(ps_stat);
+		// 그리디 없이 수행한다면...?
+	// }
+
+	while(i < max_i)
+	{
+		if (ft_cir_dlst_hasval(lis_list, (ps_stat->stack_a)->value))
+			ra(ps_stat);
+		else
+		{
+			pb(ps_stat);
+			if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && (ps_stat->stack_b)->value >= pivot && ((ps_stat->stack_b)->next)->value < pivot)
+				rb(ps_stat);
+		}
+		i++;
 	}
 }
 
@@ -343,10 +299,10 @@ void	sort_under100_elements(t_ps_stat *ps_stat)
 {
 	t_dlist *lis_list;
 	lis_list = get_lis_list(ps_stat->stack_a);
-	ft_printf("lis ptr: %p\n", lis_list);
+	// ft_printf("lis ptr: %p\n", lis_list);
 	int	pivot;
 	pivot = get_pivot(ps_stat->stack_a);
-	ft_printf("pivot: %d\n", pivot);
+	// ft_printf("pivot: %d\n", pivot);
 	a_to_b(ps_stat, lis_list, pivot);
 	b_to_a(ps_stat);
 	return ;
