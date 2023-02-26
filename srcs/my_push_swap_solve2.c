@@ -236,6 +236,11 @@ void	b_to_a(t_ps_stat *ps_stat)
 		t_dlist *target_node;
 
 		target_node = get_leastrot_node(ps_stat->stack_a, ps_stat->stack_b);
+		// printf("stack_a size: %zu\n", ft_cir_dlstsize(ps_stat->stack_a));
+		// printf("stack_b size: %zu\n", ft_cir_dlstsize(ps_stat->stack_b));
+		// printf("double rotate: %lld\n\n", get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
+		// printf("ra: %lld\n", get_rotcnt_topos(ps_stat->stack_a, target_node));
+		// printf("rb: %lld\n\n", get_rotcnt_totop(ps_stat->stack_b, target_node));
 		// n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
 		n_ra(ps_stat, get_rotcnt_topos(ps_stat->stack_a, target_node));
 		n_rb(ps_stat, get_rotcnt_totop(ps_stat->stack_b, target_node));
@@ -280,6 +285,7 @@ void	a_to_b(t_ps_stat *ps_stat, t_dlist *lis_list, int pivot)
 			pb(ps_stat);
 			if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && (ps_stat->stack_b)->value >= pivot && ((ps_stat->stack_b)->next)->value < pivot)
 				rb(ps_stat);
+			// a에 오름차순으로 남아있으니 b에서 a로 보내줄때도 작은게 위에잇는게 더 빠르다
 		}
 		i++;
 	}

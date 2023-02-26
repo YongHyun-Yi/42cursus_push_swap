@@ -134,9 +134,11 @@ long long	get_rotcnt_totop(t_dlist *my_stack, t_dlist *target_node)
 		rot_cnt++;
 		cur_node = cur_node->next;
 	}
-	if ((unsigned long long)rot_cnt > ft_cir_dlstsize(my_stack))
-		rot_cnt = -1;
-	else if ((unsigned long long)rot_cnt > ft_cir_dlstsize(my_stack) / 2)
+	// if ((unsigned long long)rot_cnt > ft_cir_dlstsize(my_stack))
+	// 	rot_cnt = -1;
+	// else if ((unsigned long long)rot_cnt > ft_cir_dlstsize(my_stack) / 2)
+	// 	rot_cnt -= ft_cir_dlstsize(my_stack);
+	if ((unsigned long long)rot_cnt > ft_cir_dlstsize(my_stack) - rot_cnt)
 		rot_cnt -= ft_cir_dlstsize(my_stack);
 	// 정방향 회전과 역방향 회전 중 어느게 더 빠른지 계산한다
 	return (rot_cnt);
@@ -157,14 +159,16 @@ long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node)
 	cur_node = my_stack;
 	while (!(target_node->value < cur_node->value && target_node->value > (cur_node->prev)->value)) // 사잇값
 	{
-		rot_cnt++;
 		if (cur_node->next == my_stack)
 			break ;
+		rot_cnt++;
 		cur_node = cur_node->next;
 	}
-	if ((unsigned long)rot_cnt > ft_cir_dlstsize(my_stack))
-		rot_cnt = -1;
-	else if ((unsigned long)rot_cnt > ft_cir_dlstsize(my_stack) / 2)
+	// if ((unsigned long)rot_cnt > ft_cir_dlstsize(my_stack))
+	// 	rot_cnt = -1;
+	// else if ((unsigned long)rot_cnt > ft_cir_dlstsize(my_stack) / 2)
+	// 	rot_cnt -= ft_cir_dlstsize(my_stack);
+	if ((unsigned long long)rot_cnt > ft_cir_dlstsize(my_stack) - rot_cnt)
 		rot_cnt -= ft_cir_dlstsize(my_stack);
 	// 정방향 회전과 역방향 회전 중 어느게 더 빠른지 계산한다
 	return (rot_cnt);
@@ -189,6 +193,7 @@ long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 			src_rotcnt -= ft_cir_dlstsize(src);
 		// 반대 회전을 구해서 동시회전으로 돌리는 횟수가
 		// 최선의 회전수를 합친것보다 이득이면 반대 회전수를 취한다
+		return (0);
 	}
 
 	if (dest_rotcnt == src_rotcnt)
@@ -197,7 +202,7 @@ long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 	
 	if ((dest_rotcnt > 0) == (src_rotcnt > 0))
 	{
-		if (dest_rotcnt < src_rotcnt)
+		if (my_abs(dest_rotcnt) < my_abs(src_rotcnt))
 			dest_rotcnt *= -1;
 		else
 			src_rotcnt *= -1;
@@ -219,13 +224,13 @@ size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node)
 {
 	long long dest_rotcnt;
 	long long src_rotcnt;
-	long long double_rotcnt;
+	// long long double_rotcnt;
 
 	dest_rotcnt = get_rotcnt_topos(dest, target_node);
 	src_rotcnt = get_rotcnt_totop(src, target_node);
-	double_rotcnt = get_double_rotcnt(dest, src, target_node);
+	// double_rotcnt = get_double_rotcnt(dest, src, target_node); << 이 놈이 범이이였음 ㅋㅋ;
 
-	return (my_abs(dest_rotcnt) + my_abs(src_rotcnt) - my_abs(double_rotcnt));
+	return (my_abs(dest_rotcnt) + my_abs(src_rotcnt)); //  - my_abs(double_rotcnt)
 	// 부호가 다르면 둘의 절댓값을 합친 횟수를 반환한다
 }
 
