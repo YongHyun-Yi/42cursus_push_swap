@@ -6,15 +6,27 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:19:19 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/01/26 13:20:28 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 17:00:28 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// void	ra(void);
-// void	rb(void);
-// void	rr(void);
-// void	rra(void);
-// void	rrb(void);
-// void	rrr(void);
+void	ra(t_ps_stat *ps_stat)
+{
+	my_rotate(&ps_stat->stack_a);
+	my_add_inst(&ps_stat->inst_lst, "ra");
+}
+
+void	rb(t_ps_stat *ps_stat)
+{
+	my_rotate(&ps_stat->stack_b);
+	my_add_inst(&ps_stat->inst_lst, "rb");
+}
+
+void	rr(t_ps_stat *ps_stat)
+{
+	my_rotate(&ps_stat->stack_a);
+	my_rotate(&ps_stat->stack_b);
+	my_add_inst(&ps_stat->inst_lst, "rr");
+}

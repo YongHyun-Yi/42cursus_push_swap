@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:53:59 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/23 08:47:45 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 17:00:57 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,4 @@ void	my_reverse_rotate(t_dlist **my_stack)
 		return ;
 	(*my_stack) = (*my_stack)->prev;
 	// 맨 아래의 요소가 위로 넘어간다
-}
-
-int	my_add_inst(t_list **inst_lst, char *str)
-{
-	// char	*inst;
-	// t_list	*new_node;
-
-	// inst = ft_strdup(str);
-	// if (!inst)
-	// 	return (FAIL);
-	// new_node = ft_lstnew(inst);
-	// if (!new_node)
-	// {
-	// 	free(inst);
-	// 	return (FAIL);
-	// }
-	// ft_lstadd_back(inst_lst, new_node);
-
-	t_list	*new_node;
-
-	new_node = ft_lstnew(str);
-	if (!new_node)
-		return (FAIL);
-	ft_lstadd_back(inst_lst, ft_lstnew(str));
-	return (SUCCESS);
 }

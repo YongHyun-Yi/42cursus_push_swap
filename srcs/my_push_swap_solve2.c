@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 09:46:54 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/24 18:25:37 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 16:49:48 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,6 @@
 
 void	inst_lst_optimizing(t_list *inst_lst)
 {
-	// 명령어가 담긴 리스트를 순회하며 합칠수있거나 지울수있는거 처리하기
-	// 대신 push를 만나면 그 다음 push가 아닌 명령어 찾아서 기준점(?) 삼기
-	// -> push는 두 리스트 모두에게 영향을 주니까 최적화를 할수없다 by. jmaing
-	//
-	// 단일 연결리스트이므로 libft 함수를 사용가능하다
-	// lstiter를 사용해도 될듯...? 현재 노드부터 시작해서 자신 뒤에 있는 노드들만 보면됨
-	// pa pb 나오는순간 return ; 으로 종료
-	// 나머지는 현재 선택한 명령어의 종류에 따라 줄일수 있는 케이스에 한해서만 줄이기
-	// list도 dlist처럼 pop을 따로 만들껄 그랬나, delnode에서 연결은 해주지만
-	// list에서 노드를 뽑아내면서 연결하는것 따로, free하는거 따로 조합하는식으로 구현하는게
-	// 좀 더 모듈화에 좋지 않았을까...
-	// 현재 선택한 노드도 pa pb라면 바로 return ; 으로 종료하고 다음 iter로 넘어간다
-	//
 	// ra - rra(둘 다 삭제), rb(rr), rrr(rrb)
 	// rra - ra(둘 다 삭제), rrb(rrr), rr(rb)
 	// rb - rrb(둘 다 삭제), ra(rr), rrr(rra)
@@ -57,8 +44,6 @@ void	inst_lst_optimizing(t_list *inst_lst)
 			if (cur_inst[0] != cmp_inst[0] || (cur_inst[0] == 'p' || cmp_inst[0] == 'p'))
 				break ;
 			// 전혀 다른종류의 명령어이거나 or push 명령어이거나
-			ft_printf("cur inst: %s", cur_inst);
-			ft_printf("cmp inst: %s\n", cmp_inst);
 
 			if (cur_inst[0] == 's' && (!ft_strnstr(cur_inst, "ss", 3) && !ft_strnstr(cmp_inst, "ss", 3)) && cur_inst[1] != cmp_inst[1]) // sa sb
 			{
@@ -113,6 +98,8 @@ void	inst_lst_optimizing(t_list *inst_lst)
 	return ;
 }
 
+// --------------------------------------------------------------------------------------------
+
 int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val)
 {
 	t_dlist	*cur_node;
@@ -129,6 +116,8 @@ int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val)
 		cur_node = cur_node->next;
 	}
 }
+
+// --------------------------------------------------------------------------------------------
 
 size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
 {
@@ -208,74 +197,39 @@ t_dlist *get_lis_list(t_dlist *my_stack)
 	return (lis_list);
 }
 
-t_dlist *get_leastrot_nonlis_node(t_dlist *src, t_dlist *lis_list)
-{
-	t_dlist *cur_node;
-	t_dlist *least_node;
-	
-	cur_node = src;
-	least_node = NULL;
-	while (1)
-	{
-		if (!ft_cir_dlst_hasval(lis_list, cur_node->value))
-		{
-			if (least_node == NULL)
-				least_node = cur_node;
-			else if (dlist_rotcmp2(src, cur_node, least_node)) // 오직 totop이 가장작은애만
-				least_node = cur_node;
-		}
-		if (cur_node->next == src)
-			break ;
-		cur_node = cur_node->next;
-	}
-	return (least_node);
-}
+// --------------------------------------------------------------------------------------------
 
 void	b_to_a(t_ps_stat *ps_stat)
 {
-	while (ps_stat->stack_b) // stack_b의 헤더가 null 이 될때까지
-	{
-		t_dlist *target_node;
+	t_dlist *target_node;
 
+	while (ps_stat->stack_b)
+	{
 		target_node = get_leastrot_node(ps_stat->stack_a, ps_stat->stack_b);
-		// 동시회전수를 잘못게산해서 꽤나 골치아팠다...
 		n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, target_node));
 		n_ra(ps_stat, get_rotcnt_topos(ps_stat->stack_a, target_node));
 		n_rb(ps_stat, get_rotcnt_totop(ps_stat->stack_b, target_node));
 		pa(ps_stat);
-		
-		// ft_printf("\nb to a...\n\n");
-		// print_all_my_stack(ps_stat);
 	}
-	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a)));
 }
 
 void	a_to_b(t_ps_stat *ps_stat, t_dlist *lis_list, int pivot)
 {
-	// t_dlist *target_node;
-	
-	// while (1)
-	// {
-	// 	target_node = get_leastrot_nonlis_node(ps_stat->stack_a, lis_list);
-	// 	if (!target_node)
-	// 		return ;
-	// 	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, target_node));
-		
-	// 	pb(ps_stat);
+	size_t max_i;
 
-	// 	// pivot에 따라 분기, 사이즈가 1이거나 같은 청크끼리 붙어잇으면 패스
-	// 	if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && target_node->value >= pivot && (target_node->next)->value < pivot)
-	// 		rb(ps_stat);
-
-	// 	// ft_printf("\na to b...\n\n");
-	// 	// print_all_my_stack(ps_stat);
-	// 	// 그리디 없이 수행한다면...?
-	// }
-
-	size_t i = 0;
-	size_t max_i = ft_cir_dlstsize(ps_stat->stack_a);
-
-	while(i < max_i)
+	if (ft_cir_dlstsize(lis_list) < 3)
+	{
+		while (ft_cir_dlstsize(ps_stat->stack_a) > 3)
+		{
+			pb(ps_stat);
+			if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && (ps_stat->stack_b)->value >= pivot && ((ps_stat->stack_b)->next)->value < pivot)
+				rb(ps_stat);
+		}
+		sort_3_elements(ps_stat);
+		return ;
+	}
+	max_i = ft_cir_dlstsize(ps_stat->stack_a);
+	while(max_i--)
 	{
 		if (ft_cir_dlst_hasval(lis_list, (ps_stat->stack_a)->value))
 			ra(ps_stat);
@@ -284,12 +238,14 @@ void	a_to_b(t_ps_stat *ps_stat, t_dlist *lis_list, int pivot)
 			pb(ps_stat);
 			if (ft_cir_dlstsize(ps_stat->stack_b) > 1 && (ps_stat->stack_b)->value >= pivot && ((ps_stat->stack_b)->next)->value < pivot)
 				rb(ps_stat);
-			// a에 오름차순으로 남아있으니 b에서 a로 보내줄때도 작은게 위에잇는게 더 빠르다
 		}
-		i++;
 	}
+	return ;
 	// 그리디가 항상 최선은 아니라는것을 생각해야한다
 	// 오히려 모두 순회하는편이 더 적게 먹힌다...
+	//
+	// LIS 의 사이즈가 3보다 작다면 -> 3개만 남겨놓고 모두 b로 보낸다, a는 sort 3로 정렬
+	// 그렇지 않으면 -> LIS에 없는 애들 전부 b로 보내고 a는 ra로 정렬되어있는 애들만 남아있는 상태
 }
 
 int	get_pivot(t_dlist *my_stack)
@@ -300,28 +256,21 @@ int	get_pivot(t_dlist *my_stack)
 	min_val = get_smallest_node(my_stack)->value;
 	max_val = get_largest_node(my_stack)->value;
 	return ((min_val + max_val) / 2);
+	
+	// 좀 더 디테일하게 다듬을것...
 }
 
 void	sort_under100_elements(t_ps_stat *ps_stat)
 {
 	t_dlist *lis_list;
-	lis_list = get_lis_list(ps_stat->stack_a);
-	// ft_printf("lis ptr: %p\n", lis_list);
 	int	pivot;
+
+	lis_list = get_lis_list(ps_stat->stack_a);
 	pivot = get_pivot(ps_stat->stack_a);
-	// ft_printf("pivot: %d\n", pivot);
+
 	a_to_b(ps_stat, lis_list, pivot);
 	b_to_a(ps_stat);
+	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a)));
+
 	return ;
-
-	// LIS를 구하는 함수
-	// pivot을 구하는 함수 구현
-	
-	// get_leastrot_node를 수정해서 조건에 LIS가 아닌 노드만 그리디로 a에서 b로 보냄
-	// pivot에 따라 chunk를 나눔 pa후 rb할지 결정
-
-	// get_leastrot_node로 그리디로 b에서 a로 보냄
-
-	// 명령어 최적화
 }
-//

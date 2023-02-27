@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/24 14:12:41 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 17:09:32 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_inst_lst(void *str)
 {
-	ft_printf("%s", str);
+	ft_printf("%s\n", str);
 }
 
 int ft_is_stack_sorted(t_dlist *my_stack)
@@ -33,99 +33,46 @@ int ft_is_stack_sorted(t_dlist *my_stack)
 	return (SUCCESS);
 }
 
-int	ft_is_allstack_sorted(t_ps_stat *ps_stat)
-{
-	// stack_b 가 비어있고 stack_a 가 모두 정렬되어있어야함
+// int	ft_is_allstack_sorted(t_ps_stat *ps_stat)
+// {
+// 	// stack_b 가 비어있고 stack_a 가 모두 정렬되어있어야함
 
-	if (ps_stat->stack_b || !ps_stat->stack_a)
-		return (FAIL);
-	return (ft_is_stack_sorted(ps_stat->stack_a));
-}
+// 	if (ps_stat->stack_b || !ps_stat->stack_a)
+// 		return (FAIL);
+// 	return (ft_is_stack_sorted(ps_stat->stack_a));
+// }
 
-size_t	ft_cir_dlstsize(t_dlist *lst)
-{
-	t_dlist *cur_node;
-	size_t	size;
+// void	print_my_stack(t_dlist *my_stack)
+// {
+// 	t_dlist *cur_node;
 
-	cur_node = lst;
-	size = 0;
-	while (cur_node)
-	{
-		size++;
-		if (cur_node->next == lst)
-			break ;
-		cur_node = cur_node->next;
-	}
-	return (size);
-}
+// 	cur_node = my_stack;
+// 	while (cur_node)
+// 	{
+// 		ft_printf("%d ", cur_node->value);
+// 		if (cur_node->next == my_stack)
+// 			break ;
+// 		cur_node = cur_node->next;
+// 	}
+// 	ft_printf("\n");
+// 	return ;
+// }
 
-void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new)
-{
-	if (!*lst) // list가 비어있을때, '리스트의 헤더를 담당하는 노드'의 '주소값'을 넘겨줌, 노드가 가진 주소값이 아니라 노드 자체의 주소값임
-	{
-		*lst = new;
-		new->prev = new;
-		new->next = new;
-	}
-	else
-	{
-		new->prev = (*lst)->prev;
-		new->next = *lst;
-		(new->prev)->next = new;
-		(new->next)->prev = new;
-	}
-}
+// void	print_all_my_stack(t_ps_stat *ps_stat)
+// {
+// 	ft_printf("\n");
+// 	ft_printf("======== << print stack >> ========\n");
+// 	ft_printf("\n");
+// 	ft_printf("stack a: ");
+// 	print_my_stack(ps_stat->stack_a);
+// 	ft_printf("stack b: ");
+// 	print_my_stack(ps_stat->stack_b);
+// 	ft_printf("\n");
+// 	ft_printf("===================================\n");
+// 	ft_printf("\n");
 
-void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new)
-{
-	ft_cir_dlstadd_back(lst, new);
-	if ((*lst)->next != *lst)
-		*lst = (*lst)->prev;
-		// 헤더만 옮겨준다
-}
-
-t_dlist *ft_dlstnew(int value)
-{
-	t_dlist *new;
-
-	new = (t_dlist *)malloc(sizeof(t_dlist));
-	if (!new)
-		return (NULL);
-	new->value = value;
-	return (new);
-}
-
-void	print_my_stack(t_dlist *my_stack)
-{
-	t_dlist *cur_node;
-
-	cur_node = my_stack;
-	while (cur_node)
-	{
-		ft_printf("%d ", cur_node->value);
-		if (cur_node->next == my_stack)
-			break ;
-		cur_node = cur_node->next;
-	}
-	ft_printf("\n");
-	return ;
-}
-
-void	print_all_my_stack(t_ps_stat *ps_stat)
-{
-	ft_printf("\n");
-	ft_printf("======== << print stack >> ========\n");
-	ft_printf("\n");
-	ft_printf("stack a: ");
-	print_my_stack(ps_stat->stack_a);
-	ft_printf("stack b: ");
-	print_my_stack(ps_stat->stack_b);
-	ft_printf("\n");
-	ft_printf("===================================\n");
-	ft_printf("\n");
-
-	return ;
-}
+// 	return ;
+// }
 
 int	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
 {
@@ -174,20 +121,20 @@ int	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
 
 int main(int argc, char *argv[])
 {
-	t_ps_stat *ps_stat;
+	t_ps_stat ps_stat;
 
 	if (argc < 2)
 		return (0);
-	ps_stat = ft_calloc(1, sizeof(t_ps_stat));
-	if (!ps_stat || !push_swap_parsing(ps_stat, argv + 1))
+	ft_bzero(&ps_stat, sizeof(t_ps_stat));
+	if (!push_swap_parsing(&ps_stat, argv + 1))
 		exit(EXIT_FAILURE); // my_exit 만들어서 호출할것
 
-	print_all_my_stack(ps_stat);
+	print_all_my_stack(&ps_stat);
 
-	if (ft_is_allstack_sorted(ps_stat))
+	if (ft_is_stack_sorted(ps_stat.stack_a) && ps_stat.stack_b == NULL)
 		return (EXIT_SUCCESS);
 	
-	my_push_swap_solve(ps_stat);
+	my_push_swap_solve(&ps_stat);
 
 	// ft_printf("\n - finish! - \n\n");
 
@@ -198,16 +145,10 @@ int main(int argc, char *argv[])
 	// ft_printf("\ninstruction optimizing...\n\n");
 	// inst_lst_optimizing(ps_stat->inst_lst); // 뭔가 문제있음
 
-	ft_lstiter(ps_stat->inst_lst, print_inst_lst);
+	ft_lstiter(ps_stat.inst_lst, print_inst_lst);
 
-	ft_lstclear(&ps_stat->inst_lst, NULL);
-
-	// 2 4 3 5 1 -> pb pb rra rr pa ra ra pa ra ra / rra + rr을 rb로 바꿀수있다
-	// 아직 후처리를 통한 최적화가 적용되지 않은 상태
+	ft_lstclear(&ps_stat.inst_lst, NULL);
 
 	// ft_putstr_fd("Error\n", 2); // 에러는 stderr로 출력해야 한다
 	// exit(EXIT_FAILURE);
 }
-
-// 간단 테스트를 위한 인자 생성 및 대입
-// ARG=$(seq 7 | sort -R | xargs); ./push_swap $ARG
