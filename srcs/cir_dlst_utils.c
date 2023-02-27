@@ -6,11 +6,28 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:08:50 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 17:09:18 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 18:26:51 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val)
+{
+	t_dlist	*cur_node;
+
+	if (!my_dlst)
+		return (0);
+	cur_node = my_dlst;
+	while (1)
+	{
+		if (cur_node->value == val)
+			return (1);
+		if (cur_node->next == my_dlst)
+			return (0);
+		cur_node = cur_node->next;
+	}
+}
 
 size_t	ft_cir_dlstsize(t_dlist *lst)
 {

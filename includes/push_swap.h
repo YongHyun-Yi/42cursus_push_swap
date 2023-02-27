@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/24 14:12:48 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 18:53:33 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ typedef struct s_dlist
 
 typedef struct s_ps_stat
 {
+	char	*bit_array;
+	char	**split_argv;
+	// t_dlist *lis_list;
+	// int	pivot;
 	t_dlist	*stack_a;
 	t_dlist	*stack_b;
 	t_list	*inst_lst;
@@ -47,50 +51,60 @@ void	my_reverse_rotate(t_dlist **my_stack);
 int		my_add_inst(t_list **inst_lst, char *str);
 
 void	sa(t_ps_stat *ps_stat);
-void	pa(t_ps_stat *ps_stat);
-void	ra(t_ps_stat *ps_stat);
-void	rra(t_ps_stat *ps_stat);
-void	n_ra(t_ps_stat *ps_stat, long long cnt);
 void	sb(t_ps_stat *ps_stat);
-void	pb(t_ps_stat *ps_stat);
-void	rb(t_ps_stat *ps_stat);
-void	rrb(t_ps_stat *ps_stat);
-void	n_rb(t_ps_stat *ps_stat, long long cnt);
 void	ss(t_ps_stat *ps_stat);
+
+void	pa(t_ps_stat *ps_stat);
+void	pb(t_ps_stat *ps_stat);
+
+void	ra(t_ps_stat *ps_stat);
+void	rb(t_ps_stat *ps_stat);
 void	rr(t_ps_stat *ps_stat);
+
+void	rra(t_ps_stat *ps_stat);
+void	rrb(t_ps_stat *ps_stat);
 void	rrr(t_ps_stat *ps_stat);
+
+void	n_ra(t_ps_stat *ps_stat, long long cnt);
+void	n_rb(t_ps_stat *ps_stat, long long cnt);
 void	n_rr(t_ps_stat *ps_stat, long long cnt);
 
 t_dlist *ft_dlstnew(int value);
 void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
 size_t	ft_cir_dlstsize(t_dlist *lst);
+int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val);
 
 size_t	my_abs(long long nb);
 
-int		dlist_valcmp(t_dlist *a, t_dlist *b);
+int		ft_value_cmp(t_dlist *a, t_dlist *b);
+int 	ft_total_rotcnt_cmp(t_dlist *dest, t_dlist *src, t_dlist *a, t_dlist *b);
+
 t_dlist	*get_largest_node(t_dlist *my_stack);
 t_dlist	*get_smallest_node(t_dlist *my_stack);
-
-int 	dlist_rotcmp(t_dlist *dest, t_dlist *src, t_dlist *a, t_dlist *b);
-int		dlist_rotcmp2(t_dlist *src, t_dlist *a, t_dlist *b);
-t_dlist	*get_leastrot_node(t_dlist *dest, t_dlist *src);
+t_dlist *get_leastrot_node(t_dlist *dest, t_dlist *src);
 
 long long	get_rotcnt_totop(t_dlist *my_stack, t_dlist *target_node);
 long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node);
 long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node);
-size_t	get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node);
+size_t		get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node);
 
-void	print_my_stack(t_dlist *my_stack);
-void	print_all_my_stack(t_ps_stat *ps_stat); // 디버깅용
+// void	print_my_stack(t_dlist *my_stack);
+// void	print_all_my_stack(t_ps_stat *ps_stat); // 디버깅용
+
 void	inst_lst_optimizing(t_list *inst_lst);
 
 int 	ft_is_stack_sorted(t_dlist *my_stack);
-int		ft_is_allstack_sorted(t_ps_stat *ps_stat);
 
-void	sort_under5_elements(t_ps_stat *ps_stat);
+void	greedy_b_to_a(t_ps_stat *ps_stat);
+
+size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst);
+t_dlist *get_lis_idx_list(t_dlist *my_stack);
+t_dlist *get_lis_list(t_dlist *my_stack);
+
+void	my_push_swap_solve(t_ps_stat *ps_stat);
 void	sort_3_elements(t_ps_stat *ps_stat);
-int		my_push_swap_solve(t_ps_stat *ps_stat);
-void	sort_under100_elements(t_ps_stat *ps_stat);
+void	sort_under5_elements(t_ps_stat *ps_stat);
+void	sort_over_elements(t_ps_stat *ps_stat);
 
 #endif

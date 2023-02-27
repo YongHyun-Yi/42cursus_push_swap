@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:26:16 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/15 10:28:10 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 17:16:30 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_strisint(char *str)
 {
 	char	*str_ptr;
 
+	if (!str)
+		return (0);
 	str_ptr = str;
 	if (*str_ptr == '-' || *str_ptr == '+')
 		str_ptr++;
