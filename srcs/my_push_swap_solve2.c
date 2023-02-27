@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 09:46:54 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 18:36:40 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:59:25 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,37 @@ void	inst_lst_optimizing(t_list *inst_lst)
 	return ;
 }
 
+void	my_bubble_sort(t_dlist *my_dlist)
+{
+	t_dlist *cur_node;
+
+	cur_node = my_dlist;
+	while(!ft_is_stack_sorted(my_dlist))
+	{
+		if (cur_node->next != my_dlist && !ft_value_cmp(cur_node, cur_node->next))
+			my_swap(cur_node);
+		cur_node = cur_node->next;
+	}
+}
+
 // --------------------------------------------------------------------------------------------
 
-int	get_pivot(t_dlist *my_stack)
+int	get_pivot(t_dlist *my_stack, t_dlist *lis_list)
 {
-	int min_val;
-	int max_val;
+	t_dlist *nonlis_list;
+	t_dlist *cur_node;
+	size_t center_idx;
+	int		pivot;
 
-	min_val = get_smallest_node(my_stack)->value;
-	max_val = get_largest_node(my_stack)->value;
-	return ((min_val + max_val) / 2);
-	
-	// 좀 더 디테일하게 다듬을것...
+	nonlis_list = get_nonlis_list(my_stack, lis_list);
+	my_bubble_sort(nonlis_list);
+	cur_node = nonlis_list;
+	center_idx = ft_cir_dlstsize(nonlis_list) / 2;
+	while(center_idx--)
+		cur_node = cur_node->next;
+	pivot = cur_node->value;
+	// dlist clear nonlis list
+	return (pivot);
 }
 
 // --------------------------------------------------------------------------------------------
@@ -138,7 +157,7 @@ void	sort_over_elements(t_ps_stat *ps_stat)
 	int	pivot;
 
 	lis_list = get_lis_list(ps_stat->stack_a);
-	pivot = get_pivot(ps_stat->stack_a);
+	pivot = get_pivot(ps_stat->stack_a, lis_list);
 
 	a_to_b(ps_stat, lis_list, pivot);
 	while (ps_stat->stack_b)

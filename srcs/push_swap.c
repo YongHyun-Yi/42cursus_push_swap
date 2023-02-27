@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 18:56:27 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 21:00:32 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	push_swap_parsing(t_ps_stat *ps_stat, char *argv[]) // staic function
 		free(ps_stat->split_argv);
 		argv++;
 	}
-	return (SUCCESS);
 }
 
 int main(int argc, char *argv[])
@@ -129,5 +128,5 @@ int main(int argc, char *argv[])
 
 	ft_lstiter(ps_stat.inst_lst, print_inst_lst);
 	
-	my_exit(&ps_stat, SUCCESS);
+	// my_exit(&ps_stat, SUCCESS);
 }

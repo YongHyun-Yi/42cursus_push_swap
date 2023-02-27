@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 18:53:33 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:52:12 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int 	ft_is_stack_sorted(t_dlist *my_stack);
 
 void	greedy_b_to_a(t_ps_stat *ps_stat);
 
+t_dlist *get_nonlis_list(t_dlist *my_stack, t_dlist *lis_list);
 size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst);
 t_dlist *get_lis_idx_list(t_dlist *my_stack);
 t_dlist *get_lis_list(t_dlist *my_stack);

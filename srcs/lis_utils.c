@@ -6,11 +6,35 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 18:22:10 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 18:22:30 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/02/27 20:51:41 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+t_dlist *get_nonlis_list(t_dlist *my_stack, t_dlist *lis_list)
+{
+	t_dlist *nonlis_list;
+	t_dlist *iter;
+	t_dlist *new;
+
+	nonlis_list = NULL;
+	iter = my_stack;
+	while (1)
+	{
+		if (!ft_cir_dlst_hasval(lis_list, iter->value))
+		{
+			new = ft_dlstnew(iter->value);
+			if (!new)
+				return (FAIL);
+			ft_cir_dlstadd_back(&nonlis_list, new);
+		}
+		if (iter->next == my_stack)
+			break ;
+		iter = iter->next;
+	}
+	return (nonlis_list);
+}
 
 size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
 {
