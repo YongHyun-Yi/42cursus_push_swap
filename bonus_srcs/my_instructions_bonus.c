@@ -53,14 +53,14 @@ void	my_push(t_dlist **dest, t_dlist **src)
 
 void	my_rotate(t_dlist **my_stack)
 {
-	if (!my_stack || !(*my_stack)->next)
+	if (!my_stack || !*my_stack)
 		return ;
 	(*my_stack) = (*my_stack)->next;
 }
 
 void	my_reverse_rotate(t_dlist **my_stack)
 {
-	if (!my_stack || !(*my_stack)->prev)
+	if (!my_stack || !*my_stack)
 		return ;
 	(*my_stack) = (*my_stack)->prev;
 }

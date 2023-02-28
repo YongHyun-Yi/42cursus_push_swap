@@ -14,21 +14,16 @@
 
 void	ra(t_ps_stat *ps_stat)
 {
-	if (ps_stat->stack_a)
-		my_rotate(&ps_stat->stack_a);
+	my_rotate(&ps_stat->stack_a);
 }
 
 void	rb(t_ps_stat *ps_stat)
 {
-	if (ps_stat->stack_b)
-		my_rotate(&ps_stat->stack_b);
+	my_rotate(&ps_stat->stack_b);
 }
 
 void	rr(t_ps_stat *ps_stat)
 {
-	if (ps_stat->stack_a && ps_stat->stack_a)
-	{
-		my_rotate(&ps_stat->stack_a);
-		my_rotate(&ps_stat->stack_b);
-	}
+	my_rotate(&ps_stat->stack_a);
+	my_rotate(&ps_stat->stack_b);
 }

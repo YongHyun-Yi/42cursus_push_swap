@@ -59,7 +59,7 @@ void	my_push(t_dlist **dest, t_dlist **src)
 
 void	my_rotate(t_dlist **my_stack)
 {
-	if (!my_stack || !(*my_stack)->next)
+	if (!my_stack || !*my_stack)
 		return ;
 	(*my_stack) = (*my_stack)->next;
 	// 맨 위의 요소가 밑으로 넘어간다
@@ -67,8 +67,15 @@ void	my_rotate(t_dlist **my_stack)
 
 void	my_reverse_rotate(t_dlist **my_stack)
 {
-	if (!my_stack || !(*my_stack)->prev)
+	if (!my_stack || !*my_stack)
 		return ;
 	(*my_stack) = (*my_stack)->prev;
 	// 맨 아래의 요소가 위로 넘어간다
 }
+
+// 어차피 양방향 연결리스트이니 next와 prev가 null이 되는 경우는 없다
+// !my_stack 은 매개변수 자체에 null 포인터가 들어오는 경우이고
+// !*my_stack 은 넘겨받은 포인터 변수가 들고있는 값이 null 포인터인 경우이다
+// 후자는 스택이 비어있는 경우 스택역할을 하는 포인터 변수가 가리키는 값이
+// null 포인터이기 때문에 저렇게 조건을 달아줘야 한다
+// 이 둘에 대해서만 예외처리를 해주면 된다
