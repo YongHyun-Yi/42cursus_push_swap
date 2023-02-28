@@ -15,18 +15,18 @@
 void	sa(t_ps_stat *ps_stat)
 {
 	my_swap(ps_stat->stack_a);
-	my_add_inst(&ps_stat->inst_lst, "sa");
+	my_add_inst(&ps_stat->inst_lst, "sa\n");
 }
 
 void	sb(t_ps_stat *ps_stat)
 {
 	my_swap(ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "sb");
+	my_add_inst(&ps_stat->inst_lst, "sb\n");
 }
 
 void	ss(t_ps_stat *ps_stat)
 {
 	my_swap(ps_stat->stack_a);
 	my_swap(ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "ss");
+	my_add_inst(&ps_stat->inst_lst, "ss\n");
 }

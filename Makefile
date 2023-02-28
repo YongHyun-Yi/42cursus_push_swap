@@ -20,6 +20,8 @@ LIBFT_A = libft/libft.a
 
 NAME = push_swap
 
+BONUS_NAME = checker
+
 #-------------------------------------------
 
 MANDATORY_SRCS = $(wildcard srcs/*.c)
@@ -28,8 +30,8 @@ MANDATORY_OBJS = $(MANDATORY_SRCS:.c=.o)
 
 #-------------------------------------------
 
-BONUS_SRCS = $(addprefix srcs/, $(wildcard *_bonus.c))
-#BONUS_SRCS = $(addprefix srcs/,)
+BONUS_SRCS = $(wildcard bonus_srcs/*.c)
+#BONUS_SRCS = $(addprefix bonus_srcs/,)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 #-------------------------------------------
@@ -40,20 +42,20 @@ $(NAME): $(MANDATORY_OBJS)
 		make -C libft
 		$(CC) $(CFLAGS) -o $@ $^ $(LIBFT_A)
 
-bonus: make_bonus
+bonus: $(BONUS_NAME)
 
-# make_bonus: $(BONUS_OBJS)
-# 		make -C libft
-# 		$(CC) $(CFLAGS) -o $@ $^ $(LIBFT_A)
+$(BONUS_NAME): $(BONUS_OBJS)
+		make -C libft
+		$(CC) $(CFLAGS) -o $@ $^ $(LIBFT_A)
 
 clean:
 		cd libft; make clean
-		$(RM) ${MANDATORY_OBJS} ${BONUS_OBJS} make_mandatory make_bonus
+		$(RM) ${MANDATORY_OBJS} ${BONUS_OBJS}
 
 fclean:
 		cd libft; make fclean
 		make clean
-		$(RM) $(NAME)
+		$(RM) $(NAME) $(BONUS_NAME)
 
 re:
 		make fclean

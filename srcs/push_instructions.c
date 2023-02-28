@@ -15,11 +15,11 @@
 void	pa(t_ps_stat *ps_stat)
 {
 	my_push(&ps_stat->stack_a, &ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "pa");
+	my_add_inst(&ps_stat->inst_lst, "pa\n");
 }
 
 void	pb(t_ps_stat *ps_stat)
 {
 	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
-	my_add_inst(&ps_stat->inst_lst, "pb");
+	my_add_inst(&ps_stat->inst_lst, "pb\n");
 }

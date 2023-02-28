@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reverse_rotate_instructions.c                      :+:      :+:    :+:   */
+/*   push_instructions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/27 16:58:30 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 16:58:36 by yonghyle         ###   ########.fr       */
+/*   Created: 2023/01/26 13:19:23 by yonghyle          #+#    #+#             */
+/*   Updated: 2023/02/27 16:58:39 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "push_swap_bonus.h"
 
-void	rra(t_ps_stat *ps_stat)
+void	pa(t_ps_stat *ps_stat)
 {
-	my_reverse_rotate(&ps_stat->stack_a);
-	my_add_inst(&ps_stat->inst_lst, "rra\n");
+	my_push(&ps_stat->stack_a, &ps_stat->stack_b);
 }
 
-void	rrb(t_ps_stat *ps_stat)
+void	pb(t_ps_stat *ps_stat)
 {
-	my_reverse_rotate(&ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "rrb\n");
-}
-
-void	rrr(t_ps_stat *ps_stat)
-{
-	my_reverse_rotate(&ps_stat->stack_a);
-	my_reverse_rotate(&ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "rrr\n");
+	my_push(&ps_stat->stack_b, &ps_stat->stack_a);
 }

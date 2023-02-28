@@ -10,23 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "push_swap_bonus.h"
 
 void	rra(t_ps_stat *ps_stat)
 {
 	my_reverse_rotate(&ps_stat->stack_a);
-	my_add_inst(&ps_stat->inst_lst, "rra\n");
 }
 
 void	rrb(t_ps_stat *ps_stat)
 {
 	my_reverse_rotate(&ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "rrb\n");
 }
 
 void	rrr(t_ps_stat *ps_stat)
 {
 	my_reverse_rotate(&ps_stat->stack_a);
 	my_reverse_rotate(&ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "rrr\n");
 }

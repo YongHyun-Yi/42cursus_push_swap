@@ -81,7 +81,7 @@ void 	my_exit(t_ps_stat *ps_stat, int no_err)
 
 void	print_inst_lst(void *str)
 {
-	ft_printf("%s\n", str);
+	ft_printf("%s", str);
 }
 
 int ft_is_stack_sorted(t_dlist *my_stack)
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 	ft_bzero(&ps_stat, sizeof(t_ps_stat));
 	push_swap_parsing(&ps_stat, argv + 1);
 	if (ft_is_stack_sorted(ps_stat.stack_a) && ps_stat.stack_b == NULL)
-		return (EXIT_SUCCESS);
+		my_exit(&ps_stat, SUCCESS);
 
 	// ft_printf("inputs: ");
 	// print_my_stack(ps_stat.stack_a);

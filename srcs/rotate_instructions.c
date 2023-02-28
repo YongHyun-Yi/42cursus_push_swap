@@ -15,18 +15,18 @@
 void	ra(t_ps_stat *ps_stat)
 {
 	my_rotate(&ps_stat->stack_a);
-	my_add_inst(&ps_stat->inst_lst, "ra");
+	my_add_inst(&ps_stat->inst_lst, "ra\n");
 }
 
 void	rb(t_ps_stat *ps_stat)
 {
 	my_rotate(&ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "rb");
+	my_add_inst(&ps_stat->inst_lst, "rb\n");
 }
 
 void	rr(t_ps_stat *ps_stat)
 {
 	my_rotate(&ps_stat->stack_a);
 	my_rotate(&ps_stat->stack_b);
-	my_add_inst(&ps_stat->inst_lst, "rr");
+	my_add_inst(&ps_stat->inst_lst, "rr\n");
 }

@@ -20,8 +20,6 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 
-#include <stdio.h>
-
 # define SUCCESS 1
 # define FAIL 0
 
