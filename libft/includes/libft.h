@@ -69,7 +69,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 void	ft_lstdel_node(t_list **list, t_list *target, void (*del)(void *));
 
-int		ft_strisnum(char *str, int (*f)(int));
+int		ft_strisnum(char *str);
 int		ft_strisint(char *str);
 
 int		ft_check_intdup(char *bit_array, unsigned int num);

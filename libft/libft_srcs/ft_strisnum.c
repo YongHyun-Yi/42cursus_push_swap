@@ -12,11 +12,11 @@
 
 #include "libft.h"
 
-int	ft_strisnum(char *str, int (*f)(int))
+int	ft_strisnum(char *str)
 {
 	while (*str)
 	{
-		if (!f(*str++))
+		if (!ft_isdigit(*str++))
 			return (0);
 	}
 	return (1);
