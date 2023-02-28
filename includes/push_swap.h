@@ -74,6 +74,7 @@ void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
 size_t	ft_cir_dlstsize(t_dlist *lst);
 int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val);
+void	ft_cir_dlstclear(t_dlist **my_dlst);
 
 size_t	my_abs(long long nb);
 
@@ -89,7 +90,7 @@ long long	get_rotcnt_topos(t_dlist *my_stack, t_dlist *target_node);
 long long	get_double_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node);
 size_t		get_total_rotcnt(t_dlist *dest, t_dlist *src, t_dlist *target_node);
 
-// void	print_my_stack(t_dlist *my_stack);
+void	print_my_stack(t_dlist *my_stack);
 // void	print_all_my_stack(t_ps_stat *ps_stat); // 디버깅용
 
 void	inst_lst_optimizing(t_list *inst_lst);
@@ -107,5 +108,7 @@ void	my_push_swap_solve(t_ps_stat *ps_stat);
 void	sort_3_elements(t_ps_stat *ps_stat);
 void	sort_under5_elements(t_ps_stat *ps_stat);
 void	sort_over_elements(t_ps_stat *ps_stat);
+
+void 	my_exit(t_ps_stat *ps_stat, int no_err);
 
 #endif

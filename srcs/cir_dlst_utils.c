@@ -12,6 +12,31 @@
 
 #include "push_swap.h"
 
+void	ft_cir_dlstclear(t_dlist **my_dlst)
+{
+	t_dlist	*cur_node;
+	t_dlist	*next_node;
+
+	if (*my_dlst)
+	{
+		if (*my_dlst == (*my_dlst)->next)
+			free (*my_dlst);
+		else
+		{
+			cur_node = *my_dlst;
+			while (1)
+			{
+				next_node = cur_node->next;
+				free(cur_node);
+				if (next_node == *my_dlst)
+					break ;
+				cur_node = next_node;
+			}
+		}
+		*my_dlst = NULL;
+	}
+}
+
 int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val)
 {
 	t_dlist	*cur_node;

@@ -46,14 +46,33 @@ void	print_my_stack(t_dlist *my_stack)
 
 void 	my_exit(t_ps_stat *ps_stat, int no_err)
 {
+	// ft_printf("bit array ptr: %p\n",ps_stat->bit_array);
+	// ft_printf("split argv ptr: %p\n",ps_stat->split_argv);
+	// ft_printf("stack_a ptr: %p\n",ps_stat->stack_a);
+	// ft_printf("stack_b ptr: %p\n",ps_stat->stack_b);
+	// ft_printf("inst lst ptr: %p\n",ps_stat->inst_lst);
 	if (ps_stat->bit_array)
+	{
 		free(ps_stat->bit_array);
+		ps_stat->bit_array = NULL;
+	}
 	if (ps_stat->split_argv)
+	{
 		free(ps_stat->split_argv);
-	// dlst_clear stack_a
-	// dlst_clear stack_b
+		ps_stat->split_argv = NULL;
+	}
+	if (ps_stat->stack_a)
+		ft_cir_dlstclear(&ps_stat->stack_a);
+	if (ps_stat->stack_b)
+		ft_cir_dlstclear(&ps_stat->stack_b);
 	if (ps_stat->inst_lst)
 		ft_lstclear(&ps_stat->inst_lst, NULL);
+	// ft_printf("--------------------------------------\n");
+	// ft_printf("bit array ptr: %p\n",ps_stat->bit_array);
+	// ft_printf("split argv ptr: %p\n",ps_stat->split_argv);
+	// ft_printf("stack_a ptr: %p\n",ps_stat->stack_a);
+	// ft_printf("stack_b ptr: %p\n",ps_stat->stack_b);
+	// ft_printf("inst lst ptr: %p\n",ps_stat->inst_lst);
 	if (no_err)
 		exit(EXIT_SUCCESS);
 	ft_putstr_fd("Error\n", 2);
@@ -104,8 +123,11 @@ void	push_swap_parsing(t_ps_stat *ps_stat, char *argv[]) // staic function
 			s_idx++;
 		}
 		free(ps_stat->split_argv);
+		ps_stat->split_argv = NULL;
 		argv++;
 	}
+	free(ps_stat->bit_array);
+	ps_stat->bit_array = NULL;
 }
 
 int main(int argc, char *argv[])
@@ -119,14 +141,16 @@ int main(int argc, char *argv[])
 	if (ft_is_stack_sorted(ps_stat.stack_a) && ps_stat.stack_b == NULL)
 		return (EXIT_SUCCESS);
 
-	ft_printf("inputs: ");
-	print_my_stack(ps_stat.stack_a);
+	// ft_printf("inputs: ");
+	// print_my_stack(ps_stat.stack_a);
 	
 	my_push_swap_solve(&ps_stat);
 
 	// inst_lst_optimizing(ps_stat->inst_lst); // 뭔가 문제있음
 
 	ft_lstiter(ps_stat.inst_lst, print_inst_lst);
-	
-	// my_exit(&ps_stat, SUCCESS);
+
+	// system("leaks push_swap");
+
+	my_exit(&ps_stat, SUCCESS);
 }

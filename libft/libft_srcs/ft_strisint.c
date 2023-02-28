@@ -21,7 +21,7 @@ int	ft_strisint(char *str)
 	str_ptr = str;
 	if (*str_ptr == '-' || *str_ptr == '+')
 		str_ptr++;
-	if (!*str_ptr || !ft_strisnum(str_ptr, ft_isdigit))
+	if (!*str_ptr || !ft_strisnum(str_ptr))
 		return (0);
 	while (*str_ptr == '0')
 		str_ptr++;
