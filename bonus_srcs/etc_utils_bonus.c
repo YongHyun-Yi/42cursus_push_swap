@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 00:20:31 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/02 02:16:32 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 04:49:53 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,6 @@
 int	ft_value_cmp(t_dlist *a, t_dlist *b)
 {
 	return (a->value < b->value);
-}
-
-int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val)
-{
-	t_dlist	*cur_node;
-
-	if (!my_dlst)
-		return (0);
-	cur_node = my_dlst;
-	while (1)
-	{
-		if (cur_node->value == val)
-			return (1);
-		if (cur_node->next == my_dlst)
-			return (0);
-		cur_node = cur_node->next;
-	}
 }
 
 void	my_exit(t_ps_stat *ps_stat, int no_err)
@@ -64,4 +47,34 @@ int	ft_is_stack_sorted(t_dlist *my_stack)
 		cur_node = cur_node->next;
 	}
 	return (SUCCESS);
+}
+
+void	set_ps_func_arr(void (*func_arr[])(t_ps_stat *))
+{
+	func_arr[0] = sa;
+	func_arr[1] = sb;
+	func_arr[2] = ss;
+	func_arr[3] = pa;
+	func_arr[4] = pb;
+	func_arr[5] = ra;
+	func_arr[6] = rb;
+	func_arr[7] = rr;
+	func_arr[8] = rra;
+	func_arr[9] = rrb;
+	func_arr[10] = rrr;
+}
+
+void	set_ps_str_arr(char *str_arr[])
+{
+	str_arr[0] = "sa\n";
+	str_arr[1] = "sb\n";
+	str_arr[2] = "ss\n";
+	str_arr[3] = "pa\n";
+	str_arr[4] = "pb\n";
+	str_arr[5] = "ra\n";
+	str_arr[6] = "rb\n";
+	str_arr[7] = "rr\n";
+	str_arr[8] = "rra\n";
+	str_arr[9] = "rrb\n";
+	str_arr[10] = "rrr\n";
 }
