@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 16:59:46 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/01 19:24:23 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:25:27 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,6 @@ int	my_add_inst(t_list **inst_lst, char *str)
 	new_node = ft_lstnew(str);
 	if (!new_node)
 		return (FAIL);
-	ft_lstadd_back(inst_lst, new_node); // <- 여기 수정을 하다가 말았음 ㅋㅋ;
+	ft_lstadd_back(inst_lst, new_node);
 	return (SUCCESS);
 }

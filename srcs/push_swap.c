@@ -6,49 +6,22 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/01 21:41:43 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:57:15 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	print_my_stack(t_dlist *my_stack)
+static void	print_inst_lst(void *str)
 {
-	t_dlist *cur_node;
-
-	cur_node = my_stack;
-	while (cur_node)
-	{
-		ft_printf("%d ", cur_node->value);
-		if (cur_node->next == my_stack)
-			break ;
-		cur_node = cur_node->next;
-	}
-	ft_printf("\n");
-	return ;
+	ft_printf("%s", str);
 }
-
-// void	print_all_my_stack(t_ps_stat *ps_stat)
-// {
-// 	ft_printf("\n");
-// 	ft_printf("======== << print stack >> ========\n");
-// 	ft_printf("\n");
-// 	ft_printf("stack a: ");
-// 	print_my_stack(ps_stat->stack_a);
-// 	ft_printf("stack b: ");
-// 	print_my_stack(ps_stat->stack_b);
-// 	ft_printf("\n");
-// 	ft_printf("===================================\n");
-// 	ft_printf("\n");
-
-// 	return ;
-// }
 
 static void	free_splits(char **splits)
 {
-	char *cur_split;
-	char **next_split;
-	
+	char	*cur_split;
+	char	**next_split;
+
 	cur_split = *splits;
 	next_split = splits + 1;
 	while (cur_split)
@@ -60,59 +33,25 @@ static void	free_splits(char **splits)
 	free(splits);
 }
 
-void 	my_exit(t_ps_stat *ps_stat, int no_err)
-{
-	// ft_printf("bit array ptr: %p\n",ps_stat->bit_array);
-	// ft_printf("split argv ptr: %p\n",ps_stat->split_argv);
-	// ft_printf("stack_a ptr: %p\n",ps_stat->stack_a);
-	// ft_printf("stack_b ptr: %p\n",ps_stat->stack_b);
-	// ft_printf("inst lst ptr: %p\n",ps_stat->inst_lst);
-	if (ps_stat->bit_array)
-		free(ps_stat->bit_array);
-	if (ps_stat->split_argv)
-		free_splits(ps_stat->split_argv);
-	if (ps_stat->stack_a)
-		ft_cir_dlstclear(&ps_stat->stack_a);
-	if (ps_stat->stack_b)
-		ft_cir_dlstclear(&ps_stat->stack_b);
-	if (ps_stat->inst_lst)
-		ft_lstclear(&ps_stat->inst_lst, NULL);
-	// ft_printf("--------------------------------------\n");
-	// ft_printf("bit array ptr: %p\n",ps_stat->bit_array);
-	// ft_printf("split argv ptr: %p\n",ps_stat->split_argv);
-	// ft_printf("stack_a ptr: %p\n",ps_stat->stack_a);
-	// ft_printf("stack_b ptr: %p\n",ps_stat->stack_b);
-	// ft_printf("inst lst ptr: %p\n",ps_stat->inst_lst);
-	if (no_err)
-		exit(EXIT_SUCCESS);
-	ft_putstr_fd("Error\n", 2);
-	exit(EXIT_FAILURE);
-}
-
-void	print_inst_lst(void *str)
-{
-	ft_printf("%s", str);
-}
-
-int ft_is_stack_sorted(t_dlist *my_stack)
-{
-	t_dlist	*cur_node;
-
-	if (!my_stack)
-		return (FAIL);
-	cur_node = my_stack;
-	while (cur_node->next != my_stack) // 다음 노드가 헤더라면, 마지막 노드까지 왔다 즉, 문제없이 한 바퀴 돌았다면 끝
-	{
-		if (!ft_value_cmp(cur_node, cur_node->next)) // 다음 노드보다 값이 크면 즉, 오름차순이 아니면
-			return (FAIL);
-		cur_node = cur_node->next;
-	}
-	return (SUCCESS);
-}
-
-void	push_swap_parsing(t_ps_stat *ps_stat, char *argv[]) // staic function
+void	get_valid_argv(t_ps_stat *ps_stat, char **split_argv)
 {
 	t_dlist	*new_node;
+
+	while (split_argv)
+	{
+		if (!ft_strisint(*split_argv) || !ft_check_intdup(ps_stat->bit_array,
+				ft_atoi(*split_argv)))
+			my_exit(ps_stat, FAIL);
+		new_node = ft_dlstnew(ft_atoi(*split_argv));
+		if (!new_node)
+			my_exit(ps_stat, FAIL);
+		ft_cir_dlstadd_back(&ps_stat->stack_a, new_node);
+		++split_argv;
+	}
+}
+
+static void	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
+{
 	size_t	s_idx;
 
 	ps_stat->bit_array = ft_calloc((UINT_MAX / 8) + 1, sizeof(char));
@@ -120,16 +59,7 @@ void	push_swap_parsing(t_ps_stat *ps_stat, char *argv[]) // staic function
 	{
 		ps_stat->split_argv = ft_split(*argv, ' ');
 		s_idx = 0;
-		while ((ps_stat->split_argv)[s_idx])
-		{
-			if (!ft_strisint((ps_stat->split_argv)[s_idx]) || !ft_check_intdup(ps_stat->bit_array, ft_atoi((ps_stat->split_argv)[s_idx])))
-				my_exit(ps_stat, FAIL);
-			new_node = ft_dlstnew(ft_atoi((ps_stat->split_argv)[s_idx]));
-			if (!new_node)
-				my_exit(ps_stat, FAIL);
-			ft_cir_dlstadd_back(&ps_stat->stack_a, new_node);
-			s_idx++;
-		}
+		get_valid_argv(ps_stat, ps_stat->split_argv);
 		free_splits(ps_stat->split_argv);
 		argv++;
 	}
@@ -138,32 +68,17 @@ void	push_swap_parsing(t_ps_stat *ps_stat, char *argv[]) // staic function
 	ps_stat->bit_array = NULL;
 }
 
-void leak_check()
+int	main(int argc, char *argv[])
 {
-	system("leaks push_swap");
-}
+	t_ps_stat	ps_stat;
 
-int main(int argc, char *argv[])
-{
-	t_ps_stat ps_stat;
-	// atexit(leak_check);
 	if (argc < 2)
 		return (0);
 	ft_bzero(&ps_stat, sizeof(t_ps_stat));
-	
 	push_swap_parsing(&ps_stat, argv + 1);
-	
 	if (ft_is_stack_sorted(ps_stat.stack_a) && ps_stat.stack_b == NULL)
 		my_exit(&ps_stat, SUCCESS);
-
-	// ft_printf("inputs: ");
-	// print_my_stack(ps_stat.stack_a);
-	
 	my_push_swap_solve(&ps_stat);
-
-	// inst_lst_optimizing(ps_stat->inst_lst); // 뭔가 문제있음
-
 	ft_lstiter(ps_stat.inst_lst, print_inst_lst);
-	
 	my_exit(&ps_stat, SUCCESS);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap_bonus.h                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/02 00:12:48 by yonghyle          #+#    #+#             */
+/*   Updated: 2023/03/02 00:13:05 by yonghyle         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PUSH_SWAP_BONUS_H
 # define PUSH_SWAP_BONUS_H
 
@@ -47,12 +59,12 @@ void	rra(t_ps_stat *ps_stat);
 void	rrb(t_ps_stat *ps_stat);
 void	rrr(t_ps_stat *ps_stat);
 
-t_dlist *ft_dlstnew(int value);
+t_dlist	*ft_dlstnew(int value);
 void	ft_cir_dlstadd_back(t_dlist **lst, t_dlist *new);
 void	ft_cir_dlstadd_front(t_dlist **lst, t_dlist *new);
 size_t	ft_cir_dlstsize(t_dlist *lst);
-int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val);
+int		ft_cir_dlst_hasval(t_dlist *my_dlst, int val);
 void	ft_cir_dlstclear(t_dlist **my_dlst);
-int	ft_value_cmp(t_dlist *a, t_dlist *b);
+int		ft_value_cmp(t_dlist *a, t_dlist *b);
 
 #endif

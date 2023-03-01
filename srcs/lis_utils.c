@@ -6,17 +6,17 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 18:22:10 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/01 18:25:47 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:33:39 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_dlist *get_nonlis_list(t_dlist *my_stack, t_dlist *lis_list)
+t_dlist	*get_nonlis_list(t_dlist *my_stack, t_dlist *lis_list)
 {
-	t_dlist *nonlis_list;
-	t_dlist *iter;
-	t_dlist *new;
+	t_dlist	*nonlis_list;
+	t_dlist	*iter;
+	t_dlist	*new;
 
 	nonlis_list = NULL;
 	iter = my_stack;
@@ -39,7 +39,7 @@ t_dlist *get_nonlis_list(t_dlist *my_stack, t_dlist *lis_list)
 	return (nonlis_list);
 }
 
-size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
+size_t	get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
 {
 	size_t	cur_idx;
 	t_dlist	*val_cmp_node;
@@ -65,11 +65,11 @@ size_t get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
 	}
 }
 
-t_dlist *get_lis_idx_list(t_dlist *my_stack)
+t_dlist	*get_lis_idx_list(t_dlist *my_stack)
 {
-	t_dlist *idx_list;
-	t_dlist *cur_node;
-	t_dlist *new;
+	t_dlist	*idx_list;
+	t_dlist	*cur_node;
+	t_dlist	*new;
 
 	idx_list = NULL;
 	cur_node = my_stack;
@@ -89,12 +89,12 @@ t_dlist *get_lis_idx_list(t_dlist *my_stack)
 	return (idx_list);
 }
 
-t_dlist *get_lis_list(t_dlist *my_stack, t_dlist *lis_idx_list)
+t_dlist	*get_lis_list(t_dlist *my_stack, t_dlist *lis_idx_list)
 {
-	t_dlist *lis_list;
+	t_dlist	*lis_list;
 	size_t	cur_idx;
-	t_dlist *cur_node;
-	t_dlist *new;
+	t_dlist	*cur_node;
+	t_dlist	*new;
 
 	lis_list = NULL;
 	cur_idx = (size_t)(get_largest_node(lis_idx_list)->value);

@@ -6,25 +6,19 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 17:34:21 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/01 18:18:42 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:59:39 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-size_t	my_abs(long long nb)
-{
-	if (nb < 0)
-		nb *= -1;
-	return (nb);
-}
-
 void	greedy_b_to_a(t_ps_stat *ps_stat)
 {
-	t_dlist *cur_node;
+	t_dlist	*cur_node;
 
 	cur_node = get_leastrot_node(ps_stat->stack_a, ps_stat->stack_b);
-	n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b, cur_node));
+	n_rr(ps_stat, get_double_rotcnt(ps_stat->stack_a, ps_stat->stack_b,
+			cur_node));
 	n_ra(ps_stat, get_rotcnt_topos(ps_stat->stack_a, cur_node));
 	n_rb(ps_stat, get_rotcnt_totop(ps_stat->stack_b, cur_node));
 	pa(ps_stat);
@@ -41,15 +35,16 @@ void	sort_under5_elements(t_ps_stat *ps_stat)
 		sort_3_elements(ps_stat);
 	while (cnt--)
 		greedy_b_to_a(ps_stat);
-	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a, get_smallest_node(ps_stat->stack_a)));
+	n_ra(ps_stat, get_rotcnt_totop(ps_stat->stack_a,
+			get_smallest_node(ps_stat->stack_a)));
 	return ;
 }
 
 void	sort_3_elements(t_ps_stat *ps_stat)
 {
-	t_dlist *	first;
-	t_dlist *	second;
-	t_dlist *	third;
+	t_dlist	*first;
+	t_dlist	*second;
+	t_dlist	*third;
 
 	first = ps_stat->stack_a;
 	second = first->next;
@@ -73,7 +68,7 @@ void	sort_3_elements(t_ps_stat *ps_stat)
 
 void	my_push_swap_solve(t_ps_stat *ps_stat)
 {
-	size_t lst_size;
+	size_t	lst_size;
 
 	lst_size = ft_cir_dlstsize(ps_stat->stack_a);
 	if (lst_size == 2)

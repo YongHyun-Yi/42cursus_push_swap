@@ -6,16 +6,16 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:41:32 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 17:42:03 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/01 23:29:00 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_dlist *get_largest_node(t_dlist *my_stack)
+t_dlist	*get_largest_node(t_dlist *my_stack)
 {
-	t_dlist *cur_node;
-	t_dlist *max_node;
+	t_dlist	*cur_node;
+	t_dlist	*max_node;
 
 	cur_node = my_stack;
 	max_node = cur_node;
@@ -28,10 +28,10 @@ t_dlist *get_largest_node(t_dlist *my_stack)
 	return (max_node);
 }
 
-t_dlist *get_smallest_node(t_dlist *my_stack)
+t_dlist	*get_smallest_node(t_dlist *my_stack)
 {
-	t_dlist *cur_node;
-	t_dlist *min_node;
+	t_dlist	*cur_node;
+	t_dlist	*min_node;
 
 	cur_node = my_stack;
 	min_node = cur_node;
@@ -44,10 +44,10 @@ t_dlist *get_smallest_node(t_dlist *my_stack)
 	return (min_node);
 }
 
-t_dlist *get_leastrot_node(t_dlist *dest, t_dlist *src)
+t_dlist	*get_leastrot_node(t_dlist *dest, t_dlist *src)
 {
-	t_dlist *cur_node;
-	t_dlist *least_node;
+	t_dlist	*cur_node;
+	t_dlist	*least_node;
 
 	cur_node = src;
 	least_node = NULL;
