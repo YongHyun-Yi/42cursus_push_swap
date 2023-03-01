@@ -115,13 +115,13 @@ int main(int argc, char *argv[])
 	set_ps_str_arr(str_arr);
 
 	char *inst = get_next_line(STDIN_FILENO);
+	int cnt = 1;
 	while (inst)
 	{
 		// 명령어를 문자열 배열에서 찾기
 		// 찾은 문자열의 인덱스로 함수포인터 배열 실행
 		// 못찾았다면 my_exit 호출
 		// ft_printf("inst : %s", inst); // << 이거 없으면 출력 이상하게 들어옴;
-		// ft_printf("\n");
 		int idx = 0;
 		while (1)
 		{
@@ -135,7 +135,9 @@ int main(int argc, char *argv[])
 			idx++;
 			if (idx == 11)
 			{
-				ft_printf("inst : %s", inst);
+				ft_printf("cnt : %d\n", cnt);
+				ft_printf("inst : %s\n", inst);
+				ft_printf("inst : %d\n", *inst);
 				ft_printf("Can't find instructions\n");
 				free(inst);
 				my_exit(&ps_stat, FAIL);
@@ -143,6 +145,7 @@ int main(int argc, char *argv[])
 			// ft_printf("inst : %s", inst);
 		}
 		inst = get_next_line(STDIN_FILENO);
+		cnt++;
 	}
 	if (ft_is_stack_sorted(ps_stat.stack_a) && ps_stat.stack_b == NULL)
 		ft_printf("OK\n");

@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:13:09 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/01 21:41:17 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/01 21:55:56 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,6 @@ static void	free_splits(char **splits)
 	}
 	free(splits);
 }
-
-// static void	free_all(char **splits, size_t split_index)
-// {
-// 	while (split_index > 0)
-// 		free(splits[--split_index]);
-// 	free(splits);
-// }
 
 char	**ft_split(char const *s, char c)
 {
