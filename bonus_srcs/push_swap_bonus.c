@@ -120,9 +120,12 @@ int main(int argc, char *argv[])
 		// 명령어를 문자열 배열에서 찾기
 		// 찾은 문자열의 인덱스로 함수포인터 배열 실행
 		// 못찾았다면 my_exit 호출
+		// ft_printf("inst : %s", inst); // << 이거 없으면 출력 이상하게 들어옴;
+		// ft_printf("\n");
 		int idx = 0;
 		while (1)
 		{
+			// ft_printf("inst : %s", inst);
 			if (ft_strncmp(inst, str_arr[idx], 3) == 0)
 			{
 				func_arr[idx](&ps_stat);
@@ -132,10 +135,12 @@ int main(int argc, char *argv[])
 			idx++;
 			if (idx == 11)
 			{
+				ft_printf("inst : %s", inst);
 				ft_printf("Can't find instructions\n");
 				free(inst);
 				my_exit(&ps_stat, FAIL);
 			}
+			// ft_printf("inst : %s", inst);
 		}
 		inst = get_next_line(STDIN_FILENO);
 	}
