@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/02 00:41:33 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:47:41 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	get_valid_argv(t_ps_stat *ps_stat, char **split_argv)
 {
 	t_dlist	*new_node;
 
-	while (split_argv)
+	while (*split_argv)
 	{
 		if (!ft_strisint(*split_argv) || !ft_check_intdup(ps_stat->bit_array,
 				ft_atoi(*split_argv)))
