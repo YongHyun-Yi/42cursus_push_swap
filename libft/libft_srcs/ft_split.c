@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:13:09 by yonghyle          #+#    #+#             */
-/*   Updated: 2022/11/21 15:06:02 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/01 21:41:17 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,28 @@ static char	*get_split_str(char const *s, char c, size_t *ori_index)
 	return (split_str);
 }
 
-static void	free_all(char **splits, size_t split_index)
+static void	free_splits(char **splits)
 {
-	while (split_index > 0)
-		free(splits[--split_index]);
+	char *cur_split;
+	char **next_split;
+	
+	cur_split = *splits;
+	next_split = splits + 1;
+	while (cur_split)
+	{
+		free(cur_split);
+		cur_split = *next_split;
+		++next_split;
+	}
 	free(splits);
 }
+
+// static void	free_all(char **splits, size_t split_index)
+// {
+// 	while (split_index > 0)
+// 		free(splits[--split_index]);
+// 	free(splits);
+// }
 
 char	**ft_split(char const *s, char c)
 {
@@ -60,10 +76,9 @@ char	**ft_split(char const *s, char c)
 	size_t	split_index;
 	size_t	current_char;
 
-	splits = (char **)malloc(sizeof(char *) * ((count_splits(s, c) + 1)));
+	splits = (char **)calloc(((count_splits(s, c) + 1)), sizeof(char *));
 	if (!splits)
 		return (0);
-	splits[count_splits(s, c)] = 0;
 	split_index = 0;
 	current_char = 0;
 	while (s[current_char])
@@ -75,7 +90,7 @@ char	**ft_split(char const *s, char c)
 			splits[split_index] = get_split_str(s, c, &current_char);
 			if (!splits[split_index++])
 			{
-				free_all(splits, split_index);
+				free_splits(splits);
 				return (0);
 			}
 		}

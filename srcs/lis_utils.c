@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 18:22:10 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 20:51:41 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/01 18:25:47 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ t_dlist *get_nonlis_list(t_dlist *my_stack, t_dlist *lis_list)
 		{
 			new = ft_dlstnew(iter->value);
 			if (!new)
-				return (FAIL); // ft_cir_dlstclear(nonlis_list);
+			{
+				ft_cir_dlstclear(&nonlis_list);
+				return (FAIL);
+			}
 			ft_cir_dlstadd_back(&nonlis_list, new);
 		}
 		if (iter->next == my_stack)
@@ -74,7 +77,10 @@ t_dlist *get_lis_idx_list(t_dlist *my_stack)
 	{
 		new = ft_dlstnew(get_lis_idx(cur_node, idx_list));
 		if (!new)
-			return (FAIL); // ft_cir_dlstclear(idx_list);
+		{
+			ft_cir_dlstclear(&idx_list);
+			return (FAIL);
+		}
 		ft_cir_dlstadd_back(&idx_list, new);
 		if (cur_node->next == my_stack)
 			break ;
@@ -83,31 +89,31 @@ t_dlist *get_lis_idx_list(t_dlist *my_stack)
 	return (idx_list);
 }
 
-t_dlist *get_lis_list(t_dlist *my_stack)
+t_dlist *get_lis_list(t_dlist *my_stack, t_dlist *lis_idx_list)
 {
-	t_dlist *idx_list;
 	t_dlist *lis_list;
 	size_t	cur_idx;
 	t_dlist *cur_node;
 	t_dlist *new;
 
-	idx_list = get_lis_idx_list(my_stack);
 	lis_list = NULL;
-	cur_idx = (size_t)(get_largest_node(idx_list)->value);
+	cur_idx = (size_t)(get_largest_node(lis_idx_list)->value);
 	cur_node = my_stack;
 	while (cur_idx)
 	{
 		cur_node = cur_node->prev;
-		idx_list = idx_list->prev;
-		if ((size_t)idx_list->value == cur_idx)
+		lis_idx_list = lis_idx_list->prev;
+		if ((size_t)lis_idx_list->value == cur_idx)
 		{
 			new = ft_dlstnew(cur_node->value);
 			if (!new)
-				return (FAIL); // ft_cir_dlstclear(idx_list); ft_cir_dlstclear(lis_list);
+			{
+				ft_cir_dlstclear(&lis_list);
+				return (FAIL);
+			}
 			ft_cir_dlstadd_back(&lis_list, new);
 			cur_idx--;
 		}
 	}
-	ft_cir_dlstclear(&idx_list);
 	return (lis_list);
 }
