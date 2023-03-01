@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 03:21:23 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/06 15:26:18 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 04:23:23 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ static int	ft_read_check(t_fd_stat *fd)
 			return (0);
 		free(fd->str);
 		fd->str = new_str;
-		if (read_size < BUFFER_SIZE)
-			break ;
 	}
 	return (1);
 }
