@@ -6,13 +6,13 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 00:22:43 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/02 00:43:16 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 02:17:50 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap_bonus.h"
 
-static void	free_splits(char **splits)
+void	free_splits(char **splits)
 {
 	char	*cur_split;
 	char	**next_split;
@@ -32,7 +32,7 @@ void	get_valid_argv(t_ps_stat *ps_stat, char **split_argv)
 {
 	t_dlist	*new_node;
 
-	while (split_argv)
+	while (*split_argv)
 	{
 		if (!ft_strisint(*split_argv) || !ft_check_intdup(ps_stat->bit_array,
 				ft_atoi(*split_argv)))
@@ -98,7 +98,7 @@ void	my_push_swap_checker(t_ps_stat	*ps_stat)
 	char	*inst;
 	size_t	idx;
 
-	*inst = get_next_line(STDIN_FILENO);
+	inst = get_next_line(STDIN_FILENO);
 	while (inst)
 	{
 		idx = 0;
@@ -106,7 +106,7 @@ void	my_push_swap_checker(t_ps_stat	*ps_stat)
 		{
 			if (ft_strncmp(inst, ps_stat->str_arr[idx], 3) == 0)
 			{
-				ps_stat->func_arr[idx](&ps_stat);
+				ps_stat->func_arr[idx](ps_stat);
 				free(inst);
 				break ;
 			}
@@ -116,7 +116,7 @@ void	my_push_swap_checker(t_ps_stat	*ps_stat)
 				ft_printf("inst : %s\n", inst);
 				ft_printf("Can't find instructions\n");
 				free(inst);
-				my_exit(&ps_stat, FAIL);
+				my_exit(ps_stat, FAIL);
 			}
 		}
 		inst = get_next_line(STDIN_FILENO);
@@ -135,9 +135,12 @@ int main(int argc, char *argv[])
 	if (argc < 2)
 		return (0);
 	ft_bzero(&ps_stat, sizeof(t_ps_stat));
-	push_swap_parsing(&ps_stat, argv + 1);
+	
 	set_ps_func_arr(ps_stat.func_arr);
 	set_ps_str_arr(ps_stat.str_arr);
+
+	push_swap_parsing(&ps_stat, argv + 1);
+	
 	my_push_swap_checker(&ps_stat);
 }
 

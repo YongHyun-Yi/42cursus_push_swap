@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 00:12:48 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/02 00:33:03 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 01:53:51 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_ps_stat
 {
 	char	*bit_array;
 	char	**split_argv;
-	void	(*func_arr[11])(t_ps_stat *);
+	void	(*func_arr[11])(struct s_ps_stat *);
 	char	*str_arr[11];
 	t_dlist	*stack_a;
 	t_dlist	*stack_b;
@@ -68,5 +68,8 @@ size_t	ft_cir_dlstsize(t_dlist *lst);
 int		ft_cir_dlst_hasval(t_dlist *my_dlst, int val);
 void	ft_cir_dlstclear(t_dlist **my_dlst);
 int		ft_value_cmp(t_dlist *a, t_dlist *b);
+void	my_exit(t_ps_stat *ps_stat, int no_err);
+int		ft_is_stack_sorted(t_dlist *my_stack);
+void	free_splits(char **splits);
 
 #endif

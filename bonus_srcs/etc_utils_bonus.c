@@ -6,11 +6,11 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 00:20:31 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/02 00:23:16 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 02:16:32 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "push_swap_bonus.h"
 
 int	ft_value_cmp(t_dlist *a, t_dlist *b)
 {
@@ -37,15 +37,9 @@ int	ft_cir_dlst_hasval(t_dlist *my_dlst, int val)
 void	my_exit(t_ps_stat *ps_stat, int no_err)
 {
 	if (ps_stat->bit_array)
-	{
 		free(ps_stat->bit_array);
-		ps_stat->bit_array = NULL;
-	}
 	if (ps_stat->split_argv)
-	{
-		free(ps_stat->split_argv);
-		ps_stat->split_argv = NULL;
-	}
+		free_splits(ps_stat->split_argv);
 	if (ps_stat->stack_a)
 		ft_cir_dlstclear(&ps_stat->stack_a);
 	if (ps_stat->stack_b)
