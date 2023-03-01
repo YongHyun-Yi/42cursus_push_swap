@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:13:09 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/01 21:55:56 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:17:28 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static char	*get_split_str(char const *s, char c, size_t *ori_index)
 
 static void	free_splits(char **splits)
 {
-	char *cur_split;
-	char **next_split;
-	
+	char	*cur_split;
+	char	**next_split;
+
 	cur_split = *splits;
 	next_split = splits + 1;
 	while (cur_split)

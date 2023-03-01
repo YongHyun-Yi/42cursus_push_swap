@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 00:12:48 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/02 00:13:05 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:33:03 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct s_ps_stat
 {
 	char	*bit_array;
 	char	**split_argv;
+	void	(*func_arr[11])(t_ps_stat *);
+	char	*str_arr[11];
 	t_dlist	*stack_a;
 	t_dlist	*stack_b;
 }	t_ps_stat;

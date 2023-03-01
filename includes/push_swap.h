@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:24 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/02 00:14:52 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:42:00 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void		my_exit(t_ps_stat *ps_stat, int no_err);
 int			ft_is_stack_sorted(t_dlist *my_stack);
 int			ft_cir_dlst_hasval(t_dlist *my_dlst, int val);
 size_t		my_abs(long long nb);
+void		free_splits(char **splits);
 
 t_dlist		*get_largest_node(t_dlist *my_stack);
 t_dlist		*get_smallest_node(t_dlist *my_stack);

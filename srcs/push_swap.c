@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:48:27 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/01 23:57:15 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:41:33 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	print_inst_lst(void *str)
 	ft_printf("%s", str);
 }
 
-static void	free_splits(char **splits)
+void	free_splits(char **splits)
 {
 	char	*cur_split;
 	char	**next_split;
@@ -33,7 +33,7 @@ static void	free_splits(char **splits)
 	free(splits);
 }
 
-void	get_valid_argv(t_ps_stat *ps_stat, char **split_argv)
+static void	get_valid_argv(t_ps_stat *ps_stat, char **split_argv)
 {
 	t_dlist	*new_node;
 

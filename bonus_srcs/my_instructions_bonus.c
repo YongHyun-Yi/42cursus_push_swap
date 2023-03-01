@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_instructions.c                                  :+:      :+:    :+:   */
+/*   my_instructions_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:53:59 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/02/27 17:00:57 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 00:21:21 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	my_swap(t_dlist *my_stack)
 {
-	int temp;
+	int	temp;
 
 	if (!my_stack || !my_stack->next)
 		return ;
