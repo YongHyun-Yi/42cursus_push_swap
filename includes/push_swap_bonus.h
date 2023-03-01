@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 00:12:48 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/02 01:53:51 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 04:56:33 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@ int		ft_value_cmp(t_dlist *a, t_dlist *b);
 void	my_exit(t_ps_stat *ps_stat, int no_err);
 int		ft_is_stack_sorted(t_dlist *my_stack);
 void	free_splits(char **splits);
+void	set_ps_str_arr(char *str_arr[]);
+void	set_ps_func_arr(void (*func_arr[])(t_ps_stat *));
 
 #endif
