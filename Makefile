@@ -6,7 +6,7 @@
 #    By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/06 17:15:27 by yonghyle          #+#    #+#              #
-#    Updated: 2023/02/08 14:46:27 by yonghyle         ###   ########.fr        #
+#    Updated: 2023/03/02 05:19:59 by yonghyle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,14 +24,20 @@ BONUS_NAME = checker
 
 #-------------------------------------------
 
-MANDATORY_SRCS = $(wildcard srcs/*.c)
-# MANDATORY_SRCS = $(addprefix srcs/,)
+MANDATORY_SRCS = $(addprefix srcs/, \
+cir_dlst_utils.c                instruction_utils.c             my_push_swap_solve2.c           rotate_instructions.c \
+cmp_utils.c                     lis_utils.c                     push_instructions.c             rotcnt_utils.c \
+etc_utils.c                     my_instructions.c               push_swap.c                     swap_instructions.c \
+get_node_utils.c                my_push_swap_solve.c            reverse_rotate_instructions.c \
+)
 MANDATORY_OBJS = $(MANDATORY_SRCS:.c=.o)
 
 #-------------------------------------------
 
-BONUS_SRCS = $(wildcard bonus_srcs/*.c)
-#BONUS_SRCS = $(addprefix bonus_srcs/,)
+BONUS_SRCS = $(addprefix bonus_srcs/,\
+cir_dlst_utils_bonus.c                  my_instructions_bonus.c                 push_swap_bonus.c                       rotate_instructions_bonus.c \
+etc_utils_bonus.c                       push_instructions_bonus.c               reverse_rotate_instructions_bonus.c     swap_instructions_bonus.c \
+)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 #-------------------------------------------

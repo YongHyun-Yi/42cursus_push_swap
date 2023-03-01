@@ -6,7 +6,7 @@
 /*   By: yonghyle <yonghyle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 23:54:59 by yonghyle          #+#    #+#             */
-/*   Updated: 2023/03/01 23:59:03 by yonghyle         ###   ########.fr       */
+/*   Updated: 2023/03/02 05:09:56 by yonghyle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	my_exit(t_ps_stat *ps_stat, int no_err)
 		ft_lstclear(&ps_stat->inst_lst, NULL);
 	if (no_err)
 		exit(EXIT_SUCCESS);
-	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd("Error\n", STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 
