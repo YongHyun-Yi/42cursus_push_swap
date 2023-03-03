@@ -74,11 +74,6 @@ static int	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
 	free(bit_array);
 	return (SUCCESS);
 }
-// parsing 함수들 int 반환형으로 변경
-// 어차피 두개로 나눠서 줄에 여유가 있으니 변수 사용
-// 구조체에서 bit_array, split_argv 삭제
-// my_exit에서 split free 하는부분 삭제
-// split free 함수는 static으로 설정
 
 void	my_push_swap_checker(t_ps_stat	*ps_stat)
 {
@@ -108,13 +103,6 @@ void	my_push_swap_checker(t_ps_stat	*ps_stat)
 	else
 		ft_printf("KO\n");
 }
-// 예상치 못한 케이스가 존재했음
-// strncmp로 3글자까지 비교하여 rr과 rra, rrb를 구분할수는 있으나
-// 3글자를 넘어서는 rra, rrab의 비교가 불가능해짐
-// 그래서 gnl로 읽어온 문자열과 배열안의 문자열의 길이가 같을때를 조건으로 추가
-// my_exit를 main쪽으로 빼서 25줄 맞추기
-//
-// while 탐색이 계속되어야 하는 조건문을 잘못 작성함, 부등호와 and or를 또 헛갈림
 
 int	main(int argc, char *argv[])
 {

@@ -81,11 +81,6 @@ static int	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
 	free(bit_array);
 	return (SUCCESS);
 }
-// parsing 함수들 int 반환형으로 변경
-// 어차피 두개로 나눠서 줄에 여유가 있으니 변수 사용
-// 구조체에서 bit_array, split_argv 삭제
-// my_exit에서 split free 하는부분 삭제
-// split free 함수는 static으로 설정
 
 int	main(int argc, char *argv[])
 {

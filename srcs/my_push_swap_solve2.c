@@ -78,35 +78,9 @@ void	sort_over_elements(t_ps_stat *ps_stat)
 	int		pivot;
 
 	lis_idx_list = get_lis_idx_list(ps_stat->stack_a);
-
-	// ft_printf("LIS idx: ");
-	// t_dlist	*lis_idx_print = lis_idx_list;
-	// while (1)
-	// {
-	// 	ft_printf("%d ", lis_idx_print->value);
-	// 	if (lis_idx_print->next == lis_idx_list)
-	// 		break;
-	// 	lis_idx_print = lis_idx_print->next;
-	// }
-	// ft_printf("\n");
-	// // LIS idx 리스트를 출력
-	
 	if (!lis_idx_list)
 		my_exit(ps_stat, FAIL);
 	lis_list = get_lis_list(ps_stat->stack_a, lis_idx_list);
-
-	// ft_printf("LIS: ");
-	// t_dlist	*lis_print = lis_list;
-	// while (1)
-	// {
-	// 	ft_printf("%d ", lis_print->value);
-	// 	if (lis_print->next == lis_list)
-	// 		break;
-	// 	lis_print = lis_print->next;
-	// }
-	// ft_printf("\n");
-	// // LIS 리스트를 출력
-
 	ft_cir_dlstclear(&lis_idx_list);
 	if (!lis_list)
 		my_exit(ps_stat, FAIL);
