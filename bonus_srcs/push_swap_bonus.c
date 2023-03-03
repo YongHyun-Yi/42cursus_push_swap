@@ -89,8 +89,8 @@ void	my_push_swap_checker(t_ps_stat	*ps_stat)
 	while (inst)
 	{
 		idx = 0;
-		while (ft_strlen(inst) == ft_strlen(ps_stat->str_arr[idx])
-			&& ft_strncmp(inst, ps_stat->str_arr[idx], ft_strlen(inst)) != 0)
+		while (ft_strlen(inst) != ft_strlen(ps_stat->str_arr[idx])
+			|| ft_strncmp(inst, ps_stat->str_arr[idx], ft_strlen(inst)) != 0)
 		{
 			if (idx == 11)
 			{
@@ -113,6 +113,8 @@ void	my_push_swap_checker(t_ps_stat	*ps_stat)
 // 3글자를 넘어서는 rra, rrab의 비교가 불가능해짐
 // 그래서 gnl로 읽어온 문자열과 배열안의 문자열의 길이가 같을때를 조건으로 추가
 // my_exit를 main쪽으로 빼서 25줄 맞추기
+//
+// while 탐색이 계속되어야 하는 조건문을 잘못 작성함, 부등호와 and or를 또 헛갈림
 
 int	main(int argc, char *argv[])
 {
