@@ -14,10 +14,6 @@
 
 void	my_exit(t_ps_stat *ps_stat, int no_err)
 {
-	if (ps_stat->bit_array)
-		free(ps_stat->bit_array);
-	if (ps_stat->split_argv)
-		free_splits(ps_stat->split_argv);
 	if (ps_stat->stack_a)
 		ft_cir_dlstclear(&ps_stat->stack_a);
 	if (ps_stat->stack_b)

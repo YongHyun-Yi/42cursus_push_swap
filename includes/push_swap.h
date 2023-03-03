@@ -32,8 +32,6 @@ typedef struct s_dlist
 
 typedef struct s_ps_stat
 {
-	char	*bit_array;
-	char	**split_argv;
 	t_dlist	*stack_a;
 	t_dlist	*stack_b;
 	t_list	*inst_lst;
@@ -79,7 +77,6 @@ void		my_exit(t_ps_stat *ps_stat, int no_err);
 int			ft_is_stack_sorted(t_dlist *my_stack);
 int			ft_cir_dlst_hasval(t_dlist *my_dlst, int val);
 size_t		my_abs(long long nb);
-void		free_splits(char **splits);
 
 t_dlist		*get_largest_node(t_dlist *my_stack);
 t_dlist		*get_smallest_node(t_dlist *my_stack);

@@ -12,7 +12,7 @@
 
 #include "push_swap_bonus.h"
 
-void	free_splits(char **splits)
+static void	free_splits(char **splits)
 {
 	char	*cur_split;
 	char	**next_split;
@@ -28,40 +28,57 @@ void	free_splits(char **splits)
 	free(splits);
 }
 
-void	get_valid_argv(t_ps_stat *ps_stat, char **split_argv)
+static int	get_valid_argv(t_ps_stat *ps_stat, char	*bit_arr, char **split_argv)
 {
 	t_dlist	*new_node;
+	char	**argv_ptr;
 
-	while (*split_argv)
+	argv_ptr = split_argv;
+	while (*argv_ptr)
 	{
-		if (!ft_strisint(*split_argv) || !ft_check_intdup(ps_stat->bit_array,
-				ft_atoi(*split_argv)))
-			my_exit(ps_stat, FAIL);
-		new_node = ft_dlstnew(ft_atoi(*split_argv));
+		if (!ft_strisint(*argv_ptr) || !ft_check_intdup(bit_arr,
+				ft_atoi(*argv_ptr)))
+		{
+			free_splits(split_argv);
+			return (FAIL);
+		}
+		new_node = ft_dlstnew(ft_atoi(*argv_ptr));
 		if (!new_node)
-			my_exit(ps_stat, FAIL);
+		{
+			free_splits(split_argv);
+			return (FAIL);
+		}
 		ft_cir_dlstadd_back(&ps_stat->stack_a, new_node);
-		++split_argv;
+		++argv_ptr;
 	}
+	free_splits(split_argv);
+	return (SUCCESS);
 }
 
-static void	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
+static int	push_swap_parsing(t_ps_stat *ps_stat, char *argv[])
 {
-	size_t	s_idx;
+	char	*bit_array;
+	char	**split_argv;
 
-	ps_stat->bit_array = ft_calloc((UINT_MAX / 8) + 1, sizeof(char));
+	bit_array = ft_calloc((UINT_MAX / 8) + 1, sizeof(char));
 	while (*argv)
 	{
-		ps_stat->split_argv = ft_split(*argv, ' ');
-		s_idx = 0;
-		get_valid_argv(ps_stat, ps_stat->split_argv);
-		free_splits(ps_stat->split_argv);
+		split_argv = ft_split(*argv, ' ');
+		if (!split_argv || !get_valid_argv(ps_stat, bit_array, split_argv))
+		{
+			free(bit_array);
+			return (FAIL);
+		}
 		argv++;
 	}
-	free(ps_stat->bit_array);
-	ps_stat->split_argv = NULL;
-	ps_stat->bit_array = NULL;
+	free(bit_array);
+	return (SUCCESS);
 }
+// parsing 함수들 int 반환형으로 변경
+// 어차피 두개로 나눠서 줄에 여유가 있으니 변수 사용
+// 구조체에서 bit_array, split_argv 삭제
+// my_exit에서 split free 하는부분 삭제
+// split free 함수는 static으로 설정
 
 void	my_push_swap_checker(t_ps_stat	*ps_stat)
 {
@@ -72,7 +89,8 @@ void	my_push_swap_checker(t_ps_stat	*ps_stat)
 	while (inst)
 	{
 		idx = 0;
-		while (ft_strncmp(inst, ps_stat->str_arr[idx], 3) != 0)
+		while (ft_strlen(inst) == ft_strlen(ps_stat->str_arr[idx])
+			&& ft_strncmp(inst, ps_stat->str_arr[idx], ft_strlen(inst)) != 0)
 		{
 			if (idx == 11)
 			{
@@ -89,8 +107,12 @@ void	my_push_swap_checker(t_ps_stat	*ps_stat)
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
-	my_exit(ps_stat, SUCCESS);
 }
+// 예상치 못한 케이스가 존재했음
+// strncmp로 3글자까지 비교하여 rr과 rra, rrb를 구분할수는 있으나
+// 3글자를 넘어서는 rra, rrab의 비교가 불가능해짐
+// 그래서 gnl로 읽어온 문자열과 배열안의 문자열의 길이가 같을때를 조건으로 추가
+// my_exit를 main쪽으로 빼서 25줄 맞추기
 
 int	main(int argc, char *argv[])
 {
@@ -101,6 +123,8 @@ int	main(int argc, char *argv[])
 	ft_bzero(&ps_stat, sizeof(t_ps_stat));
 	set_ps_func_arr(ps_stat.func_arr);
 	set_ps_str_arr(ps_stat.str_arr);
-	push_swap_parsing(&ps_stat, argv + 1);
+	if (!push_swap_parsing(&ps_stat, argv + 1))
+		my_exit(&ps_stat, FAIL);
 	my_push_swap_checker(&ps_stat);
+	my_exit(&ps_stat, SUCCESS);
 }

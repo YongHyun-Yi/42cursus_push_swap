@@ -32,8 +32,6 @@ typedef struct s_dlist
 
 typedef struct s_ps_stat
 {
-	char	*bit_array;
-	char	**split_argv;
 	void	(*func_arr[11])(struct s_ps_stat *);
 	char	*str_arr[11];
 	t_dlist	*stack_a;
@@ -70,7 +68,6 @@ void	ft_cir_dlstclear(t_dlist **my_dlst);
 int		ft_value_cmp(t_dlist *a, t_dlist *b);
 void	my_exit(t_ps_stat *ps_stat, int no_err);
 int		ft_is_stack_sorted(t_dlist *my_stack);
-void	free_splits(char **splits);
 void	set_ps_str_arr(char *str_arr[]);
 void	set_ps_func_arr(void (*func_arr[])(t_ps_stat *));
 

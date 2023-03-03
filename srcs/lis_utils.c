@@ -48,21 +48,25 @@ size_t	get_lis_idx(t_dlist *target_node, t_dlist *idx_lst)
 	if (idx_lst == NULL)
 		return (1);
 	cur_idx = get_largest_node(idx_lst)->value;
-	val_cmp_node = target_node->prev;
-	idx_cmp_node = idx_lst->prev;
 	while (1)
 	{
-		if (cur_idx == (size_t)idx_cmp_node->value)
+		val_cmp_node = target_node->prev;
+		idx_cmp_node = idx_lst->prev;
+		// 값비교가 유효하지 않으면
+		// 그 노드의 뒤쪽에서 idx - 1을 찾는것이 아니라
+		// 다시 타겟노드의 이전부터 idx - 1 탐색을 시도한다
+		while (cur_idx != (size_t)idx_cmp_node->value)
 		{
-			if (target_node->value > val_cmp_node->value)
-				return (cur_idx + 1);
-			if (cur_idx == 1)
-				return (1);
-			cur_idx--;
+			val_cmp_node = val_cmp_node->prev;
+			idx_cmp_node = idx_cmp_node->prev;
 		}
-		val_cmp_node = val_cmp_node->prev;
-		idx_cmp_node = idx_cmp_node->prev;
+		if (target_node->value > val_cmp_node->value)
+			return (cur_idx + 1);
+		if (cur_idx == 1)
+			return (1);
+		cur_idx--;
 	}
+	// norm 맞춰 줄이기
 }
 
 t_dlist	*get_lis_idx_list(t_dlist *my_stack)
